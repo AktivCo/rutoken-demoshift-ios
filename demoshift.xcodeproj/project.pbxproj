@@ -82,6 +82,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C3FA84B5246C11680005B294 /* Build configuration list for PBXNativeTarget "demoshift" */;
 			buildPhases = (
+				C37D605D246D63ED003E0761 /* Copy External Frameworks */,
 				C37D605C246D5A89003E0761 /* Run SwiftLint */,
 				C3FA849D246C11670005B294 /* Sources */,
 				C3FA849E246C11670005B294 /* Frameworks */,
@@ -160,6 +161,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint lint --strict\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		C37D605D246D63ED003E0761 /* Copy External Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy External Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script only for inner development\nif [[ -d Frameworks ]]\nthen\n    exit 0   \nfi\n\nmkdir Frameworks\npython scripts/download_deps.py\n\nfind external -type d -name \"*.framework\" | xargs -I {} cp -R {} Frameworks/\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
