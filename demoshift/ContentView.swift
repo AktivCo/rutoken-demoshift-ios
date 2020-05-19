@@ -56,6 +56,9 @@ var fakeUsers: [User] = [
 
 struct ContentView: View {
     @State var users: [User] = []
+    @State var showAddUserView = false
+
+    @ObservedObject private var taskStatus = TaskStatus()
 
     var body: some View {
         ZStack {
@@ -81,7 +84,7 @@ struct ContentView: View {
                     .animation(.easeInOut)
                 }
                 Button(action: {
-                    self.addUser(idx: self.users.count)
+                    self.showAddUserView.toggle()
                 }, label: {
                     HStack {
                         Spacer()
@@ -89,8 +92,40 @@ struct ContentView: View {
                         Spacer()
                     }
                 })
+                .buttonStyle(RoundedFilledButton())
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
+                    .sheet(isPresented: self.$showAddUserView, onDismiss: {
+                        self.taskStatus.errorMessage = ""
+                    }, content: {
+                        PinInputView(idleTitle: "Введите PIN-код",
+                                    progressTitle: "Выполнятеся регистрация пользователя",
+                                    placeHolder: "PIN-код",
+                                    buttonText: "Продолжить",
+                                    status: self.taskStatus,
+                                    onTapped: { pin in
+                                        // Imagine we call pkcs11 here
+                                        self.taskStatus.errorMessage = ""
+                                        withAnimation(.spring()) {
+                                            self.taskStatus.isInProgress = true
+                                        }
+                                        DispatchQueue.global(qos: .default).async {
+                                            sleep(2) //Do login/find/whatever we want
+                                            DispatchQueue.main.async {
+                                                //Here we finished pkcs11 operation
+                                                if pin == "12345678" {
+                                                    self.showAddUserView.toggle()
+                                                    self.addUser(idx: self.users.count)
+                                                } else {
+                                                    self.taskStatus.errorMessage = "Неверный PIN-код"
+                                                }
+                                                withAnimation(.spring()) {
+                                                    self.taskStatus.isInProgress = false
+                                                }
+                                            }
+                                        }
+                        })
+                })
             }
         }
     }

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		B14BAC9D246E95C20089D2E9 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14BAC9C246E95C20089D2E9 /* UserView.swift */; };
+		C3BB88B32473CB8A00FB1AF7 /* RoundedFilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BB88B22473CB8A00FB1AF7 /* RoundedFilledButton.swift */; };
+		C3BB88B52473CC0100FB1AF7 /* TextFieldWithFloatingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BB88B42473CC0100FB1AF7 /* TextFieldWithFloatingLabel.swift */; };
+		C3BB88BD247534E200FB1AF7 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BB88BC247534E200FB1AF7 /* LoadingIndicatorView.swift */; };
+		C3BB88BF247539D600FB1AF7 /* PinInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BB88BE247539D600FB1AF7 /* PinInputView.swift */; };
 		C3FA84A5246C11670005B294 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FA84A4246C11670005B294 /* AppDelegate.swift */; };
 		C3FA84A7246C11670005B294 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FA84A6246C11670005B294 /* SceneDelegate.swift */; };
 		C3FA84A9246C11670005B294 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FA84A8246C11670005B294 /* ContentView.swift */; };
@@ -18,6 +22,10 @@
 
 /* Begin PBXFileReference section */
 		B14BAC9C246E95C20089D2E9 /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		C3BB88B22473CB8A00FB1AF7 /* RoundedFilledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedFilledButton.swift; sourceTree = "<group>"; };
+		C3BB88B42473CC0100FB1AF7 /* TextFieldWithFloatingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithFloatingLabel.swift; sourceTree = "<group>"; };
+		C3BB88BC247534E200FB1AF7 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
+		C3BB88BE247539D600FB1AF7 /* PinInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinInputView.swift; sourceTree = "<group>"; };
 		C3FA84A1246C11670005B294 /* demoshift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demoshift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3FA84A4246C11670005B294 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3FA84A6246C11670005B294 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +70,10 @@
 				C3FA84A4246C11670005B294 /* AppDelegate.swift */,
 				C3FA84A6246C11670005B294 /* SceneDelegate.swift */,
 				C3FA84A8246C11670005B294 /* ContentView.swift */,
+				C3BB88B42473CC0100FB1AF7 /* TextFieldWithFloatingLabel.swift */,
+				C3BB88BE247539D600FB1AF7 /* PinInputView.swift */,
+				C3BB88BC247534E200FB1AF7 /* LoadingIndicatorView.swift */,
+				C3BB88B22473CB8A00FB1AF7 /* RoundedFilledButton.swift */,
 				C3FA84AA246C11680005B294 /* Assets.xcassets */,
 				C3FA84AF246C11680005B294 /* LaunchScreen.storyboard */,
 				C3FA84B2246C11680005B294 /* Info.plist */,
@@ -192,8 +204,12 @@
 			files = (
 				C3FA84A5246C11670005B294 /* AppDelegate.swift in Sources */,
 				C3FA84A7246C11670005B294 /* SceneDelegate.swift in Sources */,
+				C3BB88B52473CC0100FB1AF7 /* TextFieldWithFloatingLabel.swift in Sources */,
+				C3BB88BD247534E200FB1AF7 /* LoadingIndicatorView.swift in Sources */,
 				C3FA84A9246C11670005B294 /* ContentView.swift in Sources */,
+				C3BB88B32473CB8A00FB1AF7 /* RoundedFilledButton.swift in Sources */,
 				B14BAC9D246E95C20089D2E9 /* UserView.swift in Sources */,
+				C3BB88BF247539D600FB1AF7 /* PinInputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
