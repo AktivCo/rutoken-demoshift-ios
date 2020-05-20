@@ -29,7 +29,7 @@ struct UserView: View {
                 .padding(.top, 6)
             Text(text)
                 .font(.system(size: 16))
-                .foregroundColor(.gray)
+                .foregroundColor(Color(.systemGray))
                 .padding(.horizontal, 10)
         }
     }
@@ -46,9 +46,9 @@ struct UserView: View {
         }
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .padding()
-        .background(Color(.white))
+        .background(Color("listitem-background"))
         .cornerRadius(15)
-        .shadow(radius: 5)
+        .shadow(color: Color(.systemGray), radius: 5, x: 0, y: 0)
     }
 }
 

@@ -16,7 +16,7 @@ struct LoadingIndicatorView: View {
         VStack {
             Circle()
                 .trim(from: self.startPointToggle ? 0.05 : 0.95, to: 1)
-                .stroke(Color("rutokenBlue"), lineWidth: 5)
+                .stroke(Color("blue-text"), lineWidth: 5)
                 .foregroundColor(.white)
                 .rotationEffect(.degrees(self.rotationToggle ? 180 : 540))
                 .onAppear(perform: {
@@ -33,6 +33,6 @@ struct LoadingIndicatorView: View {
 
 struct LoadingIndicatorView_Previews: PreviewProvider {
     static var previews: some View {
-        LoadingIndicatorView()
+            LoadingIndicatorView()
     }
 }

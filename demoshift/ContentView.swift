@@ -62,7 +62,6 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            Color("rutokenGray").edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading) {
                 if self.users.isEmpty {
                     Spacer()
@@ -127,7 +126,7 @@ struct ContentView: View {
                         })
                 })
             }
-        }
+        }.background(Color("view-background").edgesIgnoringSafeArea(.all))
     }
 
     func addUser(idx: Int) {
@@ -139,6 +138,11 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        Group {
+            ContentView().environment(\.colorScheme, .light)
+            ContentView().environment(\.colorScheme, .dark)
+        }
     }
+
+
 }

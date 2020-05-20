@@ -15,7 +15,7 @@ struct RoundedFilledButton: ButtonStyle {
             .frame(minWidth: 0, maxWidth: .infinity)
             .padding()
             .foregroundColor(.white)
-            .background(Color("rutokenBlue"))
+            .background(Color("button-background"))
             .cornerRadius(16)
     }
 }

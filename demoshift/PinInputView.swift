@@ -43,7 +43,7 @@ struct PinInputView: View {
                     .padding(.top, 40)
                 Text(self.status.errorMessage)
                     .font(.headline)
-                    .foregroundColor(.red)
+                    .foregroundColor(Color("red-text"))
                     .padding(.top, 40)
                 TextFieldWithFloatingLabel(placeHolder: placeHolder, text: self.$pin)
                     .padding(.top)
@@ -71,6 +71,7 @@ struct PinInputView: View {
             .background(Color("sheet-background"))
             .offset(x: 0, y: self.status.isInProgress ? 0 : screen.height)
         }
+        .background(Color("sheet-background").edgesIgnoringSafeArea(.all))
     }
 }
 

@@ -27,7 +27,7 @@ struct TextFieldWithFloatingLabel: View {
                 HStack {
                     Text(self.placeHolder)
                         .font(self.text.isEmpty ? .body : .caption)
-                        .foregroundColor(self.text.isEmpty ? Color.gray.opacity(0.5) : Color("rutokenBlue"))
+                        .foregroundColor(self.text.isEmpty ? Color(.systemGray2) : Color("blue-text"))
                         .offset(x: 0, y: self.text.isEmpty ? 0 : -20)
                     Spacer()
                 }
@@ -35,7 +35,7 @@ struct TextFieldWithFloatingLabel: View {
             }
             Divider()
                 .frame(height: 1)
-                .background(Color("rutokenBlue"))
+                .background(Color("blue-text"))
         }
     }
 }
