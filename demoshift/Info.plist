@@ -55,5 +55,13 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
+	<array>
+		<string>F00000000010000000000100</string>
+		<string>A000000151000000</string>
+		<string>A00000039742544659</string>
+	</array>
+	<key>NFCReaderUsageDescription</key>
+	<string>Требуетс для работы со смарткартами</string>
 </dict>
 </plist>

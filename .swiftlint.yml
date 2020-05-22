@@ -5,4 +5,7 @@ indentation_width:
   indentation_width: 4
 
 disabled_rules:
+  - cyclomatic_complexity
+  - identifier_name
   - line_length
+  - trailing_newline

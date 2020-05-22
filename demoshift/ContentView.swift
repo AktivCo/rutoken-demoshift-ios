@@ -102,26 +102,39 @@ struct ContentView: View {
                                     placeHolder: "PIN-код",
                                     buttonText: "Продолжить",
                                     status: self.taskStatus,
-                                    onTapped: { pin in
-                                        // Imagine we call pkcs11 here
+                                    onTapped: { _ in
                                         self.taskStatus.errorMessage = ""
                                         withAnimation(.spring()) {
                                             self.taskStatus.isInProgress = true
                                         }
+
                                         DispatchQueue.global(qos: .default).async {
-                                            sleep(2) //Do login/find/whatever we want
-                                            DispatchQueue.main.async {
-                                                //Here we finished pkcs11 operation
-                                                if pin == "12345678" {
-                                                    self.showAddUserView.toggle()
-                                                    self.addUser(idx: self.users.count)
-                                                } else {
-                                                    self.taskStatus.errorMessage = "Неверный PIN-код"
-                                                }
-                                                withAnimation(.spring()) {
-                                                    self.taskStatus.isInProgress = false
+                                            defer {
+                                                DispatchQueue.main.async {
+                                                    withAnimation(.spring()) {
+                                                        self.taskStatus.isInProgress = false
+                                                    }
                                                 }
                                             }
+
+                                            startNFC { _ in
+                                                TokenManager.shared.cancelWait()
+                                            }
+
+                                            guard TokenManager.shared.waitForToken() != nil else {
+                                                DispatchQueue.main.async {
+                                                    self.taskStatus.errorMessage = "Не удалось обнаружить токен"
+                                                }
+                                                return
+                                            }
+
+                                            //Do something with token
+                                            DispatchQueue.main.async {
+                                                self.addUser(idx: self.users.count)
+                                                self.showAddUserView = false
+                                            }
+
+                                            stopNFC()
                                         }
                         })
                 })
