@@ -78,14 +78,14 @@ struct PinInputView: View {
 struct PinInputView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            PinInputView(idleTitle: "Для входа введите PIN-код",
+            PinInputView(idleTitle: "Введите PIN-код",
                         progressTitle: "Подождите, выполняется вход",
                         placeHolder: "PIN-код",
                         buttonText: "Войти",
                         status: TaskStatus(),
                         onTapped: {_ in }).environment(\.colorScheme, .light)
 
-            PinInputView(idleTitle: "Для входа введите PIN-код",
+            PinInputView(idleTitle: "Введите PIN-код",
                         progressTitle: "Подождите, выполняется вход",
                         placeHolder: "PIN-код",
                         buttonText: "Войти",

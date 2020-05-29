@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58167F70248628D200C76262 /* SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58167F6F248628D200C76262 /* SignView.swift */; };
 		588410D424862758003AD26A /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410C924862758003AD26A /* TokenManager.swift */; };
 		588410D524862758003AD26A /* PinInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CB24862758003AD26A /* PinInputView.swift */; };
 		588410D624862758003AD26A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CC24862758003AD26A /* AppDelegate.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		58167F6F248628D200C76262 /* SignView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
 		588410C824862758003AD26A /* Demoshift-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Demoshift-Bridging-Header.h"; sourceTree = "<group>"; };
 		588410C924862758003AD26A /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		588410CB24862758003AD26A /* PinInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinInputView.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				588410CD24862758003AD26A /* LoadingIndicatorView.swift */,
 				588410CB24862758003AD26A /* PinInputView.swift */,
 				588410CF24862758003AD26A /* SceneDelegate.swift */,
+				58167F6F248628D200C76262 /* SignView.swift */,
 				588410CE24862758003AD26A /* UserView.swift */,
 			);
 			path = Views;
@@ -266,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				588410D624862758003AD26A /* AppDelegate.swift in Sources */,
+				58167F70248628D200C76262 /* SignView.swift in Sources */,
 				588410DB24862758003AD26A /* RoundedFilledButton.swift in Sources */,
 				588410D424862758003AD26A /* TokenManager.swift in Sources */,
 				588410DC24862758003AD26A /* TextFieldWithFloatingLabel.swift in Sources */,

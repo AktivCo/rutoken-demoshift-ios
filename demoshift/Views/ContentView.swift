@@ -60,86 +60,87 @@ struct ContentView: View {
 
     @ObservedObject private var taskStatus = TaskStatus()
 
+    init() {
+        UITableView.appearance().separatorStyle = .none
+        UITableView.appearance().backgroundColor = UIColor(named: "view-background")
+        UITableViewCell.appearance().backgroundColor = UIColor(named: "view-background")
+    }
+
     var body: some View {
-        ZStack {
-            VStack(alignment: .leading) {
-                if self.users.isEmpty {
-                    Spacer()
-                    Text("Список пользователей пуст")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .font(.headline)
-                        .padding()
-                    Spacer()
-                } else {
-                    Text("Выберите пользователя")
-                        .fontWeight(.semibold)
-                        .font(.title)
-                        .padding(.leading)
-                        .padding(.top)
-
-                    List(self.users) {user in
-                        UserView(name: user.name, position: user.position, company: user.company, expired: user.expired)
-                    }
-                    .animation(.easeInOut)
-                }
-                Button(action: {
-                    self.showAddUserView.toggle()
-                }, label: {
-                    HStack {
+        NavigationView {
+            ZStack {
+                VStack(alignment: .leading) {
+                    if self.users.isEmpty {
                         Spacer()
+                        Text("Список пользователей пуст")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .font(.headline)
+                            .padding()
+                        Spacer()
+                    } else {
+                        List(self.users) {user in
+                            NavigationLink(destination: SignView()) {
+                                UserView(name: user.name, position: user.position, company: user.company, expired: user.expired)
+                            }
+                        }
+                        .animation(.easeInOut)
+                    }
+                    Button(action: {
+                        self.showAddUserView.toggle()
+                    }, label: {
                         Text("Добавить пользователя")
-                        Spacer()
-                    }
-                })
-                .buttonStyle(RoundedFilledButton())
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                    .sheet(isPresented: self.$showAddUserView, onDismiss: {
-                        self.taskStatus.errorMessage = ""
-                    }, content: {
-                        PinInputView(idleTitle: "Введите PIN-код",
-                                    progressTitle: "Выполнятеся регистрация пользователя",
-                                    placeHolder: "PIN-код",
-                                    buttonText: "Продолжить",
-                                    status: self.taskStatus,
-                                    onTapped: { _ in
-                                        self.taskStatus.errorMessage = ""
-                                        withAnimation(.spring()) {
-                                            self.taskStatus.isInProgress = true
-                                        }
+                    })
+                        .buttonStyle(RoundedFilledButton())
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .sheet(isPresented: self.$showAddUserView, onDismiss: {
+                            self.taskStatus.errorMessage = ""
+                        }, content: {
+                            PinInputView(idleTitle: "Введите PIN-код",
+                                         progressTitle: "Выполняется регистрация пользователя",
+                                         placeHolder: "PIN-код",
+                                         buttonText: "Продолжить",
+                                         status: self.taskStatus,
+                                         onTapped: { _ in
+                                            self.taskStatus.errorMessage = ""
+                                            withAnimation(.spring()) {
+                                                self.taskStatus.isInProgress = true
+                                            }
 
-                                        DispatchQueue.global(qos: .default).async {
-                                            defer {
-                                                DispatchQueue.main.async {
-                                                    withAnimation(.spring()) {
-                                                        self.taskStatus.isInProgress = false
+                                            DispatchQueue.global(qos: .default).async {
+                                                defer {
+                                                    DispatchQueue.main.async {
+                                                        withAnimation(.spring()) {
+                                                            self.taskStatus.isInProgress = false
+                                                        }
                                                     }
                                                 }
-                                            }
 
-                                            startNFC { _ in
-                                                TokenManager.shared.cancelWait()
-                                            }
-
-                                            guard TokenManager.shared.waitForToken() != nil else {
-                                                DispatchQueue.main.async {
-                                                    self.taskStatus.errorMessage = "Не удалось обнаружить токен"
+                                                startNFC { _ in
+                                                    TokenManager.shared.cancelWait()
                                                 }
-                                                return
-                                            }
 
-                                            //Do something with token
-                                            DispatchQueue.main.async {
-                                                self.addUser(idx: self.users.count)
-                                                self.showAddUserView = false
-                                            }
+                                                guard TokenManager.shared.waitForToken() != nil else {
+                                                    DispatchQueue.main.async {
+                                                        self.taskStatus.errorMessage = "Не удалось обнаружить токен"
+                                                    }
+                                                    return
+                                                }
 
-                                            stopNFC()
-                                        }
+                                                //Do something with token
+                                                DispatchQueue.main.async {
+                                                    self.addUser(idx: self.users.count)
+                                                    self.showAddUserView = false
+                                                }
+
+                                                stopNFC()
+                                            }
+                            })
                         })
-                })
-            }
-        }.background(Color("view-background").edgesIgnoringSafeArea(.all))
+                }
+            }.background(Color("view-background").edgesIgnoringSafeArea(.all))
+                .navigationBarTitle("Список пользователей", displayMode: .inline)
+        }
     }
 
     func addUser(idx: Int) {

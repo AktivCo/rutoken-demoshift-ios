@@ -6,7 +6,6 @@
 //  Copyright © 2020 Aktiv Co. All rights reserved.
 //
 
-import Combine
 import Foundation
 
 class Token {
