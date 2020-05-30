@@ -8,15 +8,24 @@
 
 import Foundation
 
+enum TokenError: Error {
+    case incorrectPin
+    case lockedPin
+    case pkcs11Error(rv: Int32)
+}
+
+
 class Token {
     let slot: CK_SLOT_ID
     let serial: String
+
+    private var session = CK_SESSION_HANDLE(NULL_PTR)
 
     init?(slot: CK_SLOT_ID) {
         self.slot = slot
 
         var tokenInfo = CK_TOKEN_INFO()
-        let rv = C_GetTokenInfo(slot, &tokenInfo)
+        var rv = C_GetTokenInfo(slot, &tokenInfo)
         guard rv == CKR_OK else {
             return nil
         }
@@ -27,16 +36,28 @@ class Token {
                 String(cString: $0)
             }
         }.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-}
 
-struct WaitError: Error {
-    enum Reason {
-        case cancelled
-        case unknown
+        rv = C_OpenSession(self.slot, CK_FLAGS(CKF_SERIAL_SESSION), nil, nil, &self.session)
+        guard rv == CKR_OK else {
+            return nil
+        }
     }
 
-    let reason: Reason
+    public func login(pin: String) throws {
+        var rawPin: [UInt8] = Array(pin.utf8)
+        let rv = C_Login(self.session, CK_USER_TYPE(CKU_USER), &rawPin, CK_ULONG(pin.count))
+        guard rv == CKR_OK || rv == CKR_USER_ALREADY_LOGGED_IN else {
+            switch Int32(rv) {
+            case CKR_PIN_INCORRECT:
+                throw TokenError.incorrectPin
+            case CKR_PIN_LOCKED:
+                throw TokenError.lockedPin
+            default:
+                throw TokenError.pkcs11Error(rv: Int32(rv))
+            }
+        }
+        return
+    }
 }
 
 class TokenManager {

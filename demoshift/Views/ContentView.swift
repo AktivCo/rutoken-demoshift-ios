@@ -101,7 +101,7 @@ struct ContentView: View {
                                          placeHolder: "PIN-код",
                                          buttonText: "Продолжить",
                                          status: self.taskStatus,
-                                         onTapped: { _ in
+                                         onTapped: { pin in
                                             self.taskStatus.errorMessage = ""
                                             withAnimation(.spring()) {
                                                 self.taskStatus.isInProgress = true
@@ -119,21 +119,29 @@ struct ContentView: View {
                                                 startNFC { _ in
                                                     TokenManager.shared.cancelWait()
                                                 }
+                                                defer {
+                                                    stopNFC()
+                                                }
 
-                                                guard TokenManager.shared.waitForToken() != nil else {
-                                                    DispatchQueue.main.async {
-                                                        self.taskStatus.errorMessage = "Не удалось обнаружить токен"
-                                                    }
+                                                guard let token = TokenManager.shared.waitForToken() else {
+                                                    self.setErrorMessage(message: "Не удалось обнаружить токен")
                                                     return
                                                 }
 
-                                                //Do something with token
-                                                DispatchQueue.main.async {
-                                                    self.addUser(idx: self.users.count)
-                                                    self.showAddUserView = false
-                                                }
+                                                do {
+                                                    try token.login(pin: pin)
 
-                                                stopNFC()
+                                                    DispatchQueue.main.async {
+                                                        self.addUser(idx: self.users.count)
+                                                        self.showAddUserView = false
+                                                    }
+                                                } catch TokenError.incorrectPin {
+                                                    self.setErrorMessage(message: "Неверный PIN-код")
+                                                } catch TokenError.lockedPin {
+                                                    self.setErrorMessage(message: "PIN-код заблокирован")
+                                                } catch {
+                                                    self.setErrorMessage(message: "Что-то пошло не так")
+                                                }
                                             }
                             })
                         })
@@ -146,6 +154,12 @@ struct ContentView: View {
     func addUser(idx: Int) {
         if idx < fakeUsers.count {
             users.append(fakeUsers[idx])
+        }
+    }
+
+    func setErrorMessage(message: String) {
+        DispatchQueue.main.async {
+            self.taskStatus.errorMessage = message
         }
     }
 }
