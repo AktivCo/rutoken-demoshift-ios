@@ -28,6 +28,10 @@
 		C3FF4DC12477A5B6002AA664 /* RtPcsc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C3FF4DC22477A5B6002AA664 /* rtpkcs11ecp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */; };
 		C3FF4DC32477A5B6002AA664 /* rtpkcs11ecp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		588BB099248408A400C3AE5C /* rtengine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0962484032700C3AE5C /* rtengine.framework */; };
+		588BB09A248408A400C3AE5C /* rtengine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0962484032700C3AE5C /* rtengine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		588BB09B248408A600C3AE5C /* openssl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0952484032700C3AE5C /* openssl.framework */; };
+		588BB09C248408A600C3AE5C /* openssl.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0952484032700C3AE5C /* openssl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +41,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				588BB09A248408A400C3AE5C /* rtengine.framework in Embed Frameworks */,
+				588BB09C248408A600C3AE5C /* openssl.framework in Embed Frameworks */,
 				C3FF4DC32477A5B6002AA664 /* rtpkcs11ecp.framework in Embed Frameworks */,
 				C3FF4DC12477A5B6002AA664 /* RtPcsc.framework in Embed Frameworks */,
 			);
@@ -46,6 +52,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+
 		58167F6F248628D200C76262 /* SignView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
 		588410C824862758003AD26A /* Demoshift-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Demoshift-Bridging-Header.h"; sourceTree = "<group>"; };
 		588410C924862758003AD26A /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
@@ -68,6 +75,8 @@
 		C3FA84B2246C11680005B294 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RtPcsc.framework; path = Frameworks/RtPcsc.framework; sourceTree = "<group>"; };
 		C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rtpkcs11ecp.framework; path = Frameworks/rtpkcs11ecp.framework; sourceTree = "<group>"; };
+		588BB0952484032700C3AE5C /* openssl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = openssl.framework; path = Frameworks/openssl.framework; sourceTree = "<group>"; };
+		588BB0962484032700C3AE5C /* rtengine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rtengine.framework; path = Frameworks/rtengine.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +85,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3FF4DC22477A5B6002AA664 /* rtpkcs11ecp.framework in Frameworks */,
+				588BB09B248408A600C3AE5C /* openssl.framework in Frameworks */,
+				588BB099248408A400C3AE5C /* rtengine.framework in Frameworks */,
 				C3FF4DC02477A5B6002AA664 /* RtPcsc.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -169,6 +180,8 @@
 		C3FF4DBD2477A5B6002AA664 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				588BB0952484032700C3AE5C /* openssl.framework */,
+				588BB0962484032700C3AE5C /* rtengine.framework */,
 				C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */,
 				C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */,
 			);
@@ -280,7 +293,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script only for inner development\nif [[ -d Frameworks ]]\nthen\n    exit 0   \nfi\n\nmkdir Frameworks\npython scripts/download_deps.py\n\nfind external -type d -name \"*.framework\" | xargs -I {} cp -R {} Frameworks/\n";
+			shellScript = "# This script only for inner development\nif [[ -d Frameworks ]]\nthen\n    exit 0   \nfi\n\nmkdir Frameworks\npython scripts/download_deps.py -p ios\n\nfind external -type d -name \"*.framework\" | xargs -I {} cp -R {} Frameworks/\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
