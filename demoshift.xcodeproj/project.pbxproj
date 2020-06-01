@@ -459,6 +459,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/rtpkcs11ecp.framework/Headers";
 				INFOPLIST_FILE = demoshift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -486,6 +487,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/rtpkcs11ecp.framework/Headers";
 				INFOPLIST_FILE = demoshift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

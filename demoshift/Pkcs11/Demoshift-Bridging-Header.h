@@ -10,6 +10,13 @@
 #define Demoshift_Bridging_Header_h
 
 #include <rtpkcs11ecp/rtpkcs11.h>
+#include <rtpkcs11ecp/cryptoki.h>
+
 #include <RtPcsc/rtnfc.h>
+
+#include <openssl/x509.h>
+#include <openssl/cms.h>
+
+#include <rtengine/engine.h>
 
 #endif /* Demoshift_Bridging_Header_h */
