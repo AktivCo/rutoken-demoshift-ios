@@ -9,3 +9,4 @@ disabled_rules:
   - identifier_name
   - line_length
   - trailing_newline
+  - function_body_length

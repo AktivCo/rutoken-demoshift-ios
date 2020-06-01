@@ -123,12 +123,11 @@ struct ContentView: View {
                                                     stopNFC()
                                                 }
 
-                                                guard let token = TokenManager.shared.waitForToken() else {
-                                                    self.setErrorMessage(message: "Не удалось обнаружить токен")
-                                                    return
-                                                }
-
                                                 do {
+                                                    guard let token = TokenManager.shared.waitForToken() else {
+                                                        throw TokenError.tokenNotFound
+                                                    }
+
                                                     try token.login(pin: pin)
                                                     _ = try token.enumerateCerts()
 
@@ -140,6 +139,8 @@ struct ContentView: View {
                                                     self.setErrorMessage(message: "Неверный PIN-код")
                                                 } catch TokenError.lockedPin {
                                                     self.setErrorMessage(message: "PIN-код заблокирован")
+                                                } catch TokenError.tokenNotFound {
+                                                    self.setErrorMessage(message: "Не удалось обнаружить токен")
                                                 } catch {
                                                     self.setErrorMessage(message: "Что-то пошло не так")
                                                 }

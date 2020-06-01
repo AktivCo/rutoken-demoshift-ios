@@ -11,7 +11,7 @@ import SwiftUI
 struct SignResultView: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
 
-    @State var signature = "i'm pem encoded cms"
+    @State var signature = ""
 
     var body: some View {
         VStack {

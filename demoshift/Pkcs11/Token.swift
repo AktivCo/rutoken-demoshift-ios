@@ -11,6 +11,10 @@ import Foundation
 enum TokenError: Error {
     case incorrectPin
     case lockedPin
+    case generalError
+    case tokenNotFound
+    case certNotFound
+    case keyPairNotFound
     case pkcs11Error(rv: Int32)
 }
 
@@ -73,6 +77,85 @@ class Token {
             certs.append(cert)
         }
         return certs
+    }
+
+    public func cmsSign(_ document: Data, withCert cert: Cert) throws -> String {
+        var encodedCms: String = ""
+
+        guard let privateKey = findObject(ofType: CKO_PRIVATE_KEY, byId: cert.id),
+        let publicKey = findObject(ofType: CKO_PUBLIC_KEY, byId: cert.id) else {
+            throw TokenError.keyPairNotFound
+        }
+
+        var functionList = CK_FUNCTION_LIST()
+        try withUnsafeMutablePointer(to: &functionList) { pointer in
+            var functionListPointer: UnsafeMutablePointer<CK_FUNCTION_LIST>? = pointer
+            let rv = C_GetFunctionList(&functionListPointer)
+            guard rv == CKR_OK else {
+                throw TokenError.generalError
+            }
+
+            var wrappedSession = rt_eng_p11_session_new(functionListPointer, self.session, 0, nil)
+            guard wrappedSession.`self` != nil else {
+                throw TokenError.generalError
+            }
+            defer {
+                var temp = wrappedSession
+                withUnsafeMutablePointer(to: &wrappedSession) { ptr in
+                    temp.vtable.pointee.free(ptr)
+                }
+            }
+
+            guard let evpPKey = rt_eng_new_p11_ossl_evp_pkey(wrappedSession, privateKey, publicKey) else {
+                throw TokenError.generalError
+            }
+            defer {
+                EVP_PKEY_free(evpPKey)
+            }
+
+            guard let bio = BIO_new(BIO_s_mem()) else {
+                throw TokenError.generalError
+            }
+            defer {
+                BIO_free(bio)
+            }
+
+            try document.withUnsafeBytes {
+                let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self)
+                let res = BIO_write(bio, pointer, Int32(document.count))
+                if res != document.count {
+                    throw TokenError.generalError
+                }
+            }
+
+            try cert.body.withUnsafeBytes {
+                var pointer: UnsafePointer<UInt8>? = $0.baseAddress?.assumingMemoryBound(to: UInt8.self)
+                guard let x509 = d2i_X509(nil, &pointer, cert.body.count) else {
+                    throw TokenError.generalError
+                }
+                defer {
+                    X509_free(x509)
+                }
+
+                guard let cms = CMS_sign(x509, evpPKey, nil, bio, UInt32(CMS_BINARY | CMS_NOSMIMECAP | CMS_DETACHED)) else {
+                    throw TokenError.generalError
+                }
+                defer {
+                    CMS_ContentInfo_free(cms)
+                }
+
+                let cmsLength = i2d_CMS_ContentInfo(cms, nil)
+                var cmsData = Data(repeating: 0x00, count: Int(cmsLength))
+                cmsData.withUnsafeMutableBytes {
+                    var pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self)
+                    i2d_CMS_ContentInfo(cms, &pointer)
+                }
+
+                encodedCms = cmsData.base64EncodedString()
+                print(encodedCms)
+            }
+        }
+        return encodedCms
     }
 
     private func findObjects(ofType type: Int32) -> [CK_OBJECT_HANDLE] {

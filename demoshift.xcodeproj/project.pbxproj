@@ -17,8 +17,8 @@
 		588410DA24862758003AD26A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D024862758003AD26A /* ContentView.swift */; };
 		588410DB24862758003AD26A /* RoundedFilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D224862758003AD26A /* RoundedFilledButton.swift */; };
 		588410DC24862758003AD26A /* TextFieldWithFloatingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */; };
+		58FFC9EC24881E8B00AEE56D /* test.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 58FFC9EB24881E8B00AEE56D /* test.pdf */; };
 		B158944124863EE000C8485E /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B158944024863EDF00C8485E /* DocumentView.swift */; };
-		B158944324863EF700C8485E /* constitution.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B158944224863EF700C8485E /* constitution.pdf */; };
 		C399859224864A1D004C5889 /* Cert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C399859124864A1D004C5889 /* Cert.swift */; };
 		C399859424864A3F004C5889 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C399859324864A3F004C5889 /* Token.swift */; };
 		C3CE1BAF24866DD400981E61 /* SignResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CE1BAE24866DD400981E61 /* SignResultView.swift */; };
@@ -53,7 +53,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-
 		58167F6F248628D200C76262 /* SignView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
 		588410C824862758003AD26A /* Demoshift-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Demoshift-Bridging-Header.h"; sourceTree = "<group>"; };
 		588410C924862758003AD26A /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
@@ -65,8 +64,8 @@
 		588410D024862758003AD26A /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		588410D224862758003AD26A /* RoundedFilledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedFilledButton.swift; sourceTree = "<group>"; };
 		588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithFloatingLabel.swift; sourceTree = "<group>"; };
+		58FFC9EB24881E8B00AEE56D /* test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = test.pdf; sourceTree = "<group>"; };
 		B158944024863EDF00C8485E /* DocumentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
-		B158944224863EF700C8485E /* constitution.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = constitution.pdf; sourceTree = "<group>"; };
 		C399859124864A1D004C5889 /* Cert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cert.swift; sourceTree = "<group>"; };
 		C399859324864A3F004C5889 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		C3CE1BAE24866DD400981E61 /* SignResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignResultView.swift; sourceTree = "<group>"; };
@@ -135,7 +134,7 @@
 		B15894442486815200C8485E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B158944224863EF700C8485E /* constitution.pdf */,
+				58FFC9EB24881E8B00AEE56D /* test.pdf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -252,10 +251,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58FFC9EC24881E8B00AEE56D /* test.pdf in Resources */,
 				C3FA84B1246C11680005B294 /* LaunchScreen.storyboard in Resources */,
 				C3FA84AE246C11680005B294 /* Preview Assets.xcassets in Resources */,
 				C3FA84AB246C11680005B294 /* Assets.xcassets in Resources */,
-				B158944324863EF700C8485E /* constitution.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

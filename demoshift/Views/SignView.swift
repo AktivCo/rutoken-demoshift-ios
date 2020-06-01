@@ -15,11 +15,13 @@ struct SignView: View {
 
     @ObservedObject private var taskStatus = TaskStatus()
 
+    @State var signature = ""
+
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
 
     var body: some View {
         VStack {
-            NavigationLink(destination: SignResultView(), isActive: self.$showSignResultView) {
+            NavigationLink(destination: SignResultView(signature: self.signature), isActive: self.$showSignResultView) {
                 EmptyView()
             }
 
@@ -46,24 +48,59 @@ struct SignView: View {
                                  buttonText: "Продолжить",
                                  status: self.taskStatus,
                                  onTapped: { pin in
-                                    // Imagine we call pkcs11 here
                                     self.taskStatus.errorMessage = ""
                                     withAnimation(.spring()) {
                                         self.taskStatus.isInProgress = true
                                     }
+
                                     DispatchQueue.global(qos: .default).async {
-                                        sleep(2) //Do login/find/whatever we want
-                                        DispatchQueue.main.async {
-                                            //Here we finished pkcs11 operation
-                                            if pin == "12345678" {
-                                                self.showSignView.toggle()
-                                            } else {
-                                                self.taskStatus.errorMessage = "Неверный PIN-код"
+                                        defer {
+                                            DispatchQueue.main.async {
+                                                withAnimation(.spring()) {
+                                                    self.taskStatus.isInProgress = false
+                                                }
                                             }
-                                            withAnimation(.spring()) {
-                                                self.taskStatus.isInProgress = false
+                                        }
+
+                                        startNFC { _ in
+                                            TokenManager.shared.cancelWait()
+                                        }
+                                        defer {
+                                            stopNFC()
+                                        }
+
+                                        do {
+                                            guard let token = TokenManager.shared.waitForToken() else {
+                                                throw TokenError.tokenNotFound
+                                            }
+
+                                            let document = try Data(contentsOf: (self.urls?[0])!)
+
+                                            try token.login(pin: pin)
+                                            let certs = try token.enumerateCerts()
+
+                                            guard certs.count > 0 else {
+                                                throw TokenError.certNotFound
+                                            }
+
+                                            self.signature = try token.cmsSign(document, withCert: certs[0])
+
+                                            DispatchQueue.main.async {
+                                                self.showSignView = false
                                                 self.showSignResultView.toggle()
                                             }
+                                        } catch TokenError.incorrectPin {
+                                            self.setErrorMessage(message: "Неверный PIN-код")
+                                        } catch TokenError.lockedPin {
+                                            self.setErrorMessage(message: "PIN-код заблокирован")
+                                        } catch TokenError.tokenNotFound {
+                                            self.setErrorMessage(message: "Не удалось обнаружить токен")
+                                        } catch TokenError.keyPairNotFound {
+                                            self.setErrorMessage(message: "Ключевая пара не найдена")
+                                        } catch TokenError.certNotFound {
+                                            self.setErrorMessage(message: "Сертификат не найден")
+                                        } catch {
+                                            self.setErrorMessage(message: "Что-то пошло не так")
                                         }
                                     }
                     })
@@ -72,6 +109,12 @@ struct SignView: View {
         .padding()
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
         .navigationBarTitle("Документ для подписи", displayMode: .inline)
+    }
+
+    func setErrorMessage(message: String) {
+        DispatchQueue.main.async {
+            self.taskStatus.errorMessage = message
+        }
     }
 }
 
