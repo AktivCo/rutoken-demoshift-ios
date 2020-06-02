@@ -10,15 +10,18 @@ import SwiftUI
 
 struct SignView: View {
     @State var showSignView = false
+    @State var showSignResultView = false
     @State var urls = Bundle.main.urls(forResourcesWithExtension: "pdf", subdirectory: "")
 
     @ObservedObject private var taskStatus = TaskStatus()
 
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+
     var body: some View {
         VStack {
-            Text("Документ для подписи")
-                .fontWeight(.semibold)
-                .font(.headline)
+            NavigationLink(destination: SignResultView(), isActive: self.$showSignResultView) {
+                EmptyView()
+            }
 
             if self.urls != nil {
                 DocumentView(urls![0])
@@ -59,6 +62,7 @@ struct SignView: View {
                                             }
                                             withAnimation(.spring()) {
                                                 self.taskStatus.isInProgress = false
+                                                self.showSignResultView.toggle()
                                             }
                                         }
                                     }
@@ -67,6 +71,7 @@ struct SignView: View {
         }
         .padding()
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
+        .navigationBarTitle("Документ для подписи", displayMode: .inline)
     }
 }
 
