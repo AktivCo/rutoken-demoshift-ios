@@ -150,8 +150,12 @@ class Token {
                     i2d_CMS_ContentInfo(cms, &pointer)
                 }
 
-                encodedCms = cmsData.base64EncodedString()
-                print(encodedCms)
+                // Add EOL after every 64th symbol
+                let rawSignature = cmsData.base64EncodedString().enumerated().map { (idx, el) in
+                    idx > 0 && idx % 64 == 0 ? ["\n", el] : [el]
+                }.joined()
+
+                encodedCms = "-----BEGIN CMS-----\n" + rawSignature + "\n-----END CMS-----"
             }
         }
         return encodedCms

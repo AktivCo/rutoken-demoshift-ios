@@ -22,6 +22,8 @@
 		588BB09C248408A600C3AE5C /* openssl.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0952484032700C3AE5C /* openssl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		58FFC9EC24881E8B00AEE56D /* test.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 58FFC9EB24881E8B00AEE56D /* test.pdf */; };
 		B158944124863EE000C8485E /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B158944024863EDF00C8485E /* DocumentView.swift */; };
+		B15894462486BA8900C8485E /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15894452486BA8900C8485E /* ShareView.swift */; };
+		B15FBD26248E267600385F6E /* Sharables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15FBD25248E267600385F6E /* Sharables.swift */; };
 		C399859224864A1D004C5889 /* Cert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C399859124864A1D004C5889 /* Cert.swift */; };
 		C399859424864A3F004C5889 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C399859324864A3F004C5889 /* Token.swift */; };
 		C3C5FE85248A741700751E3A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C5FE84248A741700751E3A /* LoadingIndicator.swift */; };
@@ -67,6 +69,8 @@
 		588BB0962484032700C3AE5C /* rtengine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rtengine.framework; path = Frameworks/rtengine.framework; sourceTree = "<group>"; };
 		58FFC9EB24881E8B00AEE56D /* test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = test.pdf; sourceTree = "<group>"; };
 		B158944024863EDF00C8485E /* DocumentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
+		B15894452486BA8900C8485E /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
+		B15FBD25248E267600385F6E /* Sharables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharables.swift; sourceTree = "<group>"; };
 		C399859124864A1D004C5889 /* Cert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cert.swift; sourceTree = "<group>"; };
 		C399859324864A3F004C5889 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		C3C5FE84248A741700751E3A /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
@@ -117,6 +121,7 @@
 				58167F6F248628D200C76262 /* SignView.swift */,
 				C3CE1BAE24866DD400981E61 /* SignResultView.swift */,
 				588410CE24862758003AD26A /* UserView.swift */,
+				B15894452486BA8900C8485E /* ShareView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -127,6 +132,7 @@
 				588410D224862758003AD26A /* RoundedFilledButton.swift */,
 				588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */,
 				C3C5FE84248A741700751E3A /* LoadingIndicator.swift */,
+				B15FBD25248E267600385F6E /* Sharables.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -306,6 +312,7 @@
 			files = (
 				588410D624862758003AD26A /* AppDelegate.swift in Sources */,
 				58167F70248628D200C76262 /* SignView.swift in Sources */,
+				B15894462486BA8900C8485E /* ShareView.swift in Sources */,
 				588410DB24862758003AD26A /* RoundedFilledButton.swift in Sources */,
 				588410D424862758003AD26A /* TokenManager.swift in Sources */,
 				588410DC24862758003AD26A /* TextFieldWithFloatingLabel.swift in Sources */,
@@ -318,6 +325,7 @@
 				C3C5FE85248A741700751E3A /* LoadingIndicator.swift in Sources */,
 				C3CE1BAF24866DD400981E61 /* SignResultView.swift in Sources */,
 				588410D924862758003AD26A /* SceneDelegate.swift in Sources */,
+				B15FBD26248E267600385F6E /* Sharables.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

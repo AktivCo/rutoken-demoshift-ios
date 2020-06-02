@@ -11,19 +11,29 @@ import SwiftUI
 struct SignView: View {
     @State var showSignView = false
     @State var showSignResultView = false
-    @State var urls = Bundle.main.urls(forResourcesWithExtension: "pdf", subdirectory: "")
+    @State var signatureToShare: SharableSignature?
+    @State var documentToShare: SharableDocument?
 
     let user: User
+    let url: URL?
 
     @ObservedObject private var taskStatus = TaskStatus()
 
-    @State var signature = ""
+    init(user: User) {
+        self.user = user
 
-    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+        let urls = Bundle.main.urls(forResourcesWithExtension: "pdf", subdirectory: "")
+        if urls != nil && urls!.count > 0 {
+            self.url = urls![0]
+        } else {
+            self.url = nil
+        }
+    }
 
     var body: some View {
         VStack {
-            NavigationLink(destination: SignResultView(signature: self.signature), isActive: self.$showSignResultView) {
+            NavigationLink(destination: SignResultView(document: documentToShare, signature: signatureToShare),
+                           isActive: self.$showSignResultView) {
                 EmptyView()
             }
 
@@ -33,8 +43,8 @@ struct SignView: View {
                 .padding(.top)
 
             HStack {
-                if self.urls != nil && self.urls!.count > 0 {
-                    DocumentView(urls![0])
+                if self.url != nil {
+                    DocumentView(self.url!)
                 } else {
                     Text("Не удалось найти документ")
                 }
@@ -48,6 +58,7 @@ struct SignView: View {
             })
                 .buttonStyle(RoundedFilledButton())
                 .padding()
+                .disabled(self.url == nil)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .sheet(isPresented: self.$showSignView, onDismiss: {
                     self.taskStatus.errorMessage = ""
@@ -87,11 +98,25 @@ struct SignView: View {
                                                 throw TokenManagerError.wrongToken
                                             }
 
-                                            let document = try Data(contentsOf: (self.urls?[0])!)
+                                            let document = try Data(contentsOf: self.url!)
 
                                             try token.login(pin: pin)
 
-                                            self.signature = try token.cmsSign(document, withCert: Cert(id: self.user.certID, body: self.user.certBody))
+                                            let signature = try token.cmsSign(document, withCert: Cert(id: self.user.certID, body: self.user.certBody))
+
+                                            // For correct work with AirDrop all sharable items should be in the same folder
+                                            let cmsFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.url!.lastPathComponent).sig")
+                                            let signedFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.url!.lastPathComponent)")
+
+                                            do {
+                                                try signature.write(to: cmsFile, atomically: false, encoding: .utf8)
+                                                try document.write(to: signedFile)
+                                            } catch {
+                                                throw TokenError.generalError
+                                            }
+
+                                            self.signatureToShare = SharableSignature(rawSignature: signature, cmsFile: cmsFile)
+                                            self.documentToShare = SharableDocument(signedFile: signedFile)
 
                                             DispatchQueue.main.async {
                                                 self.showSignView = false
