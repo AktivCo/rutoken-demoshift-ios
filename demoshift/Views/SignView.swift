@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SignView: View {
     @State var showSignView = false
+    @State var urls = Bundle.main.urls(forResourcesWithExtension: "pdf", subdirectory: "")
 
     @ObservedObject private var taskStatus = TaskStatus()
 
@@ -19,7 +20,11 @@ struct SignView: View {
                 .fontWeight(.semibold)
                 .font(.headline)
 
-            Image("document").resizable()
+            if self.urls != nil {
+                DocumentView(urls![0])
+            } else {
+                Text("Не удалось найти документ")
+            }
             Spacer()
             Button(action: {
                 self.showSignView.toggle()

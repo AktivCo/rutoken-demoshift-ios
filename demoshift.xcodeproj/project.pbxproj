@@ -17,6 +17,8 @@
 		588410DA24862758003AD26A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D024862758003AD26A /* ContentView.swift */; };
 		588410DB24862758003AD26A /* RoundedFilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D224862758003AD26A /* RoundedFilledButton.swift */; };
 		588410DC24862758003AD26A /* TextFieldWithFloatingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */; };
+		B158944124863EE000C8485E /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B158944024863EDF00C8485E /* DocumentView.swift */; };
+		B158944324863EF700C8485E /* constitution.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B158944224863EF700C8485E /* constitution.pdf */; };
 		C3FA84AB246C11680005B294 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3FA84AA246C11680005B294 /* Assets.xcassets */; };
 		C3FA84AE246C11680005B294 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3FA84AD246C11680005B294 /* Preview Assets.xcassets */; };
 		C3FA84B1246C11680005B294 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3FA84AF246C11680005B294 /* LaunchScreen.storyboard */; };
@@ -53,6 +55,8 @@
 		588410D024862758003AD26A /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		588410D224862758003AD26A /* RoundedFilledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedFilledButton.swift; sourceTree = "<group>"; };
 		588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithFloatingLabel.swift; sourceTree = "<group>"; };
+		B158944024863EDF00C8485E /* DocumentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
+		B158944224863EF700C8485E /* constitution.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = constitution.pdf; sourceTree = "<group>"; };
 		C3FA84A1246C11670005B294 /* demoshift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demoshift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3FA84AA246C11680005B294 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3FA84AD246C11680005B294 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -87,6 +91,7 @@
 		588410CA24862758003AD26A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B158944024863EDF00C8485E /* DocumentView.swift */,
 				588410CC24862758003AD26A /* AppDelegate.swift */,
 				588410D024862758003AD26A /* ContentView.swift */,
 				588410CD24862758003AD26A /* LoadingIndicatorView.swift */,
@@ -105,6 +110,14 @@
 				588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		B15894442486815200C8485E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B158944224863EF700C8485E /* constitution.pdf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C3FA8498246C11670005B294 = {
@@ -127,6 +140,7 @@
 		C3FA84A3246C11670005B294 /* demoshift */ = {
 			isa = PBXGroup;
 			children = (
+				B15894442486815200C8485E /* Resources */,
 				588410C724862758003AD26A /* Pkcs11 */,
 				588410CA24862758003AD26A /* Views */,
 				588410D124862758003AD26A /* Components */,
@@ -219,6 +233,7 @@
 				C3FA84B1246C11680005B294 /* LaunchScreen.storyboard in Resources */,
 				C3FA84AE246C11680005B294 /* Preview Assets.xcassets in Resources */,
 				C3FA84AB246C11680005B294 /* Assets.xcassets in Resources */,
+				B158944324863EF700C8485E /* constitution.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +290,7 @@
 				588410DC24862758003AD26A /* TextFieldWithFloatingLabel.swift in Sources */,
 				588410DA24862758003AD26A /* ContentView.swift in Sources */,
 				588410D824862758003AD26A /* UserView.swift in Sources */,
+				B158944124863EE000C8485E /* DocumentView.swift in Sources */,
 				588410D524862758003AD26A /* PinInputView.swift in Sources */,
 				588410D724862758003AD26A /* LoadingIndicatorView.swift in Sources */,
 				588410D924862758003AD26A /* SceneDelegate.swift in Sources */,
