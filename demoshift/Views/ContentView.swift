@@ -130,6 +130,7 @@ struct ContentView: View {
 
                                                 do {
                                                     try token.login(pin: pin)
+                                                    _ = try token.enumerateCerts()
 
                                                     DispatchQueue.main.async {
                                                         self.addUser(idx: self.users.count)

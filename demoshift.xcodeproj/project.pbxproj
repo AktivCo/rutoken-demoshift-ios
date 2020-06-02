@@ -19,6 +19,8 @@
 		588410DC24862758003AD26A /* TextFieldWithFloatingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */; };
 		B158944124863EE000C8485E /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B158944024863EDF00C8485E /* DocumentView.swift */; };
 		B158944324863EF700C8485E /* constitution.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B158944224863EF700C8485E /* constitution.pdf */; };
+		C399859224864A1D004C5889 /* Cert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C399859124864A1D004C5889 /* Cert.swift */; };
+		C399859424864A3F004C5889 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C399859324864A3F004C5889 /* Token.swift */; };
 		C3FA84AB246C11680005B294 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3FA84AA246C11680005B294 /* Assets.xcassets */; };
 		C3FA84AE246C11680005B294 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3FA84AD246C11680005B294 /* Preview Assets.xcassets */; };
 		C3FA84B1246C11680005B294 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3FA84AF246C11680005B294 /* LaunchScreen.storyboard */; };
@@ -57,6 +59,8 @@
 		588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithFloatingLabel.swift; sourceTree = "<group>"; };
 		B158944024863EDF00C8485E /* DocumentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
 		B158944224863EF700C8485E /* constitution.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = constitution.pdf; sourceTree = "<group>"; };
+		C399859124864A1D004C5889 /* Cert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cert.swift; sourceTree = "<group>"; };
+		C399859324864A3F004C5889 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		C3FA84A1246C11670005B294 /* demoshift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demoshift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3FA84AA246C11680005B294 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3FA84AD246C11680005B294 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -84,6 +88,8 @@
 			children = (
 				588410C824862758003AD26A /* Demoshift-Bridging-Header.h */,
 				588410C924862758003AD26A /* TokenManager.swift */,
+				C399859324864A3F004C5889 /* Token.swift */,
+				C399859124864A1D004C5889 /* Cert.swift */,
 			);
 			path = Pkcs11;
 			sourceTree = "<group>";
@@ -290,9 +296,11 @@
 				588410DC24862758003AD26A /* TextFieldWithFloatingLabel.swift in Sources */,
 				588410DA24862758003AD26A /* ContentView.swift in Sources */,
 				588410D824862758003AD26A /* UserView.swift in Sources */,
+				C399859224864A1D004C5889 /* Cert.swift in Sources */,
 				B158944124863EE000C8485E /* DocumentView.swift in Sources */,
 				588410D524862758003AD26A /* PinInputView.swift in Sources */,
 				588410D724862758003AD26A /* LoadingIndicatorView.swift in Sources */,
+				C399859424864A3F004C5889 /* Token.swift in Sources */,
 				588410D924862758003AD26A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
