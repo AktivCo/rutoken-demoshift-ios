@@ -13,6 +13,8 @@ struct SignView: View {
     @State var showSignResultView = false
     @State var urls = Bundle.main.urls(forResourcesWithExtension: "pdf", subdirectory: "")
 
+    let user: User
+
     @ObservedObject private var taskStatus = TaskStatus()
 
     @State var signature = ""
@@ -71,19 +73,17 @@ struct SignView: View {
 
                                         do {
                                             guard let token = TokenManager.shared.waitForToken() else {
-                                                throw TokenError.tokenNotFound
+                                                throw TokenManagerError.tokenNotFound
+                                            }
+                                            guard token.serial == self.user.tokenSerial else {
+                                                throw TokenManagerError.wrongToken
                                             }
 
                                             let document = try Data(contentsOf: (self.urls?[0])!)
 
                                             try token.login(pin: pin)
-                                            let certs = try token.enumerateCerts()
 
-                                            guard certs.count > 0 else {
-                                                throw TokenError.certNotFound
-                                            }
-
-                                            self.signature = try token.cmsSign(document, withCert: certs[0])
+                                            self.signature = try token.cmsSign(document, withCert: Cert(id: self.user.certID, body: self.user.certBody))
 
                                             DispatchQueue.main.async {
                                                 self.showSignView = false
@@ -93,12 +93,12 @@ struct SignView: View {
                                             self.setErrorMessage(message: "Неверный PIN-код")
                                         } catch TokenError.lockedPin {
                                             self.setErrorMessage(message: "PIN-код заблокирован")
-                                        } catch TokenError.tokenNotFound {
+                                        } catch TokenManagerError.tokenNotFound {
                                             self.setErrorMessage(message: "Не удалось обнаружить токен")
                                         } catch TokenError.keyPairNotFound {
                                             self.setErrorMessage(message: "Ключевая пара не найдена")
-                                        } catch TokenError.certNotFound {
-                                            self.setErrorMessage(message: "Сертификат не найден")
+                                        } catch TokenManagerError.wrongToken {
+                                            self.setErrorMessage(message: "Поднесен токен другого пользователя")
                                         } catch {
                                             self.setErrorMessage(message: "Что-то пошло не так")
                                         }
@@ -121,8 +121,8 @@ struct SignView: View {
 struct SignView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SignView().environment(\.colorScheme, .light)
-            SignView().environment(\.colorScheme, .dark)
+            SignView(user: User(fromCert: Cert(id: Data(), body: Data()), tokenSerial: "")).environment(\.colorScheme, .light)
+            SignView(user: User(fromCert: Cert(id: Data(), body: Data()), tokenSerial: "")).environment(\.colorScheme, .dark)
         }
     }
 }

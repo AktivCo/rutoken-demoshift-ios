@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum TokenManagerError: Error {
+    case tokenNotFound
+    case wrongToken
+}
+
 class TokenManager {
     static let shared = TokenManager()
 

@@ -12,7 +12,6 @@ enum TokenError: Error {
     case incorrectPin
     case lockedPin
     case generalError
-    case tokenNotFound
     case certNotFound
     case keyPairNotFound
     case pkcs11Error(rv: Int32)
@@ -66,7 +65,7 @@ class Token {
         var certs: [Cert] = []
         let objects = self.findObjects(ofType: CKO_CERTIFICATE)
         for obj in objects {
-            guard let cert = Cert(fromHandle: obj, inSession: self.session) else {
+            guard let cert = Cert.makeCert(fromHandle: obj, inSession: self.session) else {
                 continue
             }
 

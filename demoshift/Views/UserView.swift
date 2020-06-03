@@ -8,17 +8,41 @@
 
 import SwiftUI
 
+class User: Identifiable {
+    let name: String
+    let position: String
+    let company: String
+    let expired: String
+
+    let tokenSerial: String
+
+    let certID: Data
+    let certBody: Data
+
+    init(fromCert cert: Cert, tokenSerial: String) {
+        self.name = cert.commonName
+        self.position = cert.position
+        self.company = cert.companyName
+        self.expired = cert.expired
+
+        self.tokenSerial = tokenSerial
+
+        self.certID = cert.id
+        self.certBody = cert.body
+    }
+}
+
 struct UserView: View {
     let name: String
     let position: String
     let company: String
     let expired: String
 
-    init(name: String, position: String, company: String, expired: String) {
-        self.name = name
-        self.position = position
-        self.company = company
-        self.expired = expired
+    init(user: User) {
+        self.name = user.name
+        self.position = user.position
+        self.company = user.company
+        self.expired = user.expired
     }
 
     func field(caption: String, text: String) -> some View {
@@ -54,6 +78,6 @@ struct UserView: View {
 
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
-        UserView(name: "Барнаби Мармадюк Алоизий Бенджи Кобвеб Дартаньян Эгберт Феликс Гаспар Гумберт Игнатий Джейден Каспер Лерой Максимилиан Недди Объяхулу Пепин Кьюллиам Розенкранц Секстон Тедди Апвуд Виватма Уэйленд Ксилон Ярдли Закари Усански", position: "Самый главный специалист по мониторингу и прессингу важных специалистов, но чуть менее важных чем данный", company: "ООО \"Самый большой и серьёзный бизнес, такой что не влезет ни в какие рамки\"", expired: "25 марта 2051")
+        UserView(user: User(fromCert: Cert(id: Data(), body: Data()), tokenSerial: "123"))
     }
 }
