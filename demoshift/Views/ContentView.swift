@@ -35,6 +35,7 @@ struct ContentView: View {
                         List(self.users) {user in
                             NavigationLink(destination: SignView(user: user)) {
                                 UserView(user: user)
+                                    .padding(.top)
                             }
                             .navigationBarTitle("Пользователи", displayMode: .inline)
                         }

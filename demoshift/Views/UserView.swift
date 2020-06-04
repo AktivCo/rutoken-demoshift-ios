@@ -46,30 +46,30 @@ struct UserView: View {
     }
 
     func field(caption: String, text: String) -> some View {
-        Group {
+        VStack(alignment: .leading) {
             Text(caption)
-                .font(.system(size: 20))
-                .padding(.bottom, 2)
-                .padding(.top, 6)
+                .font(.caption)
+                .foregroundColor(Color("blue-text"))
+                .padding(.bottom, 4)
             Text(text)
-                .font(.system(size: 16))
-                .foregroundColor(Color(.systemGray))
-                .padding(.horizontal, 10)
+                .font(.subheadline)
         }
+        .padding(.top, 16)
     }
 
     var body: some View {
         VStack(alignment: .leading) {
             Text(name)
                 .fontWeight(.semibold)
-                .font(.system(size: 20))
+                .font(.headline)
 
             field(caption: "Должность", text: position)
             field(caption: "Организация", text: company)
             field(caption: "Сертификат истекает", text: expired)
         }
         .frame(maxWidth: .infinity, alignment: .topLeading)
-        .padding()
+        .padding(.vertical)
+        .padding(.horizontal, 24)
         .background(Color("listitem-background"))
         .cornerRadius(15)
         .shadow(color: Color(.systemGray), radius: 5, x: 0, y: 0)
