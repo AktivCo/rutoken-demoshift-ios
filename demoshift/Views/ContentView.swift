@@ -36,6 +36,7 @@ struct ContentView: View {
                             NavigationLink(destination: SignView(user: user)) {
                                 UserView(user: user)
                             }
+                            .navigationBarTitle("Пользователи", displayMode: .inline)
                         }
                         .animation(.easeInOut)
                     }
@@ -113,8 +114,8 @@ struct ContentView: View {
                             })
                         })
                 }
-            }.background(Color("view-background").edgesIgnoringSafeArea(.all))
-                .navigationBarTitle("Список пользователей", displayMode: .inline)
+            }
+            .background(Color("view-background").edgesIgnoringSafeArea(.all))
         }
     }
 

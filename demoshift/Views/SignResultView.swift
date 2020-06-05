@@ -28,7 +28,6 @@ struct SignResultView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
-        .navigationBarTitle("Подпись документа", displayMode: .inline)
     }
 }
 

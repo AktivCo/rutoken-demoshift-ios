@@ -27,11 +27,19 @@ struct SignView: View {
                 EmptyView()
             }
 
-            if self.urls != nil {
-                DocumentView(urls![0])
-            } else {
-                Text("Не удалось найти документ")
+            Text("Документ для подписи")
+                .font(.headline)
+                .fontWeight(.semibold)
+                .padding(.top)
+
+            HStack {
+                if self.urls != nil && self.urls!.count > 0 {
+                    DocumentView(urls![0])
+                } else {
+                    Text("Не удалось найти документ")
+                }
             }
+            .padding()
             Spacer()
             Button(action: {
                 self.showSignView.toggle()
@@ -106,9 +114,7 @@ struct SignView: View {
                     })
                 })
         }
-        .padding()
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
-        .navigationBarTitle("Документ для подписи", displayMode: .inline)
     }
 
     func setErrorMessage(message: String) {
