@@ -11,16 +11,20 @@
 		588410D424862758003AD26A /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410C924862758003AD26A /* TokenManager.swift */; };
 		588410D524862758003AD26A /* PinInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CB24862758003AD26A /* PinInputView.swift */; };
 		588410D624862758003AD26A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CC24862758003AD26A /* AppDelegate.swift */; };
-		588410D724862758003AD26A /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CD24862758003AD26A /* LoadingIndicatorView.swift */; };
 		588410D824862758003AD26A /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CE24862758003AD26A /* UserView.swift */; };
 		588410D924862758003AD26A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CF24862758003AD26A /* SceneDelegate.swift */; };
 		588410DA24862758003AD26A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D024862758003AD26A /* ContentView.swift */; };
 		588410DB24862758003AD26A /* RoundedFilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D224862758003AD26A /* RoundedFilledButton.swift */; };
 		588410DC24862758003AD26A /* TextFieldWithFloatingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */; };
+		588BB099248408A400C3AE5C /* rtengine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0962484032700C3AE5C /* rtengine.framework */; };
+		588BB09A248408A400C3AE5C /* rtengine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0962484032700C3AE5C /* rtengine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		588BB09B248408A600C3AE5C /* openssl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0952484032700C3AE5C /* openssl.framework */; };
+		588BB09C248408A600C3AE5C /* openssl.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0952484032700C3AE5C /* openssl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		58FFC9EC24881E8B00AEE56D /* test.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 58FFC9EB24881E8B00AEE56D /* test.pdf */; };
 		B158944124863EE000C8485E /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B158944024863EDF00C8485E /* DocumentView.swift */; };
 		C399859224864A1D004C5889 /* Cert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C399859124864A1D004C5889 /* Cert.swift */; };
 		C399859424864A3F004C5889 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C399859324864A3F004C5889 /* Token.swift */; };
+		C3C5FE85248A741700751E3A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C5FE84248A741700751E3A /* LoadingIndicator.swift */; };
 		C3CE1BAF24866DD400981E61 /* SignResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CE1BAE24866DD400981E61 /* SignResultView.swift */; };
 		C3FA84AB246C11680005B294 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3FA84AA246C11680005B294 /* Assets.xcassets */; };
 		C3FA84AE246C11680005B294 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3FA84AD246C11680005B294 /* Preview Assets.xcassets */; };
@@ -29,10 +33,6 @@
 		C3FF4DC12477A5B6002AA664 /* RtPcsc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C3FF4DC22477A5B6002AA664 /* rtpkcs11ecp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */; };
 		C3FF4DC32477A5B6002AA664 /* rtpkcs11ecp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		588BB099248408A400C3AE5C /* rtengine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0962484032700C3AE5C /* rtengine.framework */; };
-		588BB09A248408A400C3AE5C /* rtengine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0962484032700C3AE5C /* rtengine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		588BB09B248408A600C3AE5C /* openssl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0952484032700C3AE5C /* openssl.framework */; };
-		588BB09C248408A600C3AE5C /* openssl.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0952484032700C3AE5C /* openssl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,16 +58,18 @@
 		588410C924862758003AD26A /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		588410CB24862758003AD26A /* PinInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinInputView.swift; sourceTree = "<group>"; };
 		588410CC24862758003AD26A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		588410CD24862758003AD26A /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		588410CE24862758003AD26A /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		588410CF24862758003AD26A /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		588410D024862758003AD26A /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		588410D224862758003AD26A /* RoundedFilledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedFilledButton.swift; sourceTree = "<group>"; };
 		588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithFloatingLabel.swift; sourceTree = "<group>"; };
+		588BB0952484032700C3AE5C /* openssl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = openssl.framework; path = Frameworks/openssl.framework; sourceTree = "<group>"; };
+		588BB0962484032700C3AE5C /* rtengine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rtengine.framework; path = Frameworks/rtengine.framework; sourceTree = "<group>"; };
 		58FFC9EB24881E8B00AEE56D /* test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = test.pdf; sourceTree = "<group>"; };
 		B158944024863EDF00C8485E /* DocumentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
 		C399859124864A1D004C5889 /* Cert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cert.swift; sourceTree = "<group>"; };
 		C399859324864A3F004C5889 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		C3C5FE84248A741700751E3A /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		C3CE1BAE24866DD400981E61 /* SignResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignResultView.swift; sourceTree = "<group>"; };
 		C3FA84A1246C11670005B294 /* demoshift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demoshift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3FA84AA246C11680005B294 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,8 +78,6 @@
 		C3FA84B2246C11680005B294 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RtPcsc.framework; path = Frameworks/RtPcsc.framework; sourceTree = "<group>"; };
 		C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rtpkcs11ecp.framework; path = Frameworks/rtpkcs11ecp.framework; sourceTree = "<group>"; };
-		588BB0952484032700C3AE5C /* openssl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = openssl.framework; path = Frameworks/openssl.framework; sourceTree = "<group>"; };
-		588BB0962484032700C3AE5C /* rtengine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rtengine.framework; path = Frameworks/rtengine.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +112,6 @@
 				B158944024863EDF00C8485E /* DocumentView.swift */,
 				588410CC24862758003AD26A /* AppDelegate.swift */,
 				588410D024862758003AD26A /* ContentView.swift */,
-				588410CD24862758003AD26A /* LoadingIndicatorView.swift */,
 				588410CB24862758003AD26A /* PinInputView.swift */,
 				588410CF24862758003AD26A /* SceneDelegate.swift */,
 				58167F6F248628D200C76262 /* SignView.swift */,
@@ -127,6 +126,7 @@
 			children = (
 				588410D224862758003AD26A /* RoundedFilledButton.swift */,
 				588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */,
+				C3C5FE84248A741700751E3A /* LoadingIndicator.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -314,8 +314,8 @@
 				C399859224864A1D004C5889 /* Cert.swift in Sources */,
 				B158944124863EE000C8485E /* DocumentView.swift in Sources */,
 				588410D524862758003AD26A /* PinInputView.swift in Sources */,
-				588410D724862758003AD26A /* LoadingIndicatorView.swift in Sources */,
 				C399859424864A3F004C5889 /* Token.swift in Sources */,
+				C3C5FE85248A741700751E3A /* LoadingIndicator.swift in Sources */,
 				C3CE1BAF24866DD400981E61 /* SignResultView.swift in Sources */,
 				588410D924862758003AD26A /* SceneDelegate.swift in Sources */,
 			);

@@ -65,7 +65,7 @@ struct PinInputView: View {
                 Text(self.progressTitle)
                     .font(.headline)
                     .fontWeight(.semibold)
-                LoadingIndicatorView()
+                LoadingIndicator()
                     .frame(width: 64, height: 64)
             }
             .background(Color("sheet-background"))

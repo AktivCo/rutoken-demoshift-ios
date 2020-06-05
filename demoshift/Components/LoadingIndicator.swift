@@ -1,14 +1,14 @@
 //
-//  LoadingIndicatorView.swift
+//  LoadingIndicator.swift
 //  demoshift
 //
-//  Created by Андрей Трифонов on 20.05.2020.
+//  Created by Андрей Трифонов on 05.06.2020.
 //  Copyright © 2020 Aktiv Co. All rights reserved.
 //
 
 import SwiftUI
 
-struct LoadingIndicatorView: View {
+struct LoadingIndicator: View {
     @State private var rotationToggle = false
     @State private var startPointToggle = false
 
@@ -31,8 +31,8 @@ struct LoadingIndicatorView: View {
     }
 }
 
-struct LoadingIndicatorView_Previews: PreviewProvider {
+struct LoadingIndicator_Previews: PreviewProvider {
     static var previews: some View {
-            LoadingIndicatorView()
+        LoadingIndicator()
     }
 }
