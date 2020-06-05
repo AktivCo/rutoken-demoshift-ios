@@ -58,18 +58,21 @@ struct PinInputView: View {
                 Spacer()
             }
             .padding()
-            .offset(x: 0, y: self.status.isInProgress ? -screen.height : 0)
+            .offset(y: self.status.isInProgress ? -screen.height : 0)
             .background(Color("sheet-background"))
 
             VStack {
-                Text(self.progressTitle)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                LoadingIndicator()
-                    .frame(width: 64, height: 64)
+                VStack {
+                    Text(self.progressTitle)
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    LoadingIndicator()
+                        .frame(width: 64, height: 64)
+                }
+                .offset(y: -screen.height/4)
             }
             .background(Color("sheet-background"))
-            .offset(x: 0, y: self.status.isInProgress ? 0 : screen.height)
+            .offset(y: self.status.isInProgress ? 0 : screen.height)
         }
         .background(Color("sheet-background").edgesIgnoringSafeArea(.all))
     }
