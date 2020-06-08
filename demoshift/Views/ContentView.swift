@@ -113,6 +113,8 @@ struct ContentView: View {
                                                     self.setErrorMessage(message: "PIN-код заблокирован")
                                                 } catch TokenError.certNotFound {
                                                     self.setErrorMessage(message: "На токене нет сертификатов")
+                                                } catch TokenError.tokenDisconnected {
+                                                    self.setErrorMessage(message: "Потеряно соединение с токеном")
                                                 } catch TokenManagerError.tokenNotFound {
                                                     self.setErrorMessage(message: "Не удалось обнаружить токен")
                                                 } catch TokenManagerError.wrongToken {

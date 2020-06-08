@@ -21,6 +21,20 @@ class TokenManager {
     private var activeToken: Token?
     private var semaphore = DispatchSemaphore(value: 0)
 
+    public func isConnected(token: Token) -> Bool {
+        var slotInfo = CK_SLOT_INFO()
+        let rv = C_GetSlotInfo(token.slot, &slotInfo)
+        guard rv == CKR_OK else {
+            return false
+        }
+
+        if slotInfo.flags & UInt(CKF_TOKEN_PRESENT) == 0 {
+            return false
+        }
+
+        return true
+    }
+
     public func waitForToken() -> Token? {
         if let t = self.activeToken {
             return t

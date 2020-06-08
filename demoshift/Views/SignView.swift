@@ -130,6 +130,8 @@ struct SignView: View {
                                             self.setErrorMessage(message: "Не удалось обнаружить токен")
                                         } catch TokenError.keyPairNotFound {
                                             self.setErrorMessage(message: "Ключевая пара не найдена")
+                                        } catch TokenError.tokenDisconnected {
+                                            self.setErrorMessage(message: "Потеряно соединение с токеном")
                                         } catch TokenManagerError.wrongToken {
                                             self.setErrorMessage(message: "Поднесен токен другого пользователя")
                                         } catch {
