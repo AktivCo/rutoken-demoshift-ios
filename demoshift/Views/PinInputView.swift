@@ -55,6 +55,7 @@ struct PinInputView: View {
                 })
                 .buttonStyle(RoundedFilledButton())
                 .padding(.top, 40)
+                    .disabled(self.pin.count == 0)
                 Spacer()
             }
             .padding()
