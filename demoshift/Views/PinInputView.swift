@@ -32,15 +32,28 @@ struct PinInputView: View {
 
     @ObservedObject var status: TaskStatus
 
+    @Environment(\.presentationMode) var mode
+
     let onTapped: (String) -> Void
 
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                Text(self.idleTitle)
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .padding(.top, 40)
+                HStack {
+                    Text(self.idleTitle)
+                        .font(.title)
+                        .fontWeight(.semibold)
+                    Spacer()
+                    Image(systemName: "xmark")
+                    .font(.headline) // Change width of xmark - it is technically text
+                    .foregroundColor(Color("blue-text"))
+                    .frame(width: 30, height: 30)
+                    .background(Color(.systemGray5))
+                    .clipShape(Circle())
+                    .onTapGesture {
+                        self.mode.wrappedValue.dismiss()
+                    }
+                }
                 Text(self.status.errorMessage)
                     .font(.headline)
                     .foregroundColor(Color("red-text"))
