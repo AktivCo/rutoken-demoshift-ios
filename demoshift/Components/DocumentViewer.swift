@@ -10,20 +10,25 @@ import SwiftUI
 import PDFKit
 
 struct DocumentViewer: UIViewRepresentable {
-    let url: URL
-    init(_ url: URL) {
-        self.url = url
-    }
+    @Binding var wrappedUrl: AccessedUrl?
+    @State var pdfView = PDFView()
 
-    func makeUIView(context: Context) -> UIView {
-        let pdfView = PDFView()
-        pdfView.document = PDFDocument(url: self.url)
-        pdfView.pageShadowsEnabled = true
-        pdfView.autoScales = true
-        pdfView.displayBox = .artBox
+    func makeUIView(context: Context) -> PDFView {
+        if let wrappedUrl = self.wrappedUrl {
+            pdfView.document = PDFDocument(url: wrappedUrl.url)
+        }
+
         return pdfView
     }
 
-    func updateUIView(_ uiView: UIView, context: Context) {
+    func updateUIView(_ uiView: PDFView, context: Context) {
+        if let wrappedUrl = self.wrappedUrl {
+            self.pdfView.document = PDFDocument(url: wrappedUrl.url)
+            pdfView.pageShadowsEnabled = true
+            pdfView.autoScales = true
+            pdfView.displayBox = .artBox
+        } else {
+            self.pdfView.document = nil
+        }
     }
 }

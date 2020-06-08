@@ -7,28 +7,20 @@
 //
 
 import SwiftUI
+import PDFKit
 
 struct SignView: View {
     @State var showPinInputView = false
     @State var showSignResultView = false
+    @State var showDocumentPicker = false
     @State var signatureToShare: SharableSignature?
     @State var documentToShare: SharableDocument?
 
+    @State var wrappedUrl = AccessedUrl(Bundle.main.urls(forResourcesWithExtension: "pdf", subdirectory: "")?.first)
+
     let user: User
-    let url: URL?
 
     @ObservedObject private var taskStatus = TaskStatus()
-
-    init(user: User) {
-        self.user = user
-
-        let urls = Bundle.main.urls(forResourcesWithExtension: "pdf", subdirectory: "")
-        if urls != nil && urls!.count > 0 {
-            self.url = urls![0]
-        } else {
-            self.url = nil
-        }
-    }
 
     var body: some View {
         VStack {
@@ -42,15 +34,33 @@ struct SignView: View {
                 .fontWeight(.semibold)
                 .padding(.top)
 
-            HStack {
-                if self.url != nil {
-                    DocumentViewer(self.url!)
+            Group {
+                if self.wrappedUrl == nil {
+                    Spacer()
+                    Text("Файл не выбран")
+                    Spacer()
+                } else if self.wrappedUrl?.url.pathExtension != "pdf" {
+                    Spacer()
+                    Text("Не удалось отобразить файл")
+                    Spacer()
                 } else {
-                    Text("Не удалось найти документ")
+                    DocumentViewer(wrappedUrl: self.$wrappedUrl)
                 }
             }
             .padding()
-            Spacer()
+
+            Button(action: {
+                self.showDocumentPicker.toggle()
+            }, label: {
+                Text("Выбрать файл")
+            })
+            .buttonStyle(RoundedFilledButton())
+            .padding(.top)
+            .padding(.horizontal)
+            .sheet(isPresented: self.$showDocumentPicker, content: {
+                DocumentPickerView(wrappedUrl: self.$wrappedUrl)
+            })
+
             Button(action: {
                 self.showPinInputView.toggle()
             }, label: {
@@ -58,7 +68,7 @@ struct SignView: View {
             })
                 .buttonStyle(RoundedFilledButton())
                 .padding()
-                .disabled(self.url == nil)
+                .disabled(self.wrappedUrl == nil)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .sheet(isPresented: self.$showPinInputView, onDismiss: {
                     self.taskStatus.errorMessage = ""
@@ -98,15 +108,15 @@ struct SignView: View {
                                                 throw TokenManagerError.wrongToken
                                             }
 
-                                            let document = try Data(contentsOf: self.url!)
+                                            let document = try Data(contentsOf: self.wrappedUrl!.url)
 
                                             try token.login(pin: pin)
 
                                             let signature = try token.cmsSign(document, withCert: Cert(id: self.user.certID, body: self.user.certBody))
 
                                             // For correct work with AirDrop all sharable items should be in the same folder
-                                            let cmsFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.url!.lastPathComponent).sig")
-                                            let signedFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.url!.lastPathComponent)")
+                                            let cmsFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent).sig")
+                                            let signedFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent)")
 
                                             do {
                                                 try signature.write(to: cmsFile, atomically: false, encoding: .utf8)
