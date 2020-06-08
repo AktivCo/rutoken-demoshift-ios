@@ -9,13 +9,21 @@
 import SwiftUI
 
 struct RoundedFilledButton: ButtonStyle {
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .font(.headline)
-            .frame(minWidth: 0, maxWidth: .infinity)
-            .padding()
-            .foregroundColor(.white)
-            .background(Color("button-background"))
-            .cornerRadius(16)
+    func makeBody(configuration: ButtonStyle.Configuration) -> some View {
+        RoundedFilledButton(configuration: configuration)
+    }
+
+    struct RoundedFilledButton: View {
+        let configuration: ButtonStyle.Configuration
+        @Environment(\.isEnabled) private var isEnabled: Bool
+        var body: some View {
+            configuration.label
+                .font(.headline)
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding()
+                .foregroundColor(.white)
+                .background(isEnabled ? Color("button-background") : Color("button-disabled-background"))
+                .cornerRadius(16)
+        }
     }
 }
