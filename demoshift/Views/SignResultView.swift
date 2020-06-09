@@ -41,9 +41,3 @@ struct SignResultView: View {
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
     }
 }
-
-struct SignResultView_Previews: PreviewProvider {
-    static var previews: some View {
-        SignResultView(document: nil, signature: nil)
-    }
-}

@@ -40,8 +40,3 @@ struct TextFieldWithFloatingLabel: View {
     }
 }
 
-struct TextFieldWithFloatingLabel_Previews: PreviewProvider {
-    static var previews: some View {
-        TextFieldWithFloatingLabel(placeHolder: "Place Holder", text: .constant(""))
-    }
-}

@@ -30,9 +30,3 @@ struct LoadingIndicator: View {
         }
     }
 }
-
-struct LoadingIndicator_Previews: PreviewProvider {
-    static var previews: some View {
-        LoadingIndicator()
-    }
-}

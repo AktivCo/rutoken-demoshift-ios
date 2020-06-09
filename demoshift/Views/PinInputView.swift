@@ -78,23 +78,3 @@ struct PinInputView: View {
         .background(Color("sheet-background").edgesIgnoringSafeArea(.all))
     }
 }
-
-struct PinInputView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            PinInputView(idleTitle: "Введите PIN-код",
-                        progressTitle: "Подождите, выполняется вход",
-                        placeHolder: "PIN-код",
-                        buttonText: "Войти",
-                        status: TaskStatus(),
-                        onTapped: {_ in }).environment(\.colorScheme, .light)
-
-            PinInputView(idleTitle: "Введите PIN-код",
-                        progressTitle: "Подождите, выполняется вход",
-                        placeHolder: "PIN-код",
-                        buttonText: "Войти",
-                        status: TaskStatus(),
-                        onTapped: {_ in }).environment(\.colorScheme, .dark)
-        }
-    }
-}

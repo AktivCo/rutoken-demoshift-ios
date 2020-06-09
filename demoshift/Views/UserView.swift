@@ -75,9 +75,3 @@ struct UserView: View {
         .shadow(color: Color(.systemGray), radius: 5, x: 0, y: 0)
     }
 }
-
-struct UserView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserView(user: User(fromCert: Cert(id: Data(), body: Data()), tokenSerial: "123"))
-    }
-}

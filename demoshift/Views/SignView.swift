@@ -148,12 +148,3 @@ struct SignView: View {
         }
     }
 }
-
-struct SignView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            SignView(user: User(fromCert: Cert(id: Data(), body: Data()), tokenSerial: "")).environment(\.colorScheme, .light)
-            SignView(user: User(fromCert: Cert(id: Data(), body: Data()), tokenSerial: "")).environment(\.colorScheme, .dark)
-        }
-    }
-}
