@@ -119,7 +119,7 @@ struct SignView: View {
                                             self.documentToShare = SharableDocument(signedFile: signedFile)
 
                                             DispatchQueue.main.async {
-                                                self.showSignView = false
+                                                self.showSignView.toggle()
                                                 self.showSignResultView.toggle()
                                             }
                                         } catch TokenError.incorrectPin {

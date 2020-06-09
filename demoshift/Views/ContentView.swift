@@ -9,10 +9,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var users: [User] = []
     @State var showAddUserView = false
 
     @ObservedObject private var taskStatus = TaskStatus()
+
+    @Environment(\.managedObjectContext) var managedObjectContext
+    @FetchRequest(fetchRequest: User.getAllUsers()) var users: FetchedResults<User>
 
     init() {
         UITableView.appearance().separatorStyle = .none
@@ -32,11 +34,14 @@ struct ContentView: View {
                             .padding()
                         Spacer()
                     } else {
-                        List(self.users) {user in
-                            NavigationLink(destination: SignView(user: user)) {
-                                UserView(user: user)
-                                    .padding(.top)
+                        List {
+                            ForEach(users) { user in
+                                NavigationLink(destination: SignView(user: user)) {
+                                    UserView(user: user)
+                                        .padding(.top)
+                                }
                             }
+                            .onDelete(perform: deleteUser)
                             .navigationBarTitle("Пользователи", displayMode: .inline)
                         }
                         .animation(.easeInOut)
@@ -94,9 +99,13 @@ struct ContentView: View {
                                                         throw TokenError.certNotFound
                                                     }
 
+                                                    guard User.makeUser(forCert: certs[0], withTokenSerial: token.serial, context: self.managedObjectContext) != nil else {
+                                                        throw TokenError.generalError
+                                                    }
+                                                    try self.managedObjectContext.save()
+
                                                     DispatchQueue.main.async {
-                                                        self.users.append(User(fromCert: certs[0], tokenSerial: token.serial))
-                                                        self.showAddUserView = false
+                                                        self.showAddUserView.toggle()
                                                     }
                                                 } catch TokenError.incorrectPin {
                                                     self.setErrorMessage(message: "Неверный PIN-код")
@@ -117,6 +126,17 @@ struct ContentView: View {
                 }
             }
             .background(Color("view-background").edgesIgnoringSafeArea(.all))
+        }
+    }
+
+    func deleteUser(at offsets: IndexSet) {
+        for index in offsets {
+            let man = users[index]
+            managedObjectContext.delete(man)
+            do {
+                try self.managedObjectContext.save()
+            } catch {
+            }
         }
     }
 

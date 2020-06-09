@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		58167F70248628D200C76262 /* SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58167F6F248628D200C76262 /* SignView.swift */; };
+		584300C5248F8B1100DBC98E /* CoreDataUser.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 584300C3248F8B1100DBC98E /* CoreDataUser.xcdatamodeld */; };
 		588410D424862758003AD26A /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410C924862758003AD26A /* TokenManager.swift */; };
 		588410D524862758003AD26A /* PinInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CB24862758003AD26A /* PinInputView.swift */; };
 		588410D624862758003AD26A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CC24862758003AD26A /* AppDelegate.swift */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		58167F6F248628D200C76262 /* SignView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
+		584300C4248F8B1100DBC98E /* CoreDataUser.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataUser.xcdatamodel; sourceTree = "<group>"; };
 		588410C824862758003AD26A /* Demoshift-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Demoshift-Bridging-Header.h"; sourceTree = "<group>"; };
 		588410C924862758003AD26A /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		588410CB24862758003AD26A /* PinInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinInputView.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				588410C724862758003AD26A /* Pkcs11 */,
 				588410CA24862758003AD26A /* Views */,
 				588410D124862758003AD26A /* Components */,
+				584300C3248F8B1100DBC98E /* CoreDataUser.xcdatamodeld */,
 				C3FA84AA246C11680005B294 /* Assets.xcassets */,
 				C3FA84AF246C11680005B294 /* LaunchScreen.storyboard */,
 				C3FA84B2246C11680005B294 /* Info.plist */,
@@ -319,6 +322,7 @@
 				588410DA24862758003AD26A /* ContentView.swift in Sources */,
 				588410D824862758003AD26A /* UserView.swift in Sources */,
 				C399859224864A1D004C5889 /* Cert.swift in Sources */,
+				584300C5248F8B1100DBC98E /* CoreDataUser.xcdatamodeld in Sources */,
 				B158944124863EE000C8485E /* DocumentView.swift in Sources */,
 				588410D524862758003AD26A /* PinInputView.swift in Sources */,
 				C399859424864A3F004C5889 /* Token.swift in Sources */,
@@ -535,6 +539,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		584300C3248F8B1100DBC98E /* CoreDataUser.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				584300C4248F8B1100DBC98E /* CoreDataUser.xcdatamodel */,
+			);
+			currentVersion = 584300C4248F8B1100DBC98E /* CoreDataUser.xcdatamodel */;
+			path = CoreDataUser.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C3FA8499246C11670005B294 /* Project object */;
 }
