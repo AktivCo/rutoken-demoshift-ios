@@ -21,7 +21,7 @@ struct RoundedFilledButton: ButtonStyle {
                 .font(.headline)
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .padding()
-                .foregroundColor(.white)
+                .foregroundColor(isEnabled ? Color.white : Color("button-disabled-text"))
                 .background(isEnabled ? Color("button-background") : Color("button-disabled-background"))
                 .cornerRadius(16)
         }

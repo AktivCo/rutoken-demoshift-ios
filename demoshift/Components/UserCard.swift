@@ -48,6 +48,6 @@ struct UserCard: View {
         .padding(.horizontal, 24)
         .background(Color("listitem-background"))
         .cornerRadius(15)
-        .shadow(color: Color(.systemGray), radius: 5, x: 0, y: 0)
+        .shadow(radius: 5, x: 0, y: 0)
     }
 }
