@@ -1,5 +1,5 @@
 //
-//  DocumentView.swift
+//  DocumentViewer.swift
 //  demoshift
 //
 //  Created by Pavel Kamenov on 27.05.2020.
@@ -9,7 +9,7 @@
 import SwiftUI
 import PDFKit
 
-struct DocumentView: UIViewRepresentable {
+struct DocumentViewer: UIViewRepresentable {
     let url: URL
     init(_ url: URL) {
         self.url = url

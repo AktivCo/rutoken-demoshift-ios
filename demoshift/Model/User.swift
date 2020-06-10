@@ -1,12 +1,12 @@
 //
-//  UserView.swift
+//  User.swift
 //  demoshift
 //
-//  Created by Pavel Kamenov on 13.05.2020.
+//  Created by Vova Badyaev on 10.06.2020.
 //  Copyright © 2020 Aktiv Co. All rights reserved.
 //
 
-import SwiftUI
+import Foundation
 import CoreData
 
 class User: NSManagedObject, Identifiable {
@@ -48,49 +48,5 @@ extension User {
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [sortDescriptor]
         return request
-    }
-}
-
-struct UserView: View {
-    let name: String
-    let position: String
-    let company: String
-    let expired: String
-
-    init(user: User) {
-        self.name = user.name
-        self.position = user.position
-        self.company = user.company
-        self.expired = user.expired
-    }
-
-    func field(caption: String, text: String) -> some View {
-        VStack(alignment: .leading) {
-            Text(caption)
-                .font(.caption)
-                .foregroundColor(Color("blue-text"))
-                .padding(.bottom, 4)
-            Text(text)
-                .font(.subheadline)
-        }
-        .padding(.top, 16)
-    }
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(name)
-                .fontWeight(.semibold)
-                .font(.headline)
-
-            field(caption: "Должность", text: position)
-            field(caption: "Организация", text: company)
-            field(caption: "Сертификат истекает", text: expired)
-        }
-        .frame(maxWidth: .infinity, alignment: .topLeading)
-        .padding(.vertical)
-        .padding(.horizontal, 24)
-        .background(Color("listitem-background"))
-        .cornerRadius(15)
-        .shadow(color: Color(.systemGray), radius: 5, x: 0, y: 0)
     }
 }

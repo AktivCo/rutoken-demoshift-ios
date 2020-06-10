@@ -1,5 +1,5 @@
 //
-//  ActivityView.swift
+//  ShareView.swift
 //  demoshift
 //
 //  Created by Pavel Kamenov on 02.06.2020.

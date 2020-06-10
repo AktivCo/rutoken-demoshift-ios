@@ -1,5 +1,5 @@
 //
-//  AddUserView.swift
+//  PinInputView.swift
 //  demoshift
 //
 //  Created by Андрей Трифонов on 19.05.2020.
@@ -53,8 +53,8 @@ struct PinInputView: View {
                 }, label: {
                     Text("\(self.buttonText)")
                 })
-                .buttonStyle(RoundedFilledButton())
-                .padding(.top, 40)
+                    .buttonStyle(RoundedFilledButton())
+                    .padding(.top, 40)
                     .disabled(self.pin.count == 0)
                 Spacer()
             }

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var showAddUserView = false
+    @State var showPinInputView = false
 
     @ObservedObject private var taskStatus = TaskStatus()
 
@@ -37,7 +37,7 @@ struct ContentView: View {
                         List {
                             ForEach(users) { user in
                                 NavigationLink(destination: SignView(user: user)) {
-                                    UserView(user: user)
+                                    UserCard(user: user)
                                         .padding(.top)
                                 }
                             }
@@ -47,14 +47,14 @@ struct ContentView: View {
                         .animation(.easeInOut)
                     }
                     Button(action: {
-                        self.showAddUserView.toggle()
+                        self.showPinInputView.toggle()
                     }, label: {
                         Text("Добавить пользователя")
                     })
                         .buttonStyle(RoundedFilledButton())
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .sheet(isPresented: self.$showAddUserView, onDismiss: {
+                        .sheet(isPresented: self.$showPinInputView, onDismiss: {
                             self.taskStatus.errorMessage = ""
                         }, content: {
                             PinInputView(idleTitle: "Введите PIN-код",
@@ -105,7 +105,7 @@ struct ContentView: View {
                                                     try self.managedObjectContext.save()
 
                                                     DispatchQueue.main.async {
-                                                        self.showAddUserView.toggle()
+                                                        self.showPinInputView.toggle()
                                                     }
                                                 } catch TokenError.incorrectPin {
                                                     self.setErrorMessage(message: "Неверный PIN-код")

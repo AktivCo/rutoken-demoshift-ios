@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SignView: View {
-    @State var showSignView = false
+    @State var showPinInputView = false
     @State var showSignResultView = false
     @State var signatureToShare: SharableSignature?
     @State var documentToShare: SharableDocument?
@@ -44,7 +44,7 @@ struct SignView: View {
 
             HStack {
                 if self.url != nil {
-                    DocumentView(self.url!)
+                    DocumentViewer(self.url!)
                 } else {
                     Text("Не удалось найти документ")
                 }
@@ -52,7 +52,7 @@ struct SignView: View {
             .padding()
             Spacer()
             Button(action: {
-                self.showSignView.toggle()
+                self.showPinInputView.toggle()
             }, label: {
                 Text("Подписать")
             })
@@ -60,7 +60,7 @@ struct SignView: View {
                 .padding()
                 .disabled(self.url == nil)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .sheet(isPresented: self.$showSignView, onDismiss: {
+                .sheet(isPresented: self.$showPinInputView, onDismiss: {
                     self.taskStatus.errorMessage = ""
                 }, content: {
                     PinInputView(idleTitle: "Введите PIN-код",
@@ -119,7 +119,7 @@ struct SignView: View {
                                             self.documentToShare = SharableDocument(signedFile: signedFile)
 
                                             DispatchQueue.main.async {
-                                                self.showSignView.toggle()
+                                                self.showPinInputView.toggle()
                                                 self.showSignResultView.toggle()
                                             }
                                         } catch TokenError.incorrectPin {
