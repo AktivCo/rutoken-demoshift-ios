@@ -110,17 +110,17 @@ struct ContentView: View {
                                                 } catch TokenError.incorrectPin {
                                                     self.setErrorMessage(message: "Неверный PIN-код")
                                                 } catch TokenError.lockedPin {
-                                                    self.setErrorMessage(message: "PIN-код заблокирован")
+                                                    self.setErrorMessage(message: "Превышен лимит ошибок при вводе PIN-кода")
                                                 } catch TokenError.certNotFound {
-                                                    self.setErrorMessage(message: "На токене нет сертификатов")
+                                                    self.setErrorMessage(message: "На Рутокене нет сертификатов")
                                                 } catch TokenError.tokenDisconnected {
-                                                    self.setErrorMessage(message: "Потеряно соединение с токеном")
+                                                    self.setErrorMessage(message: "Потеряно соединение с Рутокеном")
                                                 } catch TokenManagerError.tokenNotFound {
-                                                    self.setErrorMessage(message: "Не удалось обнаружить токен")
+                                                    self.setErrorMessage(message: "Не удалось обнаружить Рутокен")
                                                 } catch TokenManagerError.wrongToken {
-                                                    self.setErrorMessage(message: "Токен уже использован")
+                                                    self.setErrorMessage(message: "Рутокен уже использован другим пользователем")
                                                 } catch {
-                                                    self.setErrorMessage(message: "Что-то пошло не так")
+                                                    self.setErrorMessage(message: "Что-то пошло не так. Попробуйте повторить операцию")
                                                 }
                                             }
                             })

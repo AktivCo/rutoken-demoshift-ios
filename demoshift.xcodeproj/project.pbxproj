@@ -83,7 +83,7 @@
 		C399859324864A3F004C5889 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		C3C5FE84248A741700751E3A /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		C3CE1BAE24866DD400981E61 /* SignResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignResultView.swift; sourceTree = "<group>"; };
-		C3FA84A1246C11670005B294 /* demoshift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demoshift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3FA84A1246C11670005B294 /* ДемоСмена.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ДемоСмена.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3FA84AA246C11680005B294 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3FA84AD246C11680005B294 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C3FA84B0246C11680005B294 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 		C3FA84A2246C11670005B294 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C3FA84A1246C11670005B294 /* demoshift.app */,
+				C3FA84A1246C11670005B294 /* ДемоСмена.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -236,7 +236,7 @@
 			);
 			name = demoshift;
 			productName = demoshift;
-			productReference = C3FA84A1246C11670005B294 /* demoshift.app */;
+			productReference = C3FA84A1246C11670005B294 /* ДемоСмена.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -502,7 +502,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ru.rutoken.demoshift;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "ДемоСмена";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/demoshift/Pkcs11/Demoshift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -530,7 +530,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ru.rutoken.demoshift;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "ДемоСмена";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/demoshift/Pkcs11/Demoshift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

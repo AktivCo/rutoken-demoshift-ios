@@ -135,17 +135,17 @@ struct SignView: View {
                                         } catch TokenError.incorrectPin {
                                             self.setErrorMessage(message: "Неверный PIN-код")
                                         } catch TokenError.lockedPin {
-                                            self.setErrorMessage(message: "PIN-код заблокирован")
+                                            self.setErrorMessage(message: "Превышен лимит ошибок при вводе PIN-кода")
                                         } catch TokenManagerError.tokenNotFound {
-                                            self.setErrorMessage(message: "Не удалось обнаружить токен")
+                                            self.setErrorMessage(message: "Не удалось обнаружить Рутокен")
                                         } catch TokenError.keyPairNotFound {
-                                            self.setErrorMessage(message: "Ключевая пара не найдена")
+                                            self.setErrorMessage(message: "Не удалось найти ключи, соответствующие сертификату")
                                         } catch TokenError.tokenDisconnected {
-                                            self.setErrorMessage(message: "Потеряно соединение с токеном")
+                                            self.setErrorMessage(message: "Потеряно соединение с Рутокеном")
                                         } catch TokenManagerError.wrongToken {
-                                            self.setErrorMessage(message: "Поднесен токен другого пользователя")
+                                            self.setErrorMessage(message: "Пользователь зарегистрирован с другим Рутокеном")
                                         } catch {
-                                            self.setErrorMessage(message: "Что-то пошло не так")
+                                            self.setErrorMessage(message: "Что-то пошло не так. Попробуйте повторить операцию")
                                         }
                                     }
                     })
