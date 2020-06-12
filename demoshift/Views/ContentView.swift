@@ -9,9 +9,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var showPinInputView = false
-
-    @ObservedObject private var taskStatus = TaskStatus()
+    @State var showTokenListView = false
 
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: User.getAllUsers()) var users: FetchedResults<User>
@@ -25,6 +23,11 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ZStack {
+                NavigationLink(destination: TokenListView(isPresent: self.$showTokenListView),
+                               isActive: self.$showTokenListView) {
+                    EmptyView()
+                }
+
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
                         Image("Logo")
@@ -34,7 +37,7 @@ struct ContentView: View {
 
                     if self.users.isEmpty {
                         Spacer()
-                        Text("Список пользователей пуст")
+                        Text("Нет доступных пользователей")
                             .frame(maxWidth: .infinity, alignment: .center)
                             .font(.headline)
                             .padding()
@@ -53,84 +56,13 @@ struct ContentView: View {
                     }
 
                     Button(action: {
-                        self.showPinInputView.toggle()
+                        self.showTokenListView.toggle()
                     }, label: {
                         Text("Добавить пользователя")
                     })
                         .buttonStyle(RoundedFilledButton())
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .sheet(isPresented: self.$showPinInputView, onDismiss: {
-                            self.taskStatus.errorMessage = ""
-                        }, content: {
-                            PinInputView(idleTitle: "Введите PIN-код",
-                                         progressTitle: "Выполняется регистрация пользователя",
-                                         placeHolder: "PIN-код",
-                                         buttonText: "Продолжить",
-                                         status: self.taskStatus,
-                                         onTapped: { pin in
-                                            self.taskStatus.errorMessage = ""
-                                            withAnimation(.spring()) {
-                                                self.taskStatus.isInProgress = true
-                                            }
-
-                                            DispatchQueue.global(qos: .default).async {
-                                                defer {
-                                                    DispatchQueue.main.async {
-                                                        withAnimation(.spring()) {
-                                                            self.taskStatus.isInProgress = false
-                                                        }
-                                                    }
-                                                }
-
-                                                startNFC { _ in
-                                                    TokenManager.shared.cancelWait()
-                                                }
-                                                defer {
-                                                    stopNFC()
-                                                }
-
-                                                do {
-                                                    guard let token = TokenManager.shared.waitForToken() else {
-                                                        throw TokenManagerError.tokenNotFound
-                                                    }
-                                                    guard self.isTokenNotUsed(serial: token.serial) else {
-                                                        throw TokenManagerError.wrongToken
-                                                    }
-
-                                                    try token.login(pin: pin)
-
-                                                    let certs = try token.enumerateCerts()
-                                                    guard certs.count != 0 else {
-                                                        throw TokenError.certNotFound
-                                                    }
-
-                                                    guard User.makeUser(forCert: certs[0], withTokenSerial: token.serial, context: self.managedObjectContext) != nil else {
-                                                        throw TokenError.generalError
-                                                    }
-                                                    try self.managedObjectContext.save()
-
-                                                    DispatchQueue.main.async {
-                                                        self.showPinInputView.toggle()
-                                                    }
-                                                } catch TokenError.incorrectPin {
-                                                    self.setErrorMessage(message: "Неверный PIN-код")
-                                                } catch TokenError.lockedPin {
-                                                    self.setErrorMessage(message: "Превышен лимит ошибок при вводе PIN-кода")
-                                                } catch TokenError.certNotFound {
-                                                    self.setErrorMessage(message: "На Рутокене нет сертификатов")
-                                                } catch TokenError.tokenDisconnected {
-                                                    self.setErrorMessage(message: "Потеряно соединение с Рутокеном")
-                                                } catch TokenManagerError.tokenNotFound {
-                                                    self.setErrorMessage(message: "Не удалось обнаружить Рутокен")
-                                                } catch TokenManagerError.wrongToken {
-                                                    self.setErrorMessage(message: "Рутокен уже использован другим пользователем")
-                                                } catch {
-                                                    self.setErrorMessage(message: "Что-то пошло не так. Попробуйте повторить операцию")
-                                                }
-                                            }
-                            })
-                        })
                 }
             }
             .navigationBarTitle("Пользователи", displayMode: .inline)
@@ -145,20 +77,8 @@ struct ContentView: View {
             do {
                 try self.managedObjectContext.save()
             } catch {
+                // Handle error here 
             }
-        }
-    }
-
-    func isTokenNotUsed(serial: String) -> Bool {
-        for u in self.users where u.tokenSerial == serial {
-            return false
-        }
-        return true
-    }
-
-    func setErrorMessage(message: String) {
-        DispatchQueue.main.async {
-            self.taskStatus.errorMessage = message
         }
     }
 }
