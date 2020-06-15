@@ -27,6 +27,7 @@ struct ContentView: View {
                                isActive: self.$showTokenListView) {
                     EmptyView()
                 }
+                .isDetailLink(false)
 
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {

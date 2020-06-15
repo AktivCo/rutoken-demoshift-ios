@@ -36,6 +36,8 @@
 		C3FA84AB246C11680005B294 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3FA84AA246C11680005B294 /* Assets.xcassets */; };
 		C3FA84AE246C11680005B294 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3FA84AD246C11680005B294 /* Preview Assets.xcassets */; };
 		C3FA84B1246C11680005B294 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3FA84AF246C11680005B294 /* LaunchScreen.storyboard */; };
+		C3FF05F82497F4FF00C8F4B1 /* CertCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FF05F72497F4FF00C8F4B1 /* CertCard.swift */; };
+		C3FF05FA2497F5AF00C8F4B1 /* CertListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FF05F92497F5AF00C8F4B1 /* CertListView.swift */; };
 		C3FF4DC02477A5B6002AA664 /* RtPcsc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */; };
 		C3FF4DC12477A5B6002AA664 /* RtPcsc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C3FF4DC22477A5B6002AA664 /* rtpkcs11ecp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */; };
@@ -90,6 +92,8 @@
 		C3FA84AD246C11680005B294 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C3FA84B0246C11680005B294 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3FA84B2246C11680005B294 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3FF05F72497F4FF00C8F4B1 /* CertCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertCard.swift; sourceTree = "<group>"; };
+		C3FF05F92497F5AF00C8F4B1 /* CertListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertListView.swift; sourceTree = "<group>"; };
 		C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RtPcsc.framework; path = Frameworks/RtPcsc.framework; sourceTree = "<group>"; };
 		C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rtpkcs11ecp.framework; path = Frameworks/rtpkcs11ecp.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,6 +145,7 @@
 				C310886B24939CEF00C6E8FE /* TokenListView.swift */,
 				B15894452486BA8900C8485E /* ShareView.swift */,
 				B15FBD27248E6B9500385F6E /* DocumentPickerView.swift */,
+				C3FF05F92497F5AF00C8F4B1 /* CertListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 				588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */,
 				588410CE24862758003AD26A /* UserCard.swift */,
 				B15FBD2D24925FE000385F6E /* AccessedUrl.swift */,
+				C3FF05F72497F4FF00C8F4B1 /* CertCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -342,12 +348,14 @@
 				B15FBD2E24925FE000385F6E /* AccessedUrl.swift in Sources */,
 				588410DC24862758003AD26A /* TextFieldWithFloatingLabel.swift in Sources */,
 				588410DA24862758003AD26A /* ContentView.swift in Sources */,
+				C3FF05FA2497F5AF00C8F4B1 /* CertListView.swift in Sources */,
 				588410D824862758003AD26A /* UserCard.swift in Sources */,
 				C399859224864A1D004C5889 /* Cert.swift in Sources */,
 				584300C5248F8B1100DBC98E /* CoreDataUser.xcdatamodeld in Sources */,
 				B158944124863EE000C8485E /* DocumentViewer.swift in Sources */,
 				588410D524862758003AD26A /* PinInputView.swift in Sources */,
 				C399859424864A3F004C5889 /* Token.swift in Sources */,
+				C3FF05F82497F4FF00C8F4B1 /* CertCard.swift in Sources */,
 				C3C5FE85248A741700751E3A /* LoadingIndicator.swift in Sources */,
 				584300CB2490C72D00DBC98E /* User.swift in Sources */,
 				C3CE1BAF24866DD400981E61 /* SignResultView.swift in Sources */,

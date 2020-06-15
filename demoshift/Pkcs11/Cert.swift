@@ -22,7 +22,7 @@ fileprivate extension String {
     }
 }
 
-class Cert {
+class Cert: Identifiable {
     let id: Data
     let body: Data
 
@@ -30,6 +30,9 @@ class Cert {
     private(set) var position: String = "<не задано>"
     private(set) var companyName: String = "<не задано>"
     private(set) var expired: String = "<не задано>"
+    private(set) var inn: String = "<не задано>"
+    private(set) var ogrn: String = "<не задано>"
+    private(set) var alg: String = "<не задано>"
 
     static func makeCert(fromHandle handle: CK_OBJECT_HANDLE, inSession session: CK_SESSION_HANDLE) -> Cert? {
         let valueSize: CK_ULONG = 0
@@ -66,14 +69,14 @@ class Cert {
         return Cert(id: id, body: body)
     }
 
-    init(id: Data, body: Data) {
+    init?(id: Data, body: Data) {
         self.id = id
         self.body = body
 
-        body.withUnsafeBytes {
-            var pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self)
+        guard (body.withUnsafeBytes { p -> Bool in
+            var pointer = p.baseAddress?.assumingMemoryBound(to: UInt8.self)
             guard let x509 = d2i_X509(nil, &pointer, body.count) else {
-                return
+                return false
             }
             defer {
                 X509_free(x509)
@@ -82,7 +85,34 @@ class Cert {
             self.commonName = getDataFromX509(x509, ForNID: NID_commonName) ?? "<не задано>"
             self.position = getDataFromX509(x509, ForNID: NID_title) ?? "<не задано>"
             self.companyName = getDataFromX509(x509, ForNID: NID_organizationName) ?? "<не задано>"
+            self.inn = getDataFromX509(x509, ForNID: NID_INN) ?? "<не задано>"
+            self.ogrn = getDataFromX509(x509, ForNID: NID_OGRN) ?? "<не задано>"
             self.expired = getNotAfterFromX509(x509) ?? "<не задано>"
+
+            guard let alg = getKeyAlgFromX509(x509) else {
+                return false
+            }
+            self.alg = alg
+            return true
+        }) else {
+            return nil
+        }
+    }
+
+    private func getKeyAlgFromX509(_ x509: OpaquePointer?) -> String? {
+        guard let key = X509_get0_pubkey(x509) else {
+            return nil
+        }
+
+        switch EVP_PKEY_base_id(key) {
+        case NID_id_GostR3410_2001:
+            return "ГОСТ Р 34.10-2001"
+        case NID_id_GostR3410_2012_256:
+            return "ГОСТ Р 34.10-2012 256"
+        case NID_id_GostR3410_2012_512:
+            return "ГОСТ Р 34.10-2012 512"
+        default:
+            return nil
         }
     }
 

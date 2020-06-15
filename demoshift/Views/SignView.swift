@@ -54,12 +54,12 @@ struct SignView: View {
             }, label: {
                 Text("Выбрать файл")
             })
-            .buttonStyle(RoundedFilledButton())
-            .padding(.top)
-            .padding(.horizontal)
-            .sheet(isPresented: self.$showDocumentPicker, content: {
-                DocumentPickerView(wrappedUrl: self.$wrappedUrl)
-            })
+                .buttonStyle(RoundedFilledButton())
+                .padding(.top)
+                .padding(.horizontal)
+                .sheet(isPresented: self.$showDocumentPicker, content: {
+                    DocumentPickerView(wrappedUrl: self.$wrappedUrl)
+                })
 
             Button(action: {
                 self.showPinInputView.toggle()
@@ -112,7 +112,11 @@ struct SignView: View {
 
                                             try token.login(pin: pin)
 
-                                            let signature = try token.cmsSign(document, withCert: Cert(id: self.user.certID, body: self.user.certBody))
+                                            guard let cert = Cert(id: self.user.certID, body: self.user.certBody) else {
+                                                throw TokenError.generalError
+                                            }
+
+                                            let signature = try token.cmsSign(document, withCert: cert)
 
                                             // For correct work with AirDrop all sharable items should be in the same folder
                                             let cmsFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent).sig")
