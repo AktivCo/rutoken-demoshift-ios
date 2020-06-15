@@ -26,6 +26,12 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 VStack(alignment: .leading) {
+                    HStack(alignment: .top) {
+                        Image("Logo")
+                        Spacer()
+                    }
+                    .padding(.top)
+
                     if self.users.isEmpty {
                         Spacer()
                         Text("Список пользователей пуст")
@@ -42,10 +48,10 @@ struct ContentView: View {
                                 }
                             }
                             .onDelete(perform: deleteUser)
-                            .navigationBarTitle("Пользователи", displayMode: .inline)
                         }
                         .animation(.easeInOut)
                     }
+
                     Button(action: {
                         self.showPinInputView.toggle()
                     }, label: {
@@ -127,6 +133,7 @@ struct ContentView: View {
                         })
                 }
             }
+            .navigationBarTitle("Пользователи", displayMode: .inline)
             .background(Color("view-background").edgesIgnoringSafeArea(.all))
         }
     }

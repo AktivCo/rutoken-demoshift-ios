@@ -38,38 +38,47 @@ struct PinInputView: View {
 
     var body: some View {
         ZStack {
-            VStack(alignment: .leading) {
-                HStack {
-                    Text(self.idleTitle)
-                        .font(.title)
-                        .fontWeight(.semibold)
-                    Spacer()
-                    Image(systemName: "xmark")
-                    .font(.headline) // Change width of xmark - it is technically text
-                    .foregroundColor(Color("blue-text"))
-                    .frame(width: 30, height: 30)
-                    .background(Color(.systemGray5))
-                    .clipShape(Circle())
-                    .onTapGesture {
-                        self.mode.wrappedValue.dismiss()
+            GeometryReader { geometry in
+                VStack(alignment: .leading) {
+                    HStack(alignment: .top) {
+                        Image("Logo")
+                            .offset(x: -geometry.frame(in: .global).minX)
+                        Spacer()
+                        Image(systemName: "xmark")
+                            .font(.headline) // Change width of xmark - it is technically text
+                            .foregroundColor(Color("blue-text"))
+                            .frame(width: 30, height: 30)
+                            .background(Color(.systemGray5))
+                            .clipShape(Circle())
+                            .onTapGesture {
+                                self.mode.wrappedValue.dismiss()
+                        }
                     }
+                    .padding(.bottom)
+
+                    HStack {
+                        Text(self.idleTitle)
+                            .font(.title)
+                            .fontWeight(.semibold)
+                        Spacer()
+                    }
+                    Text(self.status.errorMessage)
+                        .font(.headline)
+                        .foregroundColor(Color("red-text"))
+                        .padding(.top, 40)
+                    TextFieldWithFloatingLabel(placeHolder: self.placeHolder, text: self.$pin)
+                        .padding(.top)
+                    Button(action: {
+                        UIApplication.shared.endEditing()
+                        self.onTapped(self.pin)
+                    }, label: {
+                        Text("\(self.buttonText)")
+                    })
+                        .buttonStyle(RoundedFilledButton())
+                        .padding(.top, 40)
+                        .disabled(self.pin.count == 0)
+                    Spacer()
                 }
-                Text(self.status.errorMessage)
-                    .font(.headline)
-                    .foregroundColor(Color("red-text"))
-                    .padding(.top, 40)
-                TextFieldWithFloatingLabel(placeHolder: placeHolder, text: self.$pin)
-                    .padding(.top)
-                Button(action: {
-                    UIApplication.shared.endEditing()
-                    self.onTapped(self.pin)
-                }, label: {
-                    Text("\(self.buttonText)")
-                })
-                    .buttonStyle(RoundedFilledButton())
-                    .padding(.top, 40)
-                    .disabled(self.pin.count == 0)
-                Spacer()
             }
             .padding()
             .offset(y: self.status.isInProgress ? -screen.height : 0)
