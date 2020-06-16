@@ -18,16 +18,21 @@ struct SignView: View {
 
     @State var wrappedUrl = AccessedUrl(Bundle.main.urls(forResourcesWithExtension: "pdf", subdirectory: "")?.first)
 
-    let user: User
+    @Binding var isPresent: Bool
+
+    let user: User?
 
     @ObservedObject private var taskStatus = TaskStatus()
 
     var body: some View {
         VStack {
-            NavigationLink(destination: SignResultView(document: documentToShare, signature: signatureToShare),
+            NavigationLink(destination: SignResultView(isParentPresent: self.$isPresent,
+                                                       document: documentToShare,
+                                                       signature: signatureToShare),
                            isActive: self.$showSignResultView) {
                 EmptyView()
             }
+            .isDetailLink(false)
 
             Text("Документ для подписи")
                 .font(.headline)
@@ -101,10 +106,13 @@ struct SignView: View {
                                         }
 
                                         do {
+                                            guard let currentUser = self.user else {
+                                                throw TokenError.generalError
+                                            }
                                             guard let token = TokenManager.shared.waitForToken() else {
                                                 throw TokenManagerError.tokenNotFound
                                             }
-                                            guard token.serial == self.user.tokenSerial else {
+                                            guard token.serial == currentUser.tokenSerial else {
                                                 throw TokenManagerError.wrongToken
                                             }
 
@@ -112,7 +120,7 @@ struct SignView: View {
 
                                             try token.login(pin: pin)
 
-                                            guard let cert = Cert(id: self.user.certID, body: self.user.certBody) else {
+                                            guard let cert = Cert(id: currentUser.certID, body: currentUser.certBody) else {
                                                 throw TokenError.generalError
                                             }
 

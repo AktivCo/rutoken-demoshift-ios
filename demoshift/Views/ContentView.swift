@@ -10,6 +10,9 @@ import SwiftUI
 
 struct ContentView: View {
     @State var showTokenListView = false
+    @State var showSignView = false
+
+    @State var selectedUser: User?
 
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: User.getAllUsers()) var users: FetchedResults<User>
@@ -25,6 +28,13 @@ struct ContentView: View {
             ZStack {
                 NavigationLink(destination: TokenListView(isPresent: self.$showTokenListView),
                                isActive: self.$showTokenListView) {
+                    EmptyView()
+                }
+                .isDetailLink(false)
+
+                NavigationLink(destination: SignView(isPresent: self.$showSignView,
+                                                     user: self.selectedUser),
+                               isActive: self.$showSignView) {
                     EmptyView()
                 }
                 .isDetailLink(false)
@@ -46,10 +56,12 @@ struct ContentView: View {
                     } else {
                         List {
                             ForEach(users) { user in
-                                NavigationLink(destination: SignView(user: user)) {
-                                    UserCard(user: user)
-                                        .padding(.top)
-                                }
+                                UserCard(user: user)
+                                    .padding(.top)
+                                    .onTapGesture {
+                                        self.selectedUser = user
+                                        self.showSignView.toggle()
+                                    }
                             }
                             .onDelete(perform: deleteUser)
                         }
