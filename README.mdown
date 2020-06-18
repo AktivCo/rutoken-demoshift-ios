@@ -8,7 +8,7 @@ Also contains some useful classes for devices detection and signing docs.
 
 ## Requirements
 
-Rutoken DemoBank should be built using iOS SDK 13 or newer and support iOS 13 and newer.
+Rutoken DemoShift should be built using iOS SDK 13 or newer and support iOS 13 and newer.
 
 External dependencies are located in [Rutoken SDK](http://www.rutoken.ru/developers/sdk/).
 
@@ -20,8 +20,8 @@ Required frameworks:
 
 ## How to build
 
-* copy frameworks to example/Frameworks;
-* open example/demobank.xcodeproj;
+* copy frameworks to Frameworks in root directory of project;
+* open demoshift.xcodeproj;
 * in General/Identity set your Signing Identity.
 
 ## Preliminary actions
@@ -36,6 +36,15 @@ To create a key pair and a certificate on Rutoken ECP Series family devices foll
 * Create a key pair and a certificate following the instructions on the website;
 * Make sure that website has found the certificate and the key pair on your device;
 * Disconnect the device from the desktop and use it with Apple device.
+
+## Implementation Details
+
+To start working with NFC Rutoken devices, you should use the function `startNFC((NSError)->())`,
+which launches an NFC reader. The function accepts a callback to which the error is transmitted if it occurs, for example:
+1. Completion of the search for NFC devices by timeout (60 seconds)
+2. By pressing the "Cancel" button on the NFC reader system window
+
+Upon completion of the necessary operations with Rutoken, you should call the function `stopNFC()` to stop the search for NFC devices.
 
 ## Restriction
 
