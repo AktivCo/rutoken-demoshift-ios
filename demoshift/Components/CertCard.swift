@@ -37,7 +37,7 @@ struct CertCard: View {
                 Text("Уже зарегистрирован")
                 .fontWeight(.semibold)
                 .font(.headline)
-                .foregroundColor(Color("red-text"))
+                .foregroundColor(Color("text-red"))
                 .padding(.bottom)
             }
             Text("\(commonName)")
@@ -47,7 +47,7 @@ struct CertCard: View {
             verticalField(caption: "Владелец", value: self.commonName)
             Text("\(position)")
                 .font(.caption)
-                .foregroundColor(Color("gray-text"))
+                .foregroundColor(Color("text-gray"))
                 .padding(.bottom)
             verticalField(caption: "Организация", value: self.companyName)
             horizontalField(caption: "ИНН", value: self.inn)
@@ -69,10 +69,10 @@ struct CertCard: View {
         HStack {
             Text("\(caption)")
                 .font(.caption)
-                .foregroundColor(Color("gray-text"))
+                .foregroundColor(Color("text-gray"))
             Text("\(value)")
                 .font(.caption)
-                .foregroundColor(Color("gray-text"))
+                .foregroundColor(Color("text-gray"))
         }
     }
 
@@ -80,7 +80,7 @@ struct CertCard: View {
         VStack(alignment: .leading) {
             Text("\(caption)")
                 .font(.caption)
-                .foregroundColor(Color("blue-text"))
+                .foregroundColor(Color("text-blue"))
                 .padding(.bottom, 4)
             Text("\(value)")
                 .padding(.bottom, 2)

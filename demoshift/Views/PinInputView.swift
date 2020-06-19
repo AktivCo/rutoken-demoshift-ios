@@ -41,12 +41,12 @@ struct PinInputView: View {
             GeometryReader { geometry in
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
-                        Image("Logo")
+                        Image("logo")
                             .offset(x: -geometry.frame(in: .global).minX)
                         Spacer()
                         Image(systemName: "xmark")
                             .font(.headline) // Change width of xmark - it is technically text
-                            .foregroundColor(Color("blue-text"))
+                            .foregroundColor(Color("text-blue"))
                             .frame(width: 30, height: 30)
                             .background(Color(.systemGray5))
                             .clipShape(Circle())
@@ -64,7 +64,7 @@ struct PinInputView: View {
                     }
                     Text(self.status.errorMessage)
                         .font(.headline)
-                        .foregroundColor(Color("red-text"))
+                        .foregroundColor(Color("text-red"))
                         .padding(.top, 40)
                     TextFieldWithFloatingLabel(placeHolder: self.placeHolder, text: self.$pin)
                         .padding(.top)

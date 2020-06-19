@@ -25,7 +25,7 @@ struct UserCard: View {
         VStack(alignment: .leading) {
             Text(caption)
                 .font(.caption)
-                .foregroundColor(Color("blue-text"))
+                .foregroundColor(Color("text-blue"))
                 .padding(.bottom, 4)
             Text(text)
                 .font(.subheadline)

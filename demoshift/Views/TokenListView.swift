@@ -36,7 +36,7 @@ struct TokenListView: View {
                             Text("Подключить NFC карту")
                                 .font(.headline)
                             Spacer()
-                            Image("gray-nfc-icon")
+                            Image("nfc-icon-gray")
                                 .renderingMode(.original)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)

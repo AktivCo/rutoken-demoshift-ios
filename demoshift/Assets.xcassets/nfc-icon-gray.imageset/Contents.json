@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "gray-nfc-icon.png",
+      "filename" : "nfc-icon-gray.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "gray-nfc-icon@2.png",
+      "filename" : "nfc-icon-gray@2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "gray-nfc-icon@3.png",
+      "filename" : "nfc-icon-gray@3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

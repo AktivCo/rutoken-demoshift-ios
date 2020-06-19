@@ -31,7 +31,7 @@ class SharableSignature: NSObject, UIActivityItemSource {
     }
 
     func activityViewController(_ activityViewController: UIActivityViewController, thumbnailImageForActivityType activityType: UIActivity.ActivityType?, suggestedSize size: CGSize) -> UIImage? {
-        return UIImage(named: "AppIcon")
+        return UIImage(named: "app-icon")
     }
 }
 

@@ -16,7 +16,7 @@ struct LoadingIndicator: View {
         VStack {
             Circle()
                 .trim(from: self.startPointToggle ? 0.05 : 0.95, to: 1)
-                .stroke(Color("blue-text"), lineWidth: 5)
+                .stroke(Color("text-blue"), lineWidth: 5)
                 .foregroundColor(.white)
                 .rotationEffect(.degrees(self.rotationToggle ? 180 : 540))
                 .onAppear(perform: {

@@ -20,7 +20,7 @@ struct SignResultView: View {
         VStack {
             Spacer()
 
-            Image("OkIcon")
+            Image("icon-ok")
                 .padding()
             Text("Подпись успешно сформирована")
                 .padding()

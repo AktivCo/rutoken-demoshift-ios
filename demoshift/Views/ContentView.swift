@@ -41,7 +41,7 @@ struct ContentView: View {
 
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
-                        Image("Logo")
+                        Image("logo")
                         Spacer()
                     }
                     .padding(.top)
