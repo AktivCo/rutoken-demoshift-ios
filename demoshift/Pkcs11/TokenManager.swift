@@ -94,10 +94,15 @@ class TokenManager {
                     return
                 }
 
-                guard let t = Token(slot: slots[0]) else {
-                    return
+                for s in slots {
+                    guard let t = Token(slot: s) else {
+                        continue
+                    }
+                    guard t.type == .NFC else {
+                        continue
+                    }
+                    self.activeToken = t
                 }
-                self.activeToken = t
             }
 
             while true {
@@ -121,6 +126,9 @@ class TokenManager {
                 }
                 if slotInfo.flags & UInt(CKF_TOKEN_PRESENT) != 0 {
                     guard let t = Token(slot: slotId) else {
+                        continue
+                    }
+                    guard t.type == .NFC else {
                         continue
                     }
                     self.activeToken = t

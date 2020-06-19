@@ -20,6 +20,10 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NFCReaderUsageDescription</key>
+	<string>NFC будет использован для работы с устройствами Рутокен</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Bluetooth будет использован для работы с устройствами Рутокен</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -43,6 +47,10 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UISupportedExternalAccessoryProtocols</key>
+	<array>
+		<string>com.aktivco.rutokenecp</string>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -61,7 +69,5 @@
 		<string>A000000151000000</string>
 		<string>A00000039742544659</string>
 	</array>
-	<key>NFCReaderUsageDescription</key>
-	<string>Требуетс для работы со смарткартами</string>
 </dict>
 </plist>

@@ -18,8 +18,14 @@ enum TokenError: Error {
 }
 
 class Token {
+    enum TokenType {
+        case NFC
+        case BT
+    }
+
     let slot: CK_SLOT_ID
     let serial: String
+    let type: TokenType
 
     private var session = CK_SESSION_HANDLE(NULL_PTR)
 
@@ -38,6 +44,23 @@ class Token {
                 String(cString: $0)
             }
         }.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        var extendedTokenInfo = CK_TOKEN_INFO_EXTENDED()
+        extendedTokenInfo.ulSizeofThisStructure = UInt(MemoryLayout.size(ofValue: extendedTokenInfo))
+
+        rv = C_EX_GetTokenInfoExtended(slot, &extendedTokenInfo)
+        guard rv == CKR_OK else {
+            return nil
+        }
+
+        switch Int32(extendedTokenInfo.ulTokenType) {
+        case TOKEN_TYPE_RUTOKEN_ECPDUAL_BT:
+            self.type = .BT
+        case TOKEN_TYPE_RUTOKEN_ECP_NFC:
+            self.type = .NFC
+        default:
+            return nil
+        }
 
         rv = C_OpenSession(self.slot, CK_FLAGS(CKF_SERIAL_SESSION), nil, nil, &self.session)
         guard rv == CKR_OK else {
