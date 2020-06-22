@@ -1,0 +1,47 @@
+[Russian/Русский](README_RUS.mdown) 
+
+## Description
+
+Rutoken DemoShift is a demo application which shows usage scenarios of NFC security tokens 
+[Rutoken ECP Series](https://www.rutoken.ru/products/all/rutoken-ecp/) for workgroup with single mobile device.
+Also contains some useful classes for devices detection and signing docs.
+
+## Requirements
+
+Rutoken DemoBank should be built using iOS SDK 13 or newer and support iOS 13 and newer.
+
+External dependencies are located in [Rutoken SDK](http://www.rutoken.ru/developers/sdk/).
+
+Required frameworks:
+* mobile/ios/pcsc/lib/RtPcsc.framework (Rutoken SDK);
+* mobile/ios/pkcs11/lib/rtpkcs11ecp.framework (Rutoken SDK);
+* openssl/rtengine/bin/ios-arm64/rtengine.framework (Rutoken SDK);
+* openssl/openssl-shared-1.1/ios-arm64/openssl.framework (Rutoken SDK).
+
+## How to build
+
+* copy frameworks to example/Frameworks;
+* open example/demobank.xcodeproj;
+* in General/Identity set your Signing Identity.
+
+## Preliminary actions
+
+To create a key pair and a certificate on Rutoken ECP Series family devices follow these steps:
+
+* Download and install [Rutoken plugin](https://www.rutoken.ru/products/all/rutoken-plugin/) on your desktop computer;
+* Restart your browser to complete plugin installation;
+* Go to a [Rutoken register center](https://ra.rutoken.ru) website;
+* Connect Rutoken ECP Series family device to your desktop;
+* Make sure that Rutoken ECP Series family device is found by the website;
+* Create a key pair and a certificate following the instructions on the website;
+* Make sure that website has found the certificate and the key pair on your device;
+* Disconnect the device from the desktop and use it with Apple device.
+
+## Restriction
+
+* Rutoken DemoShift can only be run on physical Apple devices, not on emulators.
+
+## License
+
+Project source code is distributed under [Simplified BSD License] (LICENSE),
+example folder contains objects of copyright and distributed under commercial license of JSC “Aktiv-Soft”, [License Agreement] (https://download.rutoken.ru/License_Agreement.pdf) (only in Russian).
