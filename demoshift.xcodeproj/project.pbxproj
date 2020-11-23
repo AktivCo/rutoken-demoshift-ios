@@ -513,6 +513,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.rutoken.demoshift;
 				PRODUCT_NAME = "ДемоСмена";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/demoshift/Pkcs11/Demoshift-Bridging-Header.h";
@@ -541,6 +542,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.rutoken.demoshift;
 				PRODUCT_NAME = "ДемоСмена";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/demoshift/Pkcs11/Demoshift-Bridging-Header.h";
