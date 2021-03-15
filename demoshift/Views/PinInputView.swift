@@ -38,11 +38,10 @@ struct PinInputView: View {
 
     var body: some View {
         ZStack {
-            GeometryReader { geometry in
+            GeometryReader { _ in
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
                         Image("logo")
-                            .offset(x: -geometry.frame(in: .global).minX)
                         Spacer()
                         Image(systemName: "xmark")
                             .font(.headline) // Change width of xmark - it is technically text
