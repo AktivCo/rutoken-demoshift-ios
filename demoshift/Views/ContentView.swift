@@ -18,6 +18,7 @@ struct ContentView: View {
     @FetchRequest(fetchRequest: User.getAllUsers()) var users: FetchedResults<User>
 
     init() {
+        TokenManager.shared
         UITableView.appearance().separatorStyle = .none
         UITableView.appearance().backgroundColor = UIColor(named: "view-background")
         UITableViewCell.appearance().backgroundColor = UIColor(named: "view-background")
@@ -81,6 +82,7 @@ struct ContentView: View {
             .navigationBarTitle("Пользователи", displayMode: .inline)
             .background(Color("view-background").edgesIgnoringSafeArea(.all))
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     func deleteUser(at offsets: IndexSet) {

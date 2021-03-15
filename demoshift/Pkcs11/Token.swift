@@ -105,7 +105,7 @@ class Token {
                     continue
                 }
 
-                //Check whether corresponding private key exists
+                // Check whether corresponding private key exists
                 guard try findObject(ofType: CKO_PRIVATE_KEY, byId: cert.id) != nil else {
                     continue
                 }

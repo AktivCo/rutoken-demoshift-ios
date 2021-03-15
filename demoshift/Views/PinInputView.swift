@@ -15,7 +15,7 @@ class TaskStatus: ObservableObject {
     @Published public var isInProgress = false
 }
 
-//This add ability to hide keybaord on demand
+// This add ability to hide keybaord on demand
 private extension UIApplication {
     func endEditing() {
         sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
