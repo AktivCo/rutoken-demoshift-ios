@@ -38,12 +38,18 @@ class Token {
             return nil
         }
 
-        var rawSerial = tokenInfo.serialNumber
-        self.serial = withUnsafePointer(to: &rawSerial) {
-            $0.withMemoryRebound(to: UInt8.self, capacity: MemoryLayout.size(ofValue: tokenInfo.serialNumber)) {
-                String(cString: $0)
-            }
-        }.trimmingCharacters(in: .whitespacesAndNewlines)
+        let mirror = Mirror(reflecting: tokenInfo.serialNumber)
+        let arr = mirror.children.compactMap { $0.value as? UInt8 }
+
+        guard arr.count == mirror.children.count else {
+            return nil
+        }
+
+        guard let serial = String(bytes: arr, encoding: .utf8) else {
+            return nil
+        }
+
+        self.serial = serial.trimmingCharacters(in: .whitespacesAndNewlines)
 
         var extendedTokenInfo = CK_TOKEN_INFO_EXTENDED()
         extendedTokenInfo.ulSizeofThisStructure = UInt(MemoryLayout.size(ofValue: extendedTokenInfo))
