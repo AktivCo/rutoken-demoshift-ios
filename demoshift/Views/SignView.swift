@@ -26,39 +26,124 @@ struct SignView: View {
 
     var body: some View {
         VStack {
-            NavigationLink(destination: SignResultView(isParentPresent: self.$isPresent,
-                                                       document: documentToShare,
-                                                       signature: signatureToShare),
-                           isActive: self.$showSignResultView) {
-                EmptyView()
-            }
-            .isDetailLink(false)
+            if showPinInputView {
+                PinInputView(idleTitle: "Введите PIN-код",
+                             progressTitle: "Выполняется подпись документа",
+                             placeHolder: "PIN-код",
+                             buttonText: "Продолжить",
+                             status: self.taskStatus,
+                             onTapped: { pin in
+                                self.taskStatus.errorMessage = ""
+                                withAnimation(.spring()) {
+                                    self.taskStatus.isInProgress = true
+                                }
 
-            Text("Документ для подписи")
-                .font(.headline)
-                .fontWeight(.semibold)
-                .padding(.top)
+                                DispatchQueue.global(qos: .default).async {
+                                    defer {
+                                        DispatchQueue.main.async {
+                                            withAnimation(.spring()) {
+                                                self.taskStatus.isInProgress = false
+                                            }
+                                        }
+                                    }
 
-            Group {
-                if self.wrappedUrl == nil {
-                    Spacer()
-                    Text("Файл не выбран")
-                    Spacer()
-                } else if self.wrappedUrl?.url.pathExtension != "pdf" {
-                    Spacer()
-                    Text("Не удалось отобразить файл")
-                    Spacer()
-                } else {
-                    DocumentViewer(wrappedUrl: self.$wrappedUrl)
+                                    startNFC { _ in
+                                        TokenManager.shared.cancelWait()
+                                    }
+                                    defer {
+                                        stopNFC()
+                                    }
+
+                                    do {
+                                        guard let currentUser = self.user else {
+                                            throw TokenError.generalError
+                                        }
+                                        guard let token = TokenManager.shared.waitForToken() else {
+                                            throw TokenManagerError.tokenNotFound
+                                        }
+                                        guard token.serial == currentUser.tokenSerial else {
+                                            throw TokenManagerError.wrongToken
+                                        }
+
+                                        let document = try Data(contentsOf: self.wrappedUrl!.url)
+
+                                        try token.login(pin: pin)
+
+                                        guard let cert = Cert(id: currentUser.certID, body: currentUser.certBody) else {
+                                            throw TokenError.generalError
+                                        }
+
+                                        let signature = try token.cmsSign(document, withCert: cert)
+
+                                        // For correct work with AirDrop all sharable items should be in the same folder
+                                        let cmsFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent).sig")
+                                        let signedFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent)")
+
+                                        do {
+                                            try signature.write(to: cmsFile, atomically: false, encoding: .utf8)
+                                            try document.write(to: signedFile)
+                                        } catch {
+                                            throw TokenError.generalError
+                                        }
+
+                                        self.signatureToShare = SharableSignature(rawSignature: signature, cmsFile: cmsFile)
+                                        self.documentToShare = SharableDocument(signedFile: signedFile)
+
+                                        DispatchQueue.main.async {
+                                            self.showPinInputView.toggle()
+                                            self.showSignResultView.toggle()
+                                        }
+                                    } catch TokenError.incorrectPin {
+                                        self.setErrorMessage(message: "Неверный PIN-код")
+                                    } catch TokenError.lockedPin {
+                                        self.setErrorMessage(message: "Превышен лимит ошибок при вводе PIN-кода")
+                                    } catch TokenManagerError.tokenNotFound {
+                                        self.setErrorMessage(message: "Не удалось обнаружить Рутокен")
+                                    } catch TokenError.keyPairNotFound {
+                                        self.setErrorMessage(message: "Не удалось найти ключи, соответствующие сертификату")
+                                    } catch TokenError.tokenDisconnected {
+                                        self.setErrorMessage(message: "Потеряно соединение с Рутокеном")
+                                    } catch TokenManagerError.wrongToken {
+                                        self.setErrorMessage(message: "Пользователь зарегистрирован с другим Рутокеном")
+                                    } catch {
+                                        self.setErrorMessage(message: "Что-то пошло не так. Попробуйте повторить операцию")
+                                    }
+                                }
+                })
+            } else {
+                NavigationLink(destination: SignResultView(isParentPresent: self.$isPresent,
+                                                           document: documentToShare,
+                                                           signature: signatureToShare),
+                               isActive: self.$showSignResultView) {
+                    EmptyView()
                 }
-            }
-            .padding()
+                .isDetailLink(false)
 
-            Button(action: {
-                self.showDocumentPicker.toggle()
-            }, label: {
-                Text("Выбрать файл")
-            })
+                Text("Документ для подписи")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .padding(.top)
+
+                Group {
+                    if self.wrappedUrl == nil {
+                        Spacer()
+                        Text("Файл не выбран")
+                        Spacer()
+                    } else if self.wrappedUrl?.url.pathExtension != "pdf" {
+                        Spacer()
+                        Text("Не удалось отобразить файл")
+                        Spacer()
+                    } else {
+                        DocumentViewer(wrappedUrl: self.$wrappedUrl)
+                    }
+                }
+                .padding()
+
+                Button(action: {
+                    self.showDocumentPicker.toggle()
+                }, label: {
+                    Text("Выбрать файл")
+                })
                 .buttonStyle(RoundedFilledButton())
                 .padding(.top)
                 .padding(.horizontal)
@@ -66,102 +151,16 @@ struct SignView: View {
                     DocumentPickerView(wrappedUrl: self.$wrappedUrl)
                 })
 
-            Button(action: {
-                self.showPinInputView.toggle()
-            }, label: {
-                Text("Подписать")
-            })
+                Button(action: {
+                    self.showPinInputView.toggle()
+                }, label: {
+                    Text("Подписать")
+                })
                 .buttonStyle(RoundedFilledButton())
                 .padding()
                 .disabled(self.wrappedUrl == nil)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .sheet(isPresented: self.$showPinInputView, onDismiss: {
-                    self.taskStatus.errorMessage = ""
-                }, content: {
-                    PinInputView(idleTitle: "Введите PIN-код",
-                                 progressTitle: "Выполняется подпись документа",
-                                 placeHolder: "PIN-код",
-                                 buttonText: "Продолжить",
-                                 status: self.taskStatus,
-                                 onTapped: { pin in
-                                    self.taskStatus.errorMessage = ""
-                                    withAnimation(.spring()) {
-                                        self.taskStatus.isInProgress = true
-                                    }
-
-                                    DispatchQueue.global(qos: .default).async {
-                                        defer {
-                                            DispatchQueue.main.async {
-                                                withAnimation(.spring()) {
-                                                    self.taskStatus.isInProgress = false
-                                                }
-                                            }
-                                        }
-
-                                        startNFC { _ in
-                                            TokenManager.shared.cancelWait()
-                                        }
-                                        defer {
-                                            stopNFC()
-                                        }
-
-                                        do {
-                                            guard let currentUser = self.user else {
-                                                throw TokenError.generalError
-                                            }
-                                            guard let token = TokenManager.shared.waitForToken() else {
-                                                throw TokenManagerError.tokenNotFound
-                                            }
-                                            guard token.serial == currentUser.tokenSerial else {
-                                                throw TokenManagerError.wrongToken
-                                            }
-
-                                            let document = try Data(contentsOf: self.wrappedUrl!.url)
-
-                                            try token.login(pin: pin)
-
-                                            guard let cert = Cert(id: currentUser.certID, body: currentUser.certBody) else {
-                                                throw TokenError.generalError
-                                            }
-
-                                            let signature = try token.cmsSign(document, withCert: cert)
-
-                                            // For correct work with AirDrop all sharable items should be in the same folder
-                                            let cmsFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent).sig")
-                                            let signedFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent)")
-
-                                            do {
-                                                try signature.write(to: cmsFile, atomically: false, encoding: .utf8)
-                                                try document.write(to: signedFile)
-                                            } catch {
-                                                throw TokenError.generalError
-                                            }
-
-                                            self.signatureToShare = SharableSignature(rawSignature: signature, cmsFile: cmsFile)
-                                            self.documentToShare = SharableDocument(signedFile: signedFile)
-
-                                            DispatchQueue.main.async {
-                                                self.showPinInputView.toggle()
-                                                self.showSignResultView.toggle()
-                                            }
-                                        } catch TokenError.incorrectPin {
-                                            self.setErrorMessage(message: "Неверный PIN-код")
-                                        } catch TokenError.lockedPin {
-                                            self.setErrorMessage(message: "Превышен лимит ошибок при вводе PIN-кода")
-                                        } catch TokenManagerError.tokenNotFound {
-                                            self.setErrorMessage(message: "Не удалось обнаружить Рутокен")
-                                        } catch TokenError.keyPairNotFound {
-                                            self.setErrorMessage(message: "Не удалось найти ключи, соответствующие сертификату")
-                                        } catch TokenError.tokenDisconnected {
-                                            self.setErrorMessage(message: "Потеряно соединение с Рутокеном")
-                                        } catch TokenManagerError.wrongToken {
-                                            self.setErrorMessage(message: "Пользователь зарегистрирован с другим Рутокеном")
-                                        } catch {
-                                            self.setErrorMessage(message: "Что-то пошло не так. Попробуйте повторить операцию")
-                                        }
-                                    }
-                    })
-                })
+            }
         }
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
     }
