@@ -23,7 +23,43 @@ struct TokenListView: View {
 
     var body: some View {
         VStack {
-            if showPinInputView {
+            ZStack {
+                VStack {
+                    Text("Выберите Рутокен")
+                        .font(.headline)
+                        .padding(.top)
+                    List {
+                        NavigationLink(destination: CertListView(isParentPresent: self.$isPresent,
+                                                                 tokenSerial: self.selectedTokenSerial,
+                                                                 certs: self.selectedTokenCerts),
+                                       isActive: self.$showCertListView) {
+                            VStack {
+                                HStack(alignment: .top) {
+                                    Text("Подключить NFC карту")
+                                        .font(.headline)
+                                    Spacer()
+                                    Image("nfc-icon-gray")
+                                        .renderingMode(.original)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                }
+                                Spacer()
+                            }
+                            .padding(20)
+                            .frame(maxWidth: .infinity, maxHeight: 200)
+                            .background(Color("listitem-background"))
+                            .cornerRadius(15)
+                            .shadow(radius: 5)
+                            .padding(.top)
+                            .onTapGesture {
+                                self.showPinInputView.toggle()
+                            }
+                        }
+                        .isDetailLink(false)
+                    }
+                    Spacer()
+                }
+
                 PinInputView(idleTitle: "Введите PIN-код",
                              progressTitle: "Выполняется регистрация пользователя",
                              placeHolder: "PIN-код",
@@ -79,41 +115,9 @@ struct TokenListView: View {
                                     }
                                 }
                 })
-            } else {
-                Text("Выберите Рутокен")
-                    .font(.headline)
-                    .padding(.top)
-                List {
-                    NavigationLink(destination: CertListView(isParentPresent: self.$isPresent,
-                                                             tokenSerial: self.selectedTokenSerial,
-                                                             certs: self.selectedTokenCerts),
-                                   isActive: self.$showCertListView) {
-                        VStack {
-                            HStack(alignment: .top) {
-                                Text("Подключить NFC карту")
-                                    .font(.headline)
-                                Spacer()
-                                Image("nfc-icon-gray")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                            }
-                            Spacer()
-                        }
-                        .padding(20)
-                        .frame(maxWidth: .infinity, maxHeight: 200)
-                        .background(Color("listitem-background"))
-                        .cornerRadius(15)
-                        .shadow(radius: 5)
-                        .padding(.top)
-                        .onTapGesture {
-                            self.showPinInputView.toggle()
-                        }
-                    }
-                    .isDetailLink(false)
-                }
-                Spacer()
+                    .opacity(showPinInputView ? 1.0 : 0.0)
             }
+
         }
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
     }
