@@ -246,18 +246,29 @@ class Token {
 
     private func findObject(ofType type: Int32, byId id: Data) throws -> CK_OBJECT_HANDLE? {
         var objectType = CK_OBJECT_CLASS(type)
-        let classAttr = withUnsafeMutablePointer(to: &objectType) { pointer in
-            CK_ATTRIBUTE(type: CK_ATTRIBUTE_TYPE(CKA_CLASS),
-                         pValue: pointer,
-                         ulValueLen: CK_ULONG(MemoryLayout.size(ofValue: pointer.pointee)))
+
+        let objectTypePointer = UnsafeMutablePointer<UInt>.allocate(capacity: MemoryLayout.size(ofValue: objectType))
+        defer {
+            objectTypePointer.deallocate()
         }
+        objectTypePointer.initialize(from: &objectType, count: MemoryLayout.size(ofValue: objectType))
+
+        let classAttr = CK_ATTRIBUTE(type: CK_ATTRIBUTE_TYPE(CKA_CLASS),
+                                     pValue: objectTypePointer,
+                                     ulValueLen: CK_ULONG(MemoryLayout.size(ofValue: objectType)))
 
         var idArray: [UInt8] = Array(id)
-        let ckaIDAttr = withUnsafeMutablePointer(to: &idArray[0]) { [length = idArray.count] pointer in
-            CK_ATTRIBUTE(type: CK_ATTRIBUTE_TYPE(CKA_ID),
-                         pValue: pointer,
-                         ulValueLen: CK_ULONG(length))
+
+        let ckaIDPointer = UnsafeMutablePointer<UInt8>.allocate(capacity: idArray.count)
+        defer {
+            ckaIDPointer.deallocate()
         }
+        ckaIDPointer.initialize(from: &idArray, count: idArray.count)
+
+        let ckaIDAttr = CK_ATTRIBUTE(type: CK_ATTRIBUTE_TYPE(CKA_ID),
+                                     pValue: ckaIDPointer,
+                                     ulValueLen: CK_ULONG(idArray.count))
+
         var template: [CK_ATTRIBUTE] = [classAttr, ckaIDAttr]
 
         var rv = C_FindObjectsInit(self.session, &template, CK_ULONG(template.count))
