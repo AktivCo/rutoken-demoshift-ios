@@ -1,9 +1,6 @@
 vertical_whitespace:
   max_empty_lines: 2
 
-indentation_width:
-  indentation_width: 4
-
 disabled_rules:
   - cyclomatic_complexity
   - identifier_name

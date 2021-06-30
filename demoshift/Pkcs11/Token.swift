@@ -105,7 +105,7 @@ class Token {
                     continue
                 }
 
-                //Check whether corresponding private key exists
+                // Check whether corresponding private key exists
                 guard try findObject(ofType: CKO_PRIVATE_KEY, byId: cert.id) != nil else {
                     continue
                 }
@@ -142,7 +142,7 @@ class Token {
                     throw TokenError.generalError
                 }
                 defer {
-                    var temp = wrappedSession
+                    let temp = wrappedSession
                     withUnsafeMutablePointer(to: &wrappedSession) { ptr in
                         temp.vtable.pointee.free(ptr)
                     }
