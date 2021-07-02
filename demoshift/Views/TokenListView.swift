@@ -113,6 +113,7 @@ struct TokenListView: View {
                     })
                 }
                 .isDetailLink(false)
+                .listRowBackground(Color("view-background"))
             }
 
             Spacer()

@@ -18,9 +18,11 @@ struct ContentView: View {
     @FetchRequest(fetchRequest: User.getAllUsers()) var users: FetchedResults<User>
 
     init() {
-        UITableView.appearance().separatorStyle = .none
+        if #available(iOS 14.0, *) {} else {
+            UITableView.appearance().separatorStyle = .none
+        }
+
         UITableView.appearance().backgroundColor = UIColor(named: "view-background")
-        UITableViewCell.appearance().backgroundColor = UIColor(named: "view-background")
     }
 
     var body: some View {
@@ -64,6 +66,7 @@ struct ContentView: View {
                                     }
                             }
                             .onDelete(perform: deleteUser)
+                            .listRowBackground(Color("view-background"))
                         }
                         .animation(.easeInOut)
                     }

@@ -27,21 +27,28 @@ struct CertListView: View {
                     .padding()
                 Spacer()
             } else {
-                List(self.certs) {cert in
-                    CertCard(cert: cert, isDisabled: self.isCertUsed(certBody: cert.body))
-                        .padding(.top)
-                        .onTapGesture {
-                            if  self.isCertUsed(certBody: cert.body) {
-                                return
-                            }
-                            guard User.makeUser(forCert: cert, withTokenSerial: self.tokenSerial, context: self.managedObjectContext) != nil else {
-                                return
-                            }
-                            guard (try? self.managedObjectContext.save()) != nil else {
-                                return
-                            }
-                            self.isParentPresent = false
+                List {
+                    ForEach(self.certs) { cert in
+                        CertCard(cert: cert, isDisabled: self.isCertUsed(certBody: cert.body))
+                            .padding(.top)
+                            .onTapGesture {
+                                if  self.isCertUsed(certBody: cert.body) {
+                                    return
+                                }
+                                guard User.makeUser(forCert: cert, withTokenSerial: self.tokenSerial, context: self.managedObjectContext) != nil else {
+                                    return
+                                }
+                                guard (try? self.managedObjectContext.save()) != nil else {
+                                    return
+                                }
+                                self.isParentPresent = false
+                        }
+                        .padding()
                     }
+                    .listRowBackground(Color("view-background"))
+                    // Next two lines is workaround to remove list's separators in iOS 14+
+                    .listRowInsets(EdgeInsets(top: -1, leading: -1, bottom: -1, trailing: -1))
+                    .background(Color("view-background"))
                 }
                 .frame(width: screen.width)
                 .animation(.easeInOut)
