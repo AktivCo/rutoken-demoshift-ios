@@ -88,8 +88,7 @@ struct PinInputView: View {
                     Text(self.progressTitle)
                         .font(.headline)
                         .fontWeight(.semibold)
-                    LoadingIndicator()
-                        .frame(width: 64, height: 64)
+                    LoadingIndicator(isAnimating: .constant(true), style: .large)
                 }
                 .offset(y: -screen.height/4)
             }
