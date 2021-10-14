@@ -33,7 +33,7 @@ struct TokenListView: View {
                                isActive: self.$showCertListView) {
                     VStack {
                         HStack(alignment: .top) {
-                            Text("Подключить NFC карту")
+                            Text("Подключить Рутокен с NFC")
                                 .font(.headline)
                             Spacer()
                             Image("nfc-icon-gray")
