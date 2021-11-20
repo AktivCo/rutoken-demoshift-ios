@@ -12,6 +12,7 @@ import SwiftUI
 struct ContentView: View {
     @State var showTokenListView = false
     @State var showSignView = false
+    @State private var isHintPresented = false
 
     @State var selectedUser: User?
 
@@ -56,6 +57,22 @@ struct ContentView: View {
                             .font(.headline)
                             .padding()
                         Spacer()
+                        HStack {
+                            Text("Нет NFC модуля на мобильном устройстве")
+                                .foregroundColor(Color("text-blue"))
+                                .multilineTextAlignment(.center)
+                            Button {
+                                isHintPresented.toggle()
+                            } label: {
+                                Image(systemName: "questionmark.circle.fill")
+                            }
+                            .foregroundColor(Color("text-blue"))
+                            .popover(isPresented: $isHintPresented) {
+                                Hint()
+                            }
+                            .padding(.trailing, 16)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
                     } else {
                         List {
                             ForEach(users) { user in
@@ -85,6 +102,7 @@ struct ContentView: View {
             .navigationBarTitle("Пользователи", displayMode: .inline)
             .background(Color("view-background").edgesIgnoringSafeArea(.all))
         }
+        .navigationViewStyle(.stack)
     }
 
     func deleteUser(at offsets: IndexSet) {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		119BF03D2749506A0002B8C6 /* Hint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF03C2749506A0002B8C6 /* Hint.swift */; };
 		58167F70248628D200C76262 /* SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58167F6F248628D200C76262 /* SignView.swift */; };
 		584300C5248F8B1100DBC98E /* CoreDataUser.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 584300C3248F8B1100DBC98E /* CoreDataUser.xcdatamodeld */; };
 		584300CB2490C72D00DBC98E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584300CA2490C72D00DBC98E /* User.swift */; };
@@ -62,6 +63,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		119BF03C2749506A0002B8C6 /* Hint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hint.swift; sourceTree = "<group>"; };
 		58167F6F248628D200C76262 /* SignView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
 		584300C4248F8B1100DBC98E /* CoreDataUser.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataUser.xcdatamodel; sourceTree = "<group>"; };
 		584300CA2490C72D00DBC98E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				588410CE24862758003AD26A /* UserCard.swift */,
 				B15FBD2D24925FE000385F6E /* AccessedUrl.swift */,
 				C3FF05F72497F4FF00C8F4B1 /* CertCard.swift */,
+				119BF03C2749506A0002B8C6 /* Hint.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				58167F70248628D200C76262 /* SignView.swift in Sources */,
 				B15894462486BA8900C8485E /* ShareView.swift in Sources */,
 				588410DB24862758003AD26A /* RoundedFilledButton.swift in Sources */,
+				119BF03D2749506A0002B8C6 /* Hint.swift in Sources */,
 				B15FBD28248E6B9500385F6E /* DocumentPickerView.swift in Sources */,
 				588410D424862758003AD26A /* TokenManager.swift in Sources */,
 				B15FBD2E24925FE000385F6E /* AccessedUrl.swift in Sources */,
