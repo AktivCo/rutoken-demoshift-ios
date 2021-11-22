@@ -12,6 +12,7 @@ import SwiftUI
 struct ContentView: View {
     @State var showTokenListView = false
     @State var showSignView = false
+    @State var showVCRListView = false
     @State private var isHintPresented = false
 
     @State var selectedUser: User?
@@ -42,6 +43,11 @@ struct ContentView: View {
                     EmptyView()
                 }
                 .isDetailLink(false)
+                NavigationLink(destination: VcrListView(),
+                               isActive: self.$showVCRListView) {
+                    EmptyView()
+                }
+                .isDetailLink(false)
 
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
@@ -57,10 +63,15 @@ struct ContentView: View {
                             .font(.headline)
                             .padding()
                         Spacer()
-                        HStack {
-                            Text("Нет NFC модуля на мобильном устройстве")
-                                .foregroundColor(Color("text-blue"))
-                                .multilineTextAlignment(.center)
+                        HStack(alignment: .top) {
+                            Button {
+                                self.showVCRListView.toggle()
+                            } label: {
+                                Text("Подключить виртуальный считыватель")
+                                    .foregroundColor(Color("text-blue"))
+                                    .multilineTextAlignment(.center)
+                                    .frame(maxWidth: UIScreen.main.bounds.width/2)
+                            }
                             Button {
                                 isHintPresented.toggle()
                             } label: {

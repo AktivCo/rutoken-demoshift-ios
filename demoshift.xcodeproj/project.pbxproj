@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		119BF03D2749506A0002B8C6 /* Hint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF03C2749506A0002B8C6 /* Hint.swift */; };
+		119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF042274AB3050002B8C6 /* VcrListView.swift */; };
 		58167F70248628D200C76262 /* SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58167F6F248628D200C76262 /* SignView.swift */; };
 		584300C5248F8B1100DBC98E /* CoreDataUser.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 584300C3248F8B1100DBC98E /* CoreDataUser.xcdatamodeld */; };
 		584300CB2490C72D00DBC98E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584300CA2490C72D00DBC98E /* User.swift */; };
@@ -64,6 +65,7 @@
 
 /* Begin PBXFileReference section */
 		119BF03C2749506A0002B8C6 /* Hint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hint.swift; sourceTree = "<group>"; };
+		119BF042274AB3050002B8C6 /* VcrListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListView.swift; sourceTree = "<group>"; };
 		58167F6F248628D200C76262 /* SignView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
 		584300C4248F8B1100DBC98E /* CoreDataUser.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataUser.xcdatamodel; sourceTree = "<group>"; };
 		584300CA2490C72D00DBC98E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				B15894452486BA8900C8485E /* ShareView.swift */,
 				B15FBD27248E6B9500385F6E /* DocumentPickerView.swift */,
 				C3FF05F92497F5AF00C8F4B1 /* CertListView.swift */,
+				119BF042274AB3050002B8C6 /* VcrListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				C3C5FE85248A741700751E3A /* LoadingIndicator.swift in Sources */,
 				584300CB2490C72D00DBC98E /* User.swift in Sources */,
 				C3CE1BAF24866DD400981E61 /* SignResultView.swift in Sources */,
+				119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */,
 				588410D924862758003AD26A /* SceneDelegate.swift in Sources */,
 				B15FBD26248E267600385F6E /* Sharables.swift in Sources */,
 				C310886C24939CEF00C6E8FE /* TokenListView.swift in Sources */,
