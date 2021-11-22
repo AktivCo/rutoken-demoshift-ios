@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 enum TokenError: Error {
     case incorrectPin
     case lockedPin

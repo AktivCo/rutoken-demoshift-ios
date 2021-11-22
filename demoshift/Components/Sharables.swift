@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class SharableSignature: NSObject, UIActivityItemSource {
     let rawSignature: String
     let cmsFile: URL
@@ -21,7 +22,8 @@ class SharableSignature: NSObject, UIActivityItemSource {
         return self.cmsFile
     }
 
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+    func activityViewController(_ activityViewController: UIActivityViewController,
+                                itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
         switch activityType {
         case UIActivity.ActivityType.copyToPasteboard:
             return self.rawSignature
@@ -30,7 +32,8 @@ class SharableSignature: NSObject, UIActivityItemSource {
         }
     }
 
-    func activityViewController(_ activityViewController: UIActivityViewController, thumbnailImageForActivityType activityType: UIActivity.ActivityType?, suggestedSize size: CGSize) -> UIImage? {
+    func activityViewController(_ activityViewController: UIActivityViewController,
+                                thumbnailImageForActivityType activityType: UIActivity.ActivityType?, suggestedSize size: CGSize) -> UIImage? {
         return UIImage(named: "app-icon")
     }
 }
@@ -46,7 +49,8 @@ class SharableDocument: NSObject, UIActivityItemSource {
         return self.signedFile
     }
 
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+    func activityViewController(_ activityViewController: UIActivityViewController,
+                                itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
         switch activityType {
         case UIActivity.ActivityType.copyToPasteboard:
             return nil

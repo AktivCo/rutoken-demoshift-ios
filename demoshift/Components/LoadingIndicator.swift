@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct LoadingIndicator: View {
     @State private var rotationToggle = false
     @State private var startPointToggle = false

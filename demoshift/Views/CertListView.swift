@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct CertListView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: User.getAllUsers()) var users: FetchedResults<User>
@@ -35,7 +36,9 @@ struct CertListView: View {
                                 if  self.isCertUsed(certBody: cert.body) {
                                     return
                                 }
-                                guard User.makeUser(forCert: cert, withTokenSerial: self.tokenSerial, context: self.managedObjectContext) != nil else {
+                                guard User.makeUser(forCert: cert,
+                                                    withTokenSerial: self.tokenSerial,
+                                                    context: self.managedObjectContext) != nil else {
                                     return
                                 }
                                 guard (try? self.managedObjectContext.save()) != nil else {

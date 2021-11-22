@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 let screen = UIScreen.main.bounds
 
 class TaskStatus: ObservableObject {
@@ -76,7 +77,7 @@ struct PinInputView: View {
                     })
                         .buttonStyle(RoundedFilledButton())
                         .padding(.top, 40)
-                        .disabled(self.pin.count == 0)
+                        .disabled(self.pin.isEmpty)
                     Spacer()
                 }
             }

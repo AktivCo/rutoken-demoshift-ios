@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 enum TokenManagerError: Error {
     case tokenNotFound
     case wrongToken
@@ -87,7 +88,9 @@ class TokenManager {
                 return
             }
 
+            // swiftlint:disable empty_count
             if count != 0 {
+            // swiftlint:enable empty_count
                 var slots = Array(repeating: CK_SLOT_ID(0), count: Int(count))
                 rv = C_GetSlotList(CK_BBOOL(CK_TRUE), &slots, &count)
                 guard rv == CKR_OK else {

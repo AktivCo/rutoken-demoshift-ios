@@ -64,7 +64,8 @@ class Cert: Identifiable {
             return nil
         }
         let id = Data(buffer: UnsafeBufferPointer(start: template[0].pValue.assumingMemoryBound(to: UInt8.self), count: Int(template[0].ulValueLen)))
-        let body = Data(buffer: UnsafeBufferPointer(start: template[1].pValue.assumingMemoryBound(to: UInt8.self), count: Int(template[1].ulValueLen)))
+        let body = Data(buffer: UnsafeBufferPointer(start: template[1].pValue.assumingMemoryBound(to: UInt8.self),
+                                                    count: Int(template[1].ulValueLen)))
 
         return Cert(id: id, body: body)
     }

@@ -6,8 +6,9 @@
 //  Copyright © 2020 Aktiv Co. All rights reserved.
 //
 
-import SwiftUI
 import PDFKit
+import SwiftUI
+
 
 struct SignView: View {
     @State var showPinInputView = false
@@ -127,8 +128,10 @@ struct SignView: View {
                                             let signature = try token.cmsSign(document, withCert: cert)
 
                                             // For correct work with AirDrop all sharable items should be in the same folder
-                                            let cmsFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent).sig")
-                                            let signedFile = FileManager.default.temporaryDirectory.appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent)")
+                                            let cmsFile = FileManager.default.temporaryDirectory
+                                                                            .appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent).sig")
+                                            let signedFile = FileManager.default.temporaryDirectory
+                                                                                .appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent)")
 
                                             do {
                                                 try signature.write(to: cmsFile, atomically: false, encoding: .utf8)

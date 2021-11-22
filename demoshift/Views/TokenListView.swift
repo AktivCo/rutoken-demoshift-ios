@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct TokenListView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: User.getAllUsers()) var users: FetchedResults<User>

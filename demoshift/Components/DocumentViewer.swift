@@ -6,8 +6,9 @@
 //  Copyright © 2020 Aktiv Co. All rights reserved.
 //
 
-import SwiftUI
 import PDFKit
+import SwiftUI
+
 
 struct DocumentViewer: UIViewRepresentable {
     @Binding var wrappedUrl: AccessedUrl?

@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 class AccessedUrl: NSObject {
     let url: URL
 

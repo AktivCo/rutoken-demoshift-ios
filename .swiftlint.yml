@@ -1,9 +1,38 @@
 vertical_whitespace:
   max_empty_lines: 2
 
+line_length: 150
+
+opt_in_rules:
+  - sorted_imports
+  - empty_count
+
 disabled_rules:
-  - cyclomatic_complexity
   - identifier_name
-  - line_length
   - trailing_newline
   - function_body_length
+  - cyclomatic_complexity
+  - type_body_length
+  - file_length
+
+custom_rules:
+  two_lines_after_import:
+    included: ".*\\.swift"
+    regex: "(^import\\s\\w+$(\n){1,2}^((open|internal|private|public|class|struct|let|var|enum|@main|protocol)(\\s|\n)))"
+    message: "Use two blank lines to separate import from code."
+    severity: error
+  one_line_before_import:
+    included: ".*\\.swift"
+    regex: "((?<=\/\/(\n{3}|\n))import)"
+    message: "Use one blank line to separate file's header and import."
+    severity: error
+  one_word_one_language:
+    included: ".*\\.swift"
+    regex: "([^\\\\][a-zA-Z]+[а-яА-Я]|[а-яА-Я]+[a-zA-Z])"
+    message: "Use characters from one language for one word."
+    severity: error
+  one_or_less_spaces_after_bracket:
+    included: ".*\\.swift"
+    regex: "(\\{  \\S)"
+    message: "Use one space after bracket"
+    severity: error

@@ -6,8 +6,9 @@
 //  Copyright © 2020 Aktiv Co. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
+
 
 class User: NSManagedObject, Identifiable {
     @NSManaged private(set) var name: String

@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct SignResultView: View {
     @State var showShareView = false
 

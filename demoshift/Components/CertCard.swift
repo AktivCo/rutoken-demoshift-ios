@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct CertCard: View {
     let commonName: String
     let position: String
