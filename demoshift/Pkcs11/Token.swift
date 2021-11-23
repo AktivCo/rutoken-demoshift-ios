@@ -138,18 +138,14 @@ class Token {
                     throw TokenError.generalError
                 }
 
-                var wrappedSession = rt_eng_p11_session_new(functionListPointer, self.session, 0, nil)
-                guard wrappedSession.`self` != nil else {
+                guard let wrappedSession = rt_eng_p11_session_wrap(functionListPointer, self.session, 0, nil) else {
                     throw TokenError.generalError
                 }
                 defer {
-                    let temp = wrappedSession
-                    withUnsafeMutablePointer(to: &wrappedSession) { ptr in
-                        temp.vtable.pointee.free(ptr)
-                    }
+                    rt_eng_p11_session_free(wrappedSession)
                 }
 
-                guard let evpPKey = rt_eng_new_p11_ossl_evp_pkey(wrappedSession, privateKey, publicKey) else {
+                guard let evpPKey = rt_eng_p11_key_pair_wrap(wrappedSession, privateKey, publicKey) else {
                     throw TokenError.generalError
                 }
                 defer {
