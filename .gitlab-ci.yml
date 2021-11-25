@@ -85,6 +85,7 @@ build:
       if [[ ${CI_COMMIT_REF_NAME} = ${CI_DEFAULT_BRANCH} ]]
       then
           xcrun altool --upload-app \
+                       --type ios \
                        -f ${PATH_TO_EXPORT_DIR}/*.ipa \
                        -u ${APPLE_ACCOUNT_USER} \
                        -p ${APPLE_ACCOUNT_PASSWORD}
