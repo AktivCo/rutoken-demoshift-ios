@@ -63,27 +63,29 @@ struct ContentView: View {
                             .font(.headline)
                             .padding()
                         Spacer()
-                        HStack(alignment: .top) {
-                            Button {
-                                self.showVCRListView.toggle()
-                            } label: {
-                                Text("Подключить виртуальный считыватель")
-                                    .foregroundColor(Color("text-blue"))
-                                    .multilineTextAlignment(.center)
-                                    .frame(maxWidth: UIScreen.main.bounds.width/2)
+                        if UIDevice.current.userInterfaceIdiom == .pad {
+                            HStack(alignment: .top) {
+                                Button {
+                                    self.showVCRListView.toggle()
+                                } label: {
+                                    Text("Подключить виртуальный считыватель")
+                                        .foregroundColor(Color("text-blue"))
+                                        .multilineTextAlignment(.center)
+                                        .frame(maxWidth: UIScreen.main.bounds.width/2)
+                                }
+                                Button {
+                                    isHintPresented.toggle()
+                                } label: {
+                                    Image(systemName: "questionmark.circle.fill")
+                                }
+                                .foregroundColor(Color("text-blue"))
+                                .popover(isPresented: $isHintPresented) {
+                                    Hint()
+                                }
+                                .padding(.trailing, 16)
                             }
-                            Button {
-                                isHintPresented.toggle()
-                            } label: {
-                                Image(systemName: "questionmark.circle.fill")
-                            }
-                            .foregroundColor(Color("text-blue"))
-                            .popover(isPresented: $isHintPresented) {
-                                Hint()
-                            }
-                            .padding(.trailing, 16)
+                            .frame(maxWidth: .infinity, alignment: .center)
                         }
-                        .frame(maxWidth: .infinity, alignment: .center)
                     } else {
                         List {
                             ForEach(users) { user in
