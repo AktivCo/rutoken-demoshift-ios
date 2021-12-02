@@ -47,7 +47,7 @@ struct TokenListView: View {
                     .padding(20)
                     .frame(maxWidth: .infinity, maxHeight: 200)
                     .background(Color("listitem-background"))
-                    .cornerRadius(15)
+                    .cornerRadius(20)
                     .shadow(radius: 5)
                     .padding(.top)
                     .onTapGesture {

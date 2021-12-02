@@ -48,7 +48,7 @@ struct UserCard: View {
         .padding(.vertical)
         .padding(.horizontal, 24)
         .background(Color("listitem-background"))
-        .cornerRadius(15)
+        .cornerRadius(20)
         .shadow(radius: 5, x: 0, y: 0)
     }
 }

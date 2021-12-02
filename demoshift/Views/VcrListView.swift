@@ -11,6 +11,12 @@ import SwiftUI
 
 struct VcrListView: View {
     var body: some View {
-        Text("VCR")
+        List {
+            VCRCard(name: "iPhone (Sasha) - VCR", isActive: false)
+            VCRCard(name: "iPhone (Masha) - VCR", isActive: true)
+            VCRCard(name: "iPhone (Ragnaros) - VCR", isActive: false)
+            VCRCard(name: "iPhone (Stas) - VCR", isActive: true)
+            VCRCard(name: "iPhone (SAS) - VCR", isActive: false)
+        }
     }
 }
