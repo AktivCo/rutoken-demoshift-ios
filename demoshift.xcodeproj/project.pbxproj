@@ -10,6 +10,8 @@
 		116D3903275A34B400C40765 /* AddVcrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D3902275A34B400C40765 /* AddVcrView.swift */; };
 		116D390F275F7C9C00C40765 /* BulletTextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D390E275F7C9C00C40765 /* BulletTextItem.swift */; };
 		116D3911275F7CE600C40765 /* HintButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D3910275F7CE600C40765 /* HintButton.swift */; };
+		116D39152760DC3D00C40765 /* AddVcrInteractors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D39142760DC3D00C40765 /* AddVcrInteractors.swift */; };
+		116D39172760DC7100C40765 /* AddVcrStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D39162760DC7100C40765 /* AddVcrStates.swift */; };
 		119BF03D2749506A0002B8C6 /* Hint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF03C2749506A0002B8C6 /* Hint.swift */; };
 		119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF042274AB3050002B8C6 /* VcrListView.swift */; };
 		445B3D842758B253004B224C /* VCRCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445B3D832758B253004B224C /* VCRCard.swift */; };
@@ -71,6 +73,8 @@
 		116D3902275A34B400C40765 /* AddVcrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVcrView.swift; sourceTree = "<group>"; };
 		116D390E275F7C9C00C40765 /* BulletTextItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletTextItem.swift; sourceTree = "<group>"; };
 		116D3910275F7CE600C40765 /* HintButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintButton.swift; sourceTree = "<group>"; };
+		116D39142760DC3D00C40765 /* AddVcrInteractors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVcrInteractors.swift; sourceTree = "<group>"; };
+		116D39162760DC7100C40765 /* AddVcrStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVcrStates.swift; sourceTree = "<group>"; };
 		119BF03C2749506A0002B8C6 /* Hint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hint.swift; sourceTree = "<group>"; };
 		119BF042274AB3050002B8C6 /* VcrListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListView.swift; sourceTree = "<group>"; };
 		445B3D832758B253004B224C /* VCRCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCRCard.swift; sourceTree = "<group>"; };
@@ -126,6 +130,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		116D39122760DBEE00C40765 /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+				116D39142760DC3D00C40765 /* AddVcrInteractors.swift */,
+			);
+			path = Interactors;
+			sourceTree = "<group>";
+		};
+		116D39132760DC0500C40765 /* States */ = {
+			isa = PBXGroup;
+			children = (
+				116D39162760DC7100C40765 /* AddVcrStates.swift */,
+			);
+			path = States;
+			sourceTree = "<group>";
+		};
 		584300C92490C71600DBC98E /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +232,8 @@
 		C3FA84A3246C11670005B294 /* demoshift */ = {
 			isa = PBXGroup;
 			children = (
+				116D39132760DC0500C40765 /* States */,
+				116D39122760DBEE00C40765 /* Interactors */,
 				588410C724862758003AD26A /* Pkcs11 */,
 				588410CA24862758003AD26A /* Views */,
 				584300C92490C71600DBC98E /* Model */,
@@ -360,6 +382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				588410D624862758003AD26A /* AppDelegate.swift in Sources */,
+				116D39172760DC7100C40765 /* AddVcrStates.swift in Sources */,
 				58167F70248628D200C76262 /* SignView.swift in Sources */,
 				B15894462486BA8900C8485E /* ShareView.swift in Sources */,
 				588410DB24862758003AD26A /* RoundedFilledButton.swift in Sources */,
@@ -382,6 +405,7 @@
 				116D3911275F7CE600C40765 /* HintButton.swift in Sources */,
 				C3C5FE85248A741700751E3A /* LoadingIndicator.swift in Sources */,
 				584300CB2490C72D00DBC98E /* User.swift in Sources */,
+				116D39152760DC3D00C40765 /* AddVcrInteractors.swift in Sources */,
 				C3CE1BAF24866DD400981E61 /* SignResultView.swift in Sources */,
 				116D390F275F7C9C00C40765 /* BulletTextItem.swift in Sources */,
 				119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */,

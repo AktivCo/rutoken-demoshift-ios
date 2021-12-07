@@ -13,6 +13,7 @@
 #include <rtpkcs11ecp/cryptoki.h>
 
 #include <RtPcsc/rtnfc.h>
+#include <RtPcsc/rtVcrPairing.h>
 
 #include <openssl/x509.h>
 #include <openssl/cms.h>
