@@ -13,7 +13,6 @@ struct ContentView: View {
     @State var showTokenListView = false
     @State var showSignView = false
     @State var showVCRListView = false
-    @State private var isHintPresented = false
 
     @State var selectedUser: User?
 
@@ -63,29 +62,6 @@ struct ContentView: View {
                             .font(.headline)
                             .padding()
                         Spacer()
-                        if UIDevice.current.userInterfaceIdiom == .pad {
-                            HStack(alignment: .top) {
-                                Button {
-                                    self.showVCRListView.toggle()
-                                } label: {
-                                    Text("Подключить виртуальный считыватель")
-                                        .foregroundColor(Color("text-blue"))
-                                        .multilineTextAlignment(.center)
-                                        .frame(maxWidth: UIScreen.main.bounds.width/2)
-                                }
-                                Button {
-                                    isHintPresented.toggle()
-                                } label: {
-                                    Image(systemName: "questionmark.circle.fill")
-                                }
-                                .foregroundColor(Color("text-blue"))
-                                .popover(isPresented: $isHintPresented) {
-                                    Hint()
-                                }
-                                .padding(.trailing, 16)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .center)
-                        }
                     } else {
                         List {
                             ForEach(users) { user in
@@ -101,7 +77,28 @@ struct ContentView: View {
                         }
                         .animation(.easeInOut)
                     }
+                    if UIDevice.current.userInterfaceIdiom != .phone {
+                        HStack(alignment: .center) {
+                            Button {
+                                self.showVCRListView.toggle()
+                            } label: {
+                                Text("Подключить виртуальный считыватель")
+                                    .foregroundColor(Color("text-blue"))
+                                    .multilineTextAlignment(.center)
+                            }
+                            HintButton(popoverView: {
+                                Hint(titlePopover: "Виртуальный считыватель",
+                                     plainText: ["Если на вашем мобильном устройстве нет NFC модуля, " +
+                                                 "то вы можете использовать виртуальный считыватель."],
+                                     titleBulletText: "Для работы с виртуальным считывателем:",
+                                     bulletText: ["Установите приложение VCR на iPhone",
+                                                  "Отсканируйте QR-код с экрана iPad",
+                                                  "Приложите Рутокен с NFC к модулю NFC вашего iPhone"])
+                            })
 
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    }
                     Button(action: {
                         self.showTokenListView.toggle()
                     }, label: {

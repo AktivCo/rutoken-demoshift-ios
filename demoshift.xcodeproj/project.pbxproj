@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		116D3903275A34B400C40765 /* AddVcrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D3902275A34B400C40765 /* AddVcrView.swift */; };
+		116D390F275F7C9C00C40765 /* BulletTextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D390E275F7C9C00C40765 /* BulletTextItem.swift */; };
+		116D3911275F7CE600C40765 /* HintButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D3910275F7CE600C40765 /* HintButton.swift */; };
 		119BF03D2749506A0002B8C6 /* Hint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF03C2749506A0002B8C6 /* Hint.swift */; };
 		119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF042274AB3050002B8C6 /* VcrListView.swift */; };
 		445B3D842758B253004B224C /* VCRCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445B3D832758B253004B224C /* VCRCard.swift */; };
@@ -67,6 +69,8 @@
 
 /* Begin PBXFileReference section */
 		116D3902275A34B400C40765 /* AddVcrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVcrView.swift; sourceTree = "<group>"; };
+		116D390E275F7C9C00C40765 /* BulletTextItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletTextItem.swift; sourceTree = "<group>"; };
+		116D3910275F7CE600C40765 /* HintButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintButton.swift; sourceTree = "<group>"; };
 		119BF03C2749506A0002B8C6 /* Hint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hint.swift; sourceTree = "<group>"; };
 		119BF042274AB3050002B8C6 /* VcrListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListView.swift; sourceTree = "<group>"; };
 		445B3D832758B253004B224C /* VCRCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCRCard.swift; sourceTree = "<group>"; };
@@ -174,6 +178,8 @@
 				C3FF05F72497F4FF00C8F4B1 /* CertCard.swift */,
 				119BF03C2749506A0002B8C6 /* Hint.swift */,
 				445B3D832758B253004B224C /* VCRCard.swift */,
+				116D390E275F7C9C00C40765 /* BulletTextItem.swift */,
+				116D3910275F7CE600C40765 /* HintButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -373,9 +379,11 @@
 				588410D524862758003AD26A /* PinInputView.swift in Sources */,
 				C399859424864A3F004C5889 /* Token.swift in Sources */,
 				C3FF05F82497F4FF00C8F4B1 /* CertCard.swift in Sources */,
+				116D3911275F7CE600C40765 /* HintButton.swift in Sources */,
 				C3C5FE85248A741700751E3A /* LoadingIndicator.swift in Sources */,
 				584300CB2490C72D00DBC98E /* User.swift in Sources */,
 				C3CE1BAF24866DD400981E61 /* SignResultView.swift in Sources */,
+				116D390F275F7C9C00C40765 /* BulletTextItem.swift in Sources */,
 				119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */,
 				588410D924862758003AD26A /* SceneDelegate.swift in Sources */,
 				B15FBD26248E267600385F6E /* Sharables.swift in Sources */,
