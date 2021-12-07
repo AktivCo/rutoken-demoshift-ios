@@ -21,9 +21,22 @@ struct VcrListView: View {
 
         ZStack {
             VStack {
-                Text("Доступные считыватели")
-                    .font(.headline)
-                    .padding(.top)
+                HStack(alignment: .center) {
+                    Text("Доступные считыватели")
+                        .font(.headline)
+                    HintButton(popoverView: {
+                        Hint(titlePopover: "Работа с виртуальными считывателями",
+                             plainText: ["На этом экране вы можете добавить, удалить считыватель и посмотреть его статус.",
+                                         "Подключение и отключение считывателей выполняются в приложении Рутокен VCR на вашем iPhone."],
+                             titleBulletText: "Чтобы включить/отключить считыватель:",
+                             bulletText: ["На iPhone откройте приложение Рутокен VCR.",
+                                          "Найдите карточку с именем вашего \"\(UIDevice.current.name)\" " +
+                                          "и названием приложения \"\(getAppName())\".",
+                                          "Под этой карточкой нажмите на кнопку Подключить/Отключить."])
+                    })
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.top)
                 List {
                     VCRCard(name: "iPhone (Sasha) - VCR", isActive: false)
                     VCRCard(name: "iPhone (Masha) - VCR", isActive: true)
@@ -52,4 +65,13 @@ struct VcrListView: View {
         }
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
     }
+
+    func getAppName() -> String {
+        guard let dictionary = Bundle.main.infoDictionary,
+              let name = dictionary["CFBundleName"] as? String else {
+                  return "Client Application"
+              }
+        return name
+    }
+
 }
