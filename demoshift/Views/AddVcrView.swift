@@ -26,25 +26,13 @@ struct AddVcrView: View {
             Spacer()
             Text("Отсканируйте QR-код")
             Spacer()
-            if let qr = state.qrCode {
-                Image(uiImage: qr)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxHeight: max(UIScreen.main.bounds.height*0.4, UIScreen.main.bounds.width*0.4))
-                    .background(Color(red: 0.8, green: 0.8, blue: 0.8).scaleEffect(1.1))
-            } else {
-                Image(systemName: "qrcode")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxHeight: max(UIScreen.main.bounds.height/2, UIScreen.main.bounds.width/2))
-                    .blur(radius: 20)
-            }
+            QrCode(qrCode: Image(uiImage: state.qrCode ?? UIImage(systemName: "qrcode")!), isBlur: state.isBlurQr)
             Spacer()
             Text("время действия QR-кода")
                 .padding(.bottom)
-            Text("1:56")
+            Text(state.currentTime ?? "--:--")
                 .foregroundColor(Color.red)
-                .font(.title)
+                .font(.system(.title, design: .monospaced))
             Spacer()
             Button(action: {
                 interactor.loadQrCode()
@@ -57,6 +45,9 @@ struct AddVcrView: View {
         }
         .onAppear(perform: {
             interactor.loadQrCode()
+        })
+        .onDisappear(perform: {
+            interactor.stopQrTimer()
         })
     }
 }
