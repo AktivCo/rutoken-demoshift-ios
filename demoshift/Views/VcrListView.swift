@@ -10,7 +10,16 @@ import SwiftUI
 
 
 struct VcrListView: View {
+    @ObservedObject private var state: VcrListState
     @State var showAddVcrView = false
+
+    private let interactor: VcrListInteractor
+
+    init() {
+        let state = VcrListState()
+        self.state = state
+        self.interactor = VcrListInteractor(state: state)
+    }
 
     var body: some View {
         NavigationLink(destination: AddVcrView(),
@@ -37,14 +46,20 @@ struct VcrListView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.top)
+
                 List {
-                    VCRCard(name: "iPhone (Sasha) - VCR", isActive: false)
-                    VCRCard(name: "iPhone (Masha) - VCR", isActive: true)
-                    VCRCard(name: "iPhone (Ragnaros) - VCR", isActive: false)
-                    VCRCard(name: "iPhone (Stas) - VCR", isActive: true)
-                    VCRCard(name: "iPhone (SAS) - VCR", isActive: false)
+                    ForEach(state.vcrs) {
+                        if #available(iOS 15.0, *) {
+                            VCRCard(name: $0.name, isActive: $0.isActive)
+                                .listRowSeparator(.hidden)
+                        } else {
+                            VCRCard(name: $0.name, isActive: $0.isActive)
+                        }
+                    }
+                    .listRowBackground(Color.clear)
                 }
             }
+
             VStack(alignment: .trailing) {
                 Spacer()
                 HStack {
@@ -64,6 +79,9 @@ struct VcrListView: View {
             }
         }
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
+        .onAppear {
+            interactor.loadAllVcrs()
+        }
     }
 
     func getAppName() -> String {
