@@ -1,5 +1,5 @@
 //
-//  NotificationCenter.swift
+//  NotificationManager.swift
 //  demoshift
 //
 //  Created by Vova Badyaev on 07.12.2021.
@@ -9,7 +9,7 @@
 import UserNotifications
 
 
-class NotificationCenter {
+class NotificationManager {
     func pushNotification(withTitle title: String, subtitle: String = "") {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             switch settings.authorizationStatus {

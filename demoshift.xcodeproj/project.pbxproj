@@ -13,10 +13,11 @@
 		116D39152760DC3D00C40765 /* AddVcrInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D39142760DC3D00C40765 /* AddVcrInteractor.swift */; };
 		116D39172760DC7100C40765 /* AddVcrState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D39162760DC7100C40765 /* AddVcrState.swift */; };
 		119310AB27637FE900B64BE0 /* QrCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119310AA27637FE900B64BE0 /* QrCode.swift */; };
+		119310AD2767865200B64BE0 /* ProgressRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119310AC2767865200B64BE0 /* ProgressRectangle.swift */; };
 		119BF03D2749506A0002B8C6 /* Hint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF03C2749506A0002B8C6 /* Hint.swift */; };
 		119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF042274AB3050002B8C6 /* VcrListView.swift */; };
 		445B3D842758B253004B224C /* VCRCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445B3D832758B253004B224C /* VCRCard.swift */; };
-		448067E6275FD1C700EBF5BB /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448067E5275FD1C700EBF5BB /* NotificationCenter.swift */; };
+		448067E6275FD1C700EBF5BB /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448067E5275FD1C700EBF5BB /* NotificationManager.swift */; };
 		58167F70248628D200C76262 /* SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58167F6F248628D200C76262 /* SignView.swift */; };
 		584300C5248F8B1100DBC98E /* CoreDataUser.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 584300C3248F8B1100DBC98E /* CoreDataUser.xcdatamodeld */; };
 		584300CB2490C72D00DBC98E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584300CA2490C72D00DBC98E /* User.swift */; };
@@ -37,7 +38,6 @@
 		5EB182EB276340890078FA5E /* PcscWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB182EA276340890078FA5E /* PcscWrapper.swift */; };
 		5ED0A736276260F700D67034 /* VcrListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A735276260F700D67034 /* VcrListInteractor.swift */; };
 		5ED0A7382762614400D67034 /* VcrListState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A7372762614400D67034 /* VcrListState.swift */; };
-		5ED0A73A2762629600D67034 /* AddVcrState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A7392762629600D67034 /* AddVcrState.swift */; };
 		B158944124863EE000C8485E /* DocumentViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B158944024863EDF00C8485E /* DocumentViewer.swift */; };
 		B15894462486BA8900C8485E /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15894452486BA8900C8485E /* ShareView.swift */; };
 		B15FBD26248E267600385F6E /* Sharables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15FBD25248E267600385F6E /* Sharables.swift */; };
@@ -83,10 +83,11 @@
 		116D39142760DC3D00C40765 /* AddVcrInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVcrInteractor.swift; sourceTree = "<group>"; };
 		116D39162760DC7100C40765 /* AddVcrState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVcrState.swift; sourceTree = "<group>"; };
 		119310AA27637FE900B64BE0 /* QrCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCode.swift; sourceTree = "<group>"; };
+		119310AC2767865200B64BE0 /* ProgressRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressRectangle.swift; sourceTree = "<group>"; };
 		119BF03C2749506A0002B8C6 /* Hint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hint.swift; sourceTree = "<group>"; };
 		119BF042274AB3050002B8C6 /* VcrListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListView.swift; sourceTree = "<group>"; };
 		445B3D832758B253004B224C /* VCRCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCRCard.swift; sourceTree = "<group>"; };
-		448067E5275FD1C700EBF5BB /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
+		448067E5275FD1C700EBF5BB /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		58167F6F248628D200C76262 /* SignView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
 		584300C4248F8B1100DBC98E /* CoreDataUser.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataUser.xcdatamodel; sourceTree = "<group>"; };
 		584300CA2490C72D00DBC98E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -107,7 +108,6 @@
 		5EB182EA276340890078FA5E /* PcscWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PcscWrapper.swift; sourceTree = "<group>"; };
 		5ED0A735276260F700D67034 /* VcrListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListInteractor.swift; sourceTree = "<group>"; };
 		5ED0A7372762614400D67034 /* VcrListState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListState.swift; sourceTree = "<group>"; };
-		5ED0A7392762629600D67034 /* AddVcrState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVcrState.swift; sourceTree = "<group>"; };
 		B158944024863EDF00C8485E /* DocumentViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewer.swift; sourceTree = "<group>"; };
 		B15894452486BA8900C8485E /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		B15FBD25248E267600385F6E /* Sharables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharables.swift; sourceTree = "<group>"; };
@@ -157,7 +157,6 @@
 		116D39132760DC0500C40765 /* States */ = {
 			isa = PBXGroup;
 			children = (
-				5ED0A7392762629600D67034 /* AddVcrState.swift */,
 				5ED0A7372762614400D67034 /* VcrListState.swift */,
 				116D39162760DC7100C40765 /* AddVcrState.swift */,
 			);
@@ -218,8 +217,9 @@
 				445B3D832758B253004B224C /* VCRCard.swift */,
 				116D390E275F7C9C00C40765 /* BulletTextItem.swift */,
 				116D3910275F7CE600C40765 /* HintButton.swift */,
-				448067E5275FD1C700EBF5BB /* NotificationCenter.swift */,
+				448067E5275FD1C700EBF5BB /* NotificationManager.swift */,
 				119310AA27637FE900B64BE0 /* QrCode.swift */,
+				119310AC2767865200B64BE0 /* ProgressRectangle.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -421,6 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				588410D624862758003AD26A /* AppDelegate.swift in Sources */,
+				119310AD2767865200B64BE0 /* ProgressRectangle.swift in Sources */,
 				116D39172760DC7100C40765 /* AddVcrState.swift in Sources */,
 				58167F70248628D200C76262 /* SignView.swift in Sources */,
 				B15894462486BA8900C8485E /* ShareView.swift in Sources */,
@@ -429,7 +430,7 @@
 				119BF03D2749506A0002B8C6 /* Hint.swift in Sources */,
 				B15FBD28248E6B9500385F6E /* DocumentPickerView.swift in Sources */,
 				116D3903275A34B400C40765 /* AddVcrView.swift in Sources */,
-				448067E6275FD1C700EBF5BB /* NotificationCenter.swift in Sources */,
+				448067E6275FD1C700EBF5BB /* NotificationManager.swift in Sources */,
 				588410D424862758003AD26A /* TokenManager.swift in Sources */,
 				B15FBD2E24925FE000385F6E /* AccessedUrl.swift in Sources */,
 				588410DC24862758003AD26A /* TextFieldWithFloatingLabel.swift in Sources */,
@@ -453,7 +454,6 @@
 				C3CE1BAF24866DD400981E61 /* SignResultView.swift in Sources */,
 				116D390F275F7C9C00C40765 /* BulletTextItem.swift in Sources */,
 				119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */,
-				5ED0A73A2762629600D67034 /* AddVcrState.swift in Sources */,
 				5E33801727674BA400FE7A23 /* VcrInfo.swift in Sources */,
 				588410D924862758003AD26A /* SceneDelegate.swift in Sources */,
 				B15FBD26248E267600385F6E /* Sharables.swift in Sources */,

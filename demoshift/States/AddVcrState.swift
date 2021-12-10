@@ -13,5 +13,5 @@ import UIKit
 class AddVcrState: ObservableObject {
     @Published var qrCode: UIImage?
     @Published var isBlurQr = true
-    @Published var currentTime: String?
+    @Published var currentTime: CGFloat = 0.0
 }
