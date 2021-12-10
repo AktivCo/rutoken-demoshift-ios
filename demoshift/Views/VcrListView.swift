@@ -30,9 +30,10 @@ struct VcrListView: View {
 
         ZStack {
             VStack {
-                HStack(alignment: .center) {
+                HStack {
                     Text("Доступные считыватели")
                         .font(.headline)
+                    Spacer()
                     HintButton(popoverView: {
                         Hint(titlePopover: "Работа с виртуальными считывателями",
                              plainText: ["На этом экране вы можете добавить, удалить считыватель и посмотреть его статус.",
@@ -45,7 +46,8 @@ struct VcrListView: View {
                     })
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.top)
+                .padding()
+                .padding(.horizontal)
 
                 List {
                     ForEach(state.vcrs) {

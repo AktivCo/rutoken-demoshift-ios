@@ -24,10 +24,10 @@ struct VCRCard: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .padding(16)
-            Spacer()
             Text(name)
                 .fontWeight(isActive ? .semibold : .thin)
                 .padding(.horizontal)
+            Spacer()
         }
         .frame(height: 160)
         .background(Color("listitem-background"))
