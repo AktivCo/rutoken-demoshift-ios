@@ -34,6 +34,7 @@
 		5ED0A736276260F700D67034 /* VcrListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A735276260F700D67034 /* VcrListInteractor.swift */; };
 		5ED0A7382762614400D67034 /* VcrListState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A7372762614400D67034 /* VcrListState.swift */; };
 		5ED0A73A2762629600D67034 /* AddVcrState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A7392762629600D67034 /* AddVcrState.swift */; };
+		5EB182EB276340890078FA5E /* PcscWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB182EA276340890078FA5E /* PcscWrapper.swift */; };
 		B158944124863EE000C8485E /* DocumentViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B158944024863EDF00C8485E /* DocumentViewer.swift */; };
 		B15894462486BA8900C8485E /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15894452486BA8900C8485E /* ShareView.swift */; };
 		B15FBD26248E267600385F6E /* Sharables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15FBD25248E267600385F6E /* Sharables.swift */; };
@@ -99,6 +100,7 @@
 		5ED0A735276260F700D67034 /* VcrListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListInteractor.swift; sourceTree = "<group>"; };
 		5ED0A7372762614400D67034 /* VcrListState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListState.swift; sourceTree = "<group>"; };
 		5ED0A7392762629600D67034 /* AddVcrState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVcrState.swift; sourceTree = "<group>"; };
+		5EB182EA276340890078FA5E /* PcscWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PcscWrapper.swift; sourceTree = "<group>"; };
 		B158944024863EDF00C8485E /* DocumentViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewer.swift; sourceTree = "<group>"; };
 		B15894452486BA8900C8485E /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		B15FBD25248E267600385F6E /* Sharables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharables.swift; sourceTree = "<group>"; };
@@ -213,6 +215,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		5EB182E9276340790078FA5E /* PcscWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				5EB182EA276340890078FA5E /* PcscWrapper.swift */,
+			);
+			path = PcscWrapper;
+			sourceTree = "<group>";
+		};
 		B15894442486815200C8485E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -241,6 +251,7 @@
 		C3FA84A3246C11670005B294 /* demoshift */ = {
 			isa = PBXGroup;
 			children = (
+				5EB182E9276340790078FA5E /* PcscWrapper */,
 				116D39132760DC0500C40765 /* States */,
 				116D39122760DBEE00C40765 /* Interactors */,
 				588410C724862758003AD26A /* Pkcs11 */,
@@ -414,6 +425,7 @@
 				5ED0A736276260F700D67034 /* VcrListInteractor.swift in Sources */,
 				C3FF05F82497F4FF00C8F4B1 /* CertCard.swift in Sources */,
 				116D3911275F7CE600C40765 /* HintButton.swift in Sources */,
+				5EB182EB276340890078FA5E /* PcscWrapper.swift in Sources */,
 				C3C5FE85248A741700751E3A /* LoadingIndicator.swift in Sources */,
 				584300CB2490C72D00DBC98E /* User.swift in Sources */,
 				116D39152760DC3D00C40765 /* AddVcrInteractor.swift in Sources */,

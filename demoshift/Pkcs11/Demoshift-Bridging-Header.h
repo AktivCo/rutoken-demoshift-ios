@@ -14,6 +14,7 @@
 
 #include <RtPcsc/rtnfc.h>
 #include <RtPcsc/rtVcrPairing.h>
+#include <RtPcsc/winscard.h>
 
 #include <openssl/x509.h>
 #include <openssl/cms.h>

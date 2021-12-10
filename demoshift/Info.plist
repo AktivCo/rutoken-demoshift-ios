@@ -24,6 +24,13 @@
 	<string>NFC будет использован для работы с устройствами Рутокен</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Bluetooth будет использован для работы с устройствами Рутокен</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_ru-rutoken-vcr._udp</string>
+		<string>_ru-rutoken-vcr._tcp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Доступ необходим для работы с виртуальным считывателем Рутокен</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
