@@ -16,10 +16,15 @@ class VcrListInteractor {
 
     public func loadAllVcrs() {
         state.vcrs = (listPairedVCR() as? [[String: Any]] ?? []).compactMap { info in
-            guard let name = info["name"] as? String else {
+            guard let name = info["name"] as? String,
+                  let id = info["fingerprint"] as? Data else {
                 return nil
             }
-            return VcrInfo(name: name)
+            return VcrInfo(id: id, name: name)
         }
+    }
+
+    public func unpairVcr(id: Data) {
+        unpairVCR(id)
     }
 }

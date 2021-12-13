@@ -12,9 +12,3 @@ import Combine
 class VcrListState: ObservableObject {
     @Published var vcrs = [VcrInfo]()
 }
-
-struct VcrInfo: Identifiable {
-    let id = UUID()
-    let name: String
-    let isActive = true
-}

@@ -58,6 +58,11 @@ struct VcrListView: View {
                             VCRCard(name: $0.name, isActive: $0.isActive)
                         }
                     }
+                    .onDelete(perform: { indicies in
+                        indicies
+                            .compactMap { state.vcrs[$0] }
+                            .forEach { interactor.unpairVcr(id: $0.id) }
+                    })
                     .listRowBackground(Color.clear)
                 }
             }
