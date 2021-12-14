@@ -9,6 +9,21 @@
 import Combine
 
 
+enum ReaderError: Error {
+    case unknown
+    case readerUnavailable
+    case timeout
+    case cancelledByUser
+}
+
+enum NfcStopReason: UInt8 {
+    case finished = 0x00
+    case unknown = 0x01
+    case timeout = 0x02
+    case cancelledByUser = 0x03
+    case noError = 0x04
+}
+
 struct Reader {
     enum ReaderType {
         case unknown
@@ -131,6 +146,65 @@ class PcscWrapper {
 
     public func readers() -> AnyPublisher<[Reader], Never> {
         return readersPublisher.share().eraseToAnyPublisher()
+    }
+
+    public func startNfc(onReader readerName: String, withMessage message: String) throws {
+        var handle = SCARDHANDLE()
+        var activeProtocol = DWORD()
+
+        guard SCARD_S_SUCCESS == SCardConnectA(context, readerName, DWORD(SCARD_SHARE_DIRECT),
+                                               0, &handle, &activeProtocol) else {
+            throw ReaderError.readerUnavailable
+        }
+        defer {
+            SCardDisconnect(handle, 0)
+        }
+
+        var state = SCARD_READERSTATE()
+        state.szReader = (readerName as NSString).utf8String
+        state.dwCurrentState = DWORD(SCARD_STATE_EMPTY)
+
+        guard SCARD_S_SUCCESS == SCardControl(handle, DWORD(RUTOKEN_CONTROL_CODE_START_NFC), (message as NSString).utf8String,
+                                              DWORD(message.count), nil, 0, nil),
+              SCARD_S_SUCCESS == SCardGetStatusChangeA(context, INFINITE, &state, 1) else {
+            throw ReaderError.readerUnavailable
+        }
+
+        guard (SCARD_STATE_PRESENT | SCARD_STATE_CHANGED | SCARD_STATE_INUSE) == state.dwEventState else {
+            switch getLastNfcStopReason(ofHandle: handle) {
+            case RUTOKEN_NFC_STOP_REASON_CANCELLED_BY_USER:
+                throw ReaderError.cancelledByUser
+            case RUTOKEN_NFC_STOP_REASON_TIMEOUT:
+                throw ReaderError.timeout
+            default:
+                throw ReaderError.unknown
+            }
+        }
+    }
+
+    public func getLastNfcStopReason(onReader readerName: String) throws -> NfcStopReason {
+        var handle = SCARDHANDLE()
+        var activeProtocol = DWORD()
+
+        guard SCARD_S_SUCCESS == SCardConnectA(context, readerName, DWORD(SCARD_SHARE_DIRECT),
+                                               0, &handle, &activeProtocol) else {
+            throw ReaderError.readerUnavailable
+        }
+        defer {
+            SCardDisconnect(handle, 0)
+        }
+
+        return NfcStopReason(rawValue: getLastNfcStopReason(ofHandle: handle)) ?? .unknown
+    }
+
+    private func getLastNfcStopReason(ofHandle handle: SCARDHANDLE) -> UInt8 {
+        var result = UInt8(0)
+        var resultLen: DWORD = 0
+        guard SCARD_S_SUCCESS == SCardControl(handle, DWORD(RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON), nil,
+                                              0, &result, 1, &resultLen) else {
+            return RUTOKEN_NFC_STOP_REASON_UNKNOWN
+        }
+        return result
     }
 
     private func allocatePointerForString(_ str: String) -> UnsafePointer<Int8> {

@@ -16,8 +16,6 @@ struct ContentView: View {
 
     @State var selectedUser: User?
 
-    private let wrapper = PcscWrapper()
-
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: User.getAllUsers()) var users: FetchedResults<User>
 
