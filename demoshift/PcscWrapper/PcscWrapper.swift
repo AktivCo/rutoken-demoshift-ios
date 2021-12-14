@@ -182,6 +182,28 @@ class PcscWrapper {
         }
     }
 
+    public func stopNfc(onReader readerName: String, withMessage message: String) throws {
+        var handle = SCARDHANDLE()
+        var activeProtocol = DWORD()
+
+        guard SCARD_S_SUCCESS == SCardConnectA(context, readerName, DWORD(SCARD_SHARE_DIRECT),
+                                               0, &handle, &activeProtocol) else {
+            throw ReaderError.readerUnavailable
+        }
+        defer {
+            SCardDisconnect(handle, 0)
+        }
+
+        var state = SCARD_READERSTATE()
+        state.szReader = (readerName as NSString).utf8String
+        state.dwCurrentState = DWORD(SCARD_STATE_EMPTY)
+
+        guard SCARD_S_SUCCESS == SCardControl(handle, DWORD(RUTOKEN_CONTROL_CODE_STOP_NFC), (message as NSString).utf8String,
+                                              DWORD(message.count), nil, 0, nil) else {
+            throw ReaderError.unknown
+        }
+    }
+
     public func getLastNfcStopReason(onReader readerName: String) throws -> NfcStopReason {
         var handle = SCARDHANDLE()
         var activeProtocol = DWORD()
