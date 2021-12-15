@@ -1,15 +1,16 @@
 //
-//  ContentView.swift
+//  UserListView.swift
 //  demoshift
 //
 //  Created by Андрей Трифонов on 13.05.2020.
 //  Copyright © 2020 Aktiv Co. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 
-struct ContentView: View {
+struct UserListView: View {
     @State var showTokenListView = false
     @State var showSignView = false
     @State var showVCRListView = false
