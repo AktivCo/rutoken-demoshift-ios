@@ -17,6 +17,8 @@ struct UserListView: View {
 
     @State var selectedUser: User?
 
+    private let interactor = UserListInteractor()
+
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: User.getAllUsers()) var users: FetchedResults<User>
 

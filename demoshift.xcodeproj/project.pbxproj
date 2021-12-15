@@ -38,6 +38,8 @@
 		5EB182EB276340890078FA5E /* PcscWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB182EA276340890078FA5E /* PcscWrapper.swift */; };
 		5ED0A736276260F700D67034 /* VcrListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A735276260F700D67034 /* VcrListInteractor.swift */; };
 		5ED0A7382762614400D67034 /* VcrListState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A7372762614400D67034 /* VcrListState.swift */; };
+		5ED0A73A2762629600D67034 /* AddVcrState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A7392762629600D67034 /* AddVcrState.swift */; };
+		5EFD388E2769E97000A77C40 /* UserListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFD388D2769E97000A77C40 /* UserListInteractor.swift */; };
 		B158944124863EE000C8485E /* DocumentViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B158944024863EDF00C8485E /* DocumentViewer.swift */; };
 		B15894462486BA8900C8485E /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15894452486BA8900C8485E /* ShareView.swift */; };
 		B15FBD26248E267600385F6E /* Sharables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15FBD25248E267600385F6E /* Sharables.swift */; };
@@ -108,6 +110,8 @@
 		5EB182EA276340890078FA5E /* PcscWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PcscWrapper.swift; sourceTree = "<group>"; };
 		5ED0A735276260F700D67034 /* VcrListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListInteractor.swift; sourceTree = "<group>"; };
 		5ED0A7372762614400D67034 /* VcrListState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListState.swift; sourceTree = "<group>"; };
+		5ED0A7392762629600D67034 /* AddVcrState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVcrState.swift; sourceTree = "<group>"; };
+		5EFD388D2769E97000A77C40 /* UserListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListInteractor.swift; sourceTree = "<group>"; };
 		B158944024863EDF00C8485E /* DocumentViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewer.swift; sourceTree = "<group>"; };
 		B15894452486BA8900C8485E /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		B15FBD25248E267600385F6E /* Sharables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharables.swift; sourceTree = "<group>"; };
@@ -150,6 +154,7 @@
 			children = (
 				116D39142760DC3D00C40765 /* AddVcrInteractor.swift */,
 				5ED0A735276260F700D67034 /* VcrListInteractor.swift */,
+				5EFD388D2769E97000A77C40 /* UserListInteractor.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -439,6 +444,7 @@
 				5ED0A7382762614400D67034 /* VcrListState.swift in Sources */,
 				588410D824862758003AD26A /* UserCard.swift in Sources */,
 				C399859224864A1D004C5889 /* Cert.swift in Sources */,
+				5EFD388E2769E97000A77C40 /* UserListInteractor.swift in Sources */,
 				584300C5248F8B1100DBC98E /* CoreDataUser.xcdatamodeld in Sources */,
 				B158944124863EE000C8485E /* DocumentViewer.swift in Sources */,
 				445B3D842758B253004B224C /* VCRCard.swift in Sources */,

@@ -10,13 +10,13 @@ import UserNotifications
 
 
 class NotificationManager {
-    func pushNotification(withTitle title: String, subtitle: String = "") {
+    func pushNotification(withTitle title: String, body: String = "") {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             switch settings.authorizationStatus {
             case .authorized, .provisional:
                 let content = UNMutableNotificationContent()
                 content.title = title
-                content.subtitle = subtitle
+                content.body = body
                 content.sound = UNNotificationSound.default
 
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
