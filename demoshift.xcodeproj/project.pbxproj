@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11475CC727739808008A9F85 /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11475CC627739808008A9F85 /* EnvironmentValues.swift */; };
 		116D3903275A34B400C40765 /* AddVcrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D3902275A34B400C40765 /* AddVcrView.swift */; };
 		116D390F275F7C9C00C40765 /* BulletTextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D390E275F7C9C00C40765 /* BulletTextItem.swift */; };
 		116D3911275F7CE600C40765 /* HintButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D3910275F7CE600C40765 /* HintButton.swift */; };
@@ -38,7 +39,6 @@
 		5EB182EB276340890078FA5E /* PcscWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB182EA276340890078FA5E /* PcscWrapper.swift */; };
 		5ED0A736276260F700D67034 /* VcrListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A735276260F700D67034 /* VcrListInteractor.swift */; };
 		5ED0A7382762614400D67034 /* VcrListState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A7372762614400D67034 /* VcrListState.swift */; };
-		5ED0A73A2762629600D67034 /* AddVcrState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A7392762629600D67034 /* AddVcrState.swift */; };
 		5EFD388E2769E97000A77C40 /* UserListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFD388D2769E97000A77C40 /* UserListInteractor.swift */; };
 		B158944124863EE000C8485E /* DocumentViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B158944024863EDF00C8485E /* DocumentViewer.swift */; };
 		B15894462486BA8900C8485E /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15894452486BA8900C8485E /* ShareView.swift */; };
@@ -79,6 +79,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		11475CC627739808008A9F85 /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		116D3902275A34B400C40765 /* AddVcrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVcrView.swift; sourceTree = "<group>"; };
 		116D390E275F7C9C00C40765 /* BulletTextItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletTextItem.swift; sourceTree = "<group>"; };
 		116D3910275F7CE600C40765 /* HintButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintButton.swift; sourceTree = "<group>"; };
@@ -110,7 +111,6 @@
 		5EB182EA276340890078FA5E /* PcscWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PcscWrapper.swift; sourceTree = "<group>"; };
 		5ED0A735276260F700D67034 /* VcrListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListInteractor.swift; sourceTree = "<group>"; };
 		5ED0A7372762614400D67034 /* VcrListState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListState.swift; sourceTree = "<group>"; };
-		5ED0A7392762629600D67034 /* AddVcrState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVcrState.swift; sourceTree = "<group>"; };
 		5EFD388D2769E97000A77C40 /* UserListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListInteractor.swift; sourceTree = "<group>"; };
 		B158944024863EDF00C8485E /* DocumentViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewer.swift; sourceTree = "<group>"; };
 		B15894452486BA8900C8485E /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
@@ -149,6 +149,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11475CC5277397E7008A9F85 /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				11475CC627739808008A9F85 /* EnvironmentValues.swift */,
+			);
+			path = Environment;
+			sourceTree = "<group>";
+		};
 		116D39122760DBEE00C40765 /* Interactors */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,6 +281,7 @@
 		C3FA84A3246C11670005B294 /* demoshift */ = {
 			isa = PBXGroup;
 			children = (
+				11475CC5277397E7008A9F85 /* Environment */,
 				5EB182E9276340790078FA5E /* PcscWrapper */,
 				5E33801527674B8D00FE7A23 /* Entities */,
 				116D39132760DC0500C40765 /* States */,
@@ -430,6 +439,7 @@
 				116D39172760DC7100C40765 /* AddVcrState.swift in Sources */,
 				58167F70248628D200C76262 /* SignView.swift in Sources */,
 				B15894462486BA8900C8485E /* ShareView.swift in Sources */,
+				11475CC727739808008A9F85 /* EnvironmentValues.swift in Sources */,
 				588410DB24862758003AD26A /* RoundedFilledButton.swift in Sources */,
 				119310AB27637FE900B64BE0 /* QrCode.swift in Sources */,
 				119BF03D2749506A0002B8C6 /* Hint.swift in Sources */,

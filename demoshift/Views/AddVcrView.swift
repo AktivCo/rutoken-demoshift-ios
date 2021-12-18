@@ -10,17 +10,9 @@ import SwiftUI
 
 
 struct AddVcrView: View {
-    @ObservedObject private var state: AddVcrState
-    private let interactor: AddVcrInteractor
-    private let colorTimeHelper: ColorHelper
-
-    init() {
-        let state = AddVcrState()
-        let helper = ColorHelper()
-        self.state = state
-        self.interactor = AddVcrInteractor(state: state, maxTime: helper.maxTime)
-        self.colorTimeHelper = helper
-    }
+    @Environment(\.interactorsContainer) var interactorsContainer: InteractorsContainer
+    @EnvironmentObject var state: AddVcrState
+    private let colorTimeHelper = ColorHelper()
 
     var body: some View {
         VStack {
@@ -42,7 +34,7 @@ struct AddVcrView: View {
                 .font(.system(.title, design: .monospaced))
             Spacer()
             Button(action: {
-                interactor.loadQrCode()
+                interactorsContainer.addVcrInteractor?.loadQrCode()
             }, label: {
                 Text("Сгенерировать новый QR-код")
             })
@@ -51,10 +43,11 @@ struct AddVcrView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
         .onAppear(perform: {
-            interactor.loadQrCode()
+            interactorsContainer.addVcrInteractor?.maxTime = colorTimeHelper.maxTime
+            interactorsContainer.addVcrInteractor?.loadQrCode()
         })
         .onDisappear(perform: {
-            interactor.stopQrTimer()
+            interactorsContainer.addVcrInteractor?.stopQrTimer()
         })
     }
 }

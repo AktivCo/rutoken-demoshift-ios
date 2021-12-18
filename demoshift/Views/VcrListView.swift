@@ -10,19 +10,14 @@ import SwiftUI
 
 
 struct VcrListView: View {
-    @ObservedObject private var state: VcrListState
+    @Environment(\.interactorsContainer) var interactorsContainer: InteractorsContainer
+    @EnvironmentObject var state: VcrListState
     @State var showAddVcrView = false
 
-    private let interactor: VcrListInteractor
-
-    init() {
-        let state = VcrListState()
-        self.state = state
-        self.interactor = VcrListInteractor(state: state)
-    }
+    private let addVcrView = AddVcrView()
 
     var body: some View {
-        NavigationLink(destination: AddVcrView(),
+        NavigationLink(destination: addVcrView,
                        isActive: self.$showAddVcrView) {
             EmptyView()
         }
@@ -61,7 +56,7 @@ struct VcrListView: View {
                     .onDelete(perform: { indicies in
                         indicies
                             .compactMap { state.vcrs[$0] }
-                            .forEach { interactor.unpairVcr(id: $0.id) }
+                            .forEach { interactorsContainer.vcrListInteractor?.unpairVcr(id: $0.id) }
                     })
                     .listRowBackground(Color.clear)
                 }
@@ -86,9 +81,6 @@ struct VcrListView: View {
             }
         }
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
-        .onAppear {
-            interactor.loadAllVcrs()
-        }
     }
 
     func getAppName() -> String {

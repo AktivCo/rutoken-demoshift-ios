@@ -10,13 +10,14 @@ import Combine
 
 
 class UserListInteractor {
-    private let pcscWrapper = PcscWrapper()
     private let notificationManager = NotificationManager()
+    private let pcscWrapper: PcscWrapper
     private var readers = [Reader]()
     private var cancellable = Set<AnyCancellable>()
 
-    init() {
-        pcscWrapper?.readers()
+    init(_ pcscWrapper: PcscWrapper) {
+        self.pcscWrapper = pcscWrapper
+        self.pcscWrapper.readers()
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [unowned self] newReaders in
                 readers

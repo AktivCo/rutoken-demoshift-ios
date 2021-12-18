@@ -13,13 +13,12 @@ import UIKit
 class AddVcrInteractor {
     private var state: AddVcrState
     private var timer: Timer?
-    private let maxTime: CGFloat
+    public var maxTime: CGFloat = 0
     private let timerInterval: CGFloat = 0.01
     private var startTime: UInt64 = 0
 
-    init(state: AddVcrState, maxTime: CGFloat) {
+    init(state: AddVcrState) {
         self.state = state
-        self.maxTime = maxTime
     }
 
     deinit {

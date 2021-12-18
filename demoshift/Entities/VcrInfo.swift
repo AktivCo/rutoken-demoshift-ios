@@ -12,5 +12,5 @@ import Foundation
 struct VcrInfo: Identifiable {
     let id: Data
     let name: String
-    let isActive = true
+    let isActive: Bool
 }

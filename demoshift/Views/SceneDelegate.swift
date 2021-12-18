@@ -24,7 +24,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
             fatalError("Unable to read managed object context.")
         }
-        let contentView = UserListView().environment(\.managedObjectContext, context)
+
+        guard let pcscWrapper = PcscWrapper() else {
+            fatalError("Unable to create SCardEstablishContext")
+        }
+        let vcrListState = VcrListState()
+        let addVcrState = AddVcrState()
+        let contentView = UserListView()
+            .environment(\.managedObjectContext, context)
+            .environmentObject(vcrListState)
+            .environmentObject(addVcrState)
+            .environment(\.interactorsContainer, InteractorsContainer(addVcrInteractor: AddVcrInteractor(state: addVcrState),
+                                                                      vcrListInteractor: VcrListInteractor(state: vcrListState,
+                                                                                                           pcscWrapper: pcscWrapper),
+                                                                      userListInteractor: UserListInteractor(pcscWrapper)))
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
