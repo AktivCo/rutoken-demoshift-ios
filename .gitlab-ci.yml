@@ -85,7 +85,7 @@ build:ios-arm64-clang:
                  -exportOptionsPlist demoshift/export.plist \
                  -exportPath ${PATH_TO_EXPORT_DIR}
     - |
-      if [[ ${CI_COMMIT_REF_NAME} = ${CI_DEFAULT_BRANCH} ]]
+      if [[ ${CI_COMMIT_REF_PROTECTED} == "true" ]]
       then
           xcrun altool --upload-app \
                        -f ${PATH_TO_EXPORT_DIR}/*.ipa \
