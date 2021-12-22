@@ -30,11 +30,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         let vcrListState = VcrListState()
         let addVcrState = AddVcrState()
+        let routingState = RoutingState()
         let contentView = UserListView()
             .environment(\.managedObjectContext, context)
             .environmentObject(vcrListState)
             .environmentObject(addVcrState)
-            .environment(\.interactorsContainer, InteractorsContainer(addVcrInteractor: AddVcrInteractor(state: addVcrState),
+            .environmentObject(routingState)
+            .environment(\.interactorsContainer, InteractorsContainer(addVcrInteractor: AddVcrInteractor(routingState: routingState,
+                                                                                                         state: addVcrState,
+                                                                                                         pcscWrapper: pcscWrapper),
                                                                       vcrListInteractor: VcrListInteractor(state: vcrListState,
                                                                                                            pcscWrapper: pcscWrapper),
                                                                       userListInteractor: UserListInteractor(pcscWrapper)))

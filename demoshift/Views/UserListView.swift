@@ -11,9 +11,9 @@ import SwiftUI
 
 
 struct UserListView: View {
+    @EnvironmentObject var routingState: RoutingState
     @State var showTokenListView = false
     @State var showSignView = false
-    @State var showVCRListView = false
 
     @State var selectedUser: User?
 
@@ -44,7 +44,7 @@ struct UserListView: View {
                 }
                 .isDetailLink(false)
                 NavigationLink(destination: VcrListView(),
-                               isActive: self.$showVCRListView) {
+                               isActive: self.$routingState.showVCRListView) {
                     EmptyView()
                 }
                 .isDetailLink(false)
@@ -81,7 +81,7 @@ struct UserListView: View {
                     if UIDevice.current.userInterfaceIdiom != .phone {
                         HStack(alignment: .center) {
                             Button {
-                                self.showVCRListView.toggle()
+                                self.routingState.showVCRListView.toggle()
                             } label: {
                                 Text("Подключить виртуальный считыватель")
                                     .foregroundColor(Color("text-blue"))

@@ -12,13 +12,13 @@ import SwiftUI
 struct VcrListView: View {
     @Environment(\.interactorsContainer) var interactorsContainer: InteractorsContainer
     @EnvironmentObject var state: VcrListState
-    @State var showAddVcrView = false
+    @EnvironmentObject var routingState: RoutingState
 
     private let addVcrView = AddVcrView()
 
     var body: some View {
         NavigationLink(destination: addVcrView,
-                       isActive: self.$showAddVcrView) {
+                       isActive: self.$routingState.showAddVCRView) {
             EmptyView()
         }
         .isDetailLink(false)
@@ -67,7 +67,7 @@ struct VcrListView: View {
                 HStack {
                     Spacer()
                     Button {
-                        showAddVcrView = true
+                        self.routingState.showAddVCRView = true
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .imageScale(.large)

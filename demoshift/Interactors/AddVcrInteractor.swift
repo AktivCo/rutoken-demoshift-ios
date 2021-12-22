@@ -6,19 +6,47 @@
 //  Copyright © 2021 Aktiv Co. All rights reserved.
 //
 
+import Combine
 import SwiftUI
-import UIKit
 
 
 class AddVcrInteractor {
+    private var routingState: RoutingState
+    private let pcscWrapper: PcscWrapper
     private var state: AddVcrState
     private var timer: Timer?
-    public var maxTime: CGFloat = 0
+    private var maxTime: CGFloat = 0
     private let timerInterval: CGFloat = 0.01
     private var startTime: UInt64 = 0
 
-    init(state: AddVcrState) {
+    private var readers = [String]()
+    private var cancellable = Set<AnyCancellable>()
+
+    init(routingState: RoutingState, state: AddVcrState, pcscWrapper: PcscWrapper) {
+        self.routingState = routingState
         self.state = state
+        self.pcscWrapper = pcscWrapper
+        self.pcscWrapper.readers()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [unowned self] newReaders in
+                if self.routingState.showAddVCRView {
+                    newReaders
+                        .filter { $0.type == .vcr }
+                        .forEach { newReader in
+                            if !readers.contains(where: { $0 == newReader.name }) {
+                                self.routingState.showVCRListView = false
+                                self.routingState.showAddVCRView = false
+                            }
+                        }
+                }
+                readers = (listPairedVCR() as? [[String: Any]] ?? []).compactMap { info in
+                    guard let name = info["name"] as? String else {
+                        return nil
+                    }
+                    return name
+                }
+            })
+            .store(in: &cancellable)
     }
 
     deinit {
@@ -40,7 +68,7 @@ class AddVcrInteractor {
         }
     }
 
-    public func stopQrTimer() {
+    private func stopQrTimer() {
         timer?.invalidate()
         state.isBlurQr = true
         state.currentTime = 0
@@ -64,5 +92,14 @@ class AddVcrInteractor {
         }
         state.currentTime -= delta
         startTime = currentTime
+    }
+
+    public func willAppear(maxTime: CGFloat) {
+        self.maxTime = maxTime
+        loadQrCode()
+    }
+
+    public func willDisappear() {
+        stopQrTimer()
     }
 }

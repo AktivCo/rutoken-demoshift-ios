@@ -43,11 +43,10 @@ struct AddVcrView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
         .onAppear(perform: {
-            interactorsContainer.addVcrInteractor?.maxTime = colorTimeHelper.maxTime
-            interactorsContainer.addVcrInteractor?.loadQrCode()
+            interactorsContainer.addVcrInteractor?.willAppear(maxTime: colorTimeHelper.maxTime)
         })
         .onDisappear(perform: {
-            interactorsContainer.addVcrInteractor?.stopQrTimer()
+            interactorsContainer.addVcrInteractor?.willDisappear()
         })
     }
 }
