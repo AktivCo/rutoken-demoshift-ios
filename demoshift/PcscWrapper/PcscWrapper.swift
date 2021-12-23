@@ -136,9 +136,11 @@ class PcscWrapper {
                     return newState
                 }
 
-                var newReaderState = SCARD_READERSTATE()
-                newReaderState.szReader = allocatePointerForString(newReaderNotification)
-                readerStates.states.append(newReaderState)
+                if shouldRelistReaders {
+                    var newReaderState = SCARD_READERSTATE()
+                    newReaderState.szReader = allocatePointerForString(newReaderNotification)
+                    readerStates.states.append(newReaderState)
+                }
             }
 
         }
