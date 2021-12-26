@@ -61,12 +61,6 @@ class PcscWrapper {
     private let newReaderNotification = "\\\\?PnP?\\Notification"
     private var context = SCARDCONTEXT()
 
-    private var readersList = [Reader]() {
-        willSet {
-            readersPublisher.send(newValue)
-        }
-    }
-
     private var readersPublisher = CurrentValueSubject<[Reader], Never>([])
 
     init?() {
@@ -75,11 +69,11 @@ class PcscWrapper {
         }
 
         let readerNames = listReaders()
-        var readerStates = getReaderStates(readerNames: readerNames)
-
-        readersList = readerNames.map { name in
+        readersPublisher.send(readerNames.map { name in
             return Reader(name: name, type: readerType(reader: name))
-        }
+        })
+
+        var readerStates = getReaderStates(readerNames: readerNames)
 
         readerStates.states = readerStates.states.map { oldState in
             let newState = SCARD_READERSTATE(szReader: oldState.szReader,
@@ -119,10 +113,9 @@ class PcscWrapper {
 
                 if shouldRelistReaders {
                     let names = listReaders()
-                    readersList = names.map { name in
+                    readersPublisher.send(names.map { name in
                         return Reader(name: name, type: readerType(reader: name))
-                    }
-
+                    })
                     readerStates = getReaderStates(readerNames: names)
                 }
 
@@ -142,7 +135,6 @@ class PcscWrapper {
                     readerStates.states.append(newReaderState)
                 }
             }
-
         }
     }
 
@@ -150,7 +142,7 @@ class PcscWrapper {
         return readersPublisher.share().eraseToAnyPublisher()
     }
 
-    public func startNfc(onReader readerName: String, withMessage message: String) throws {
+    public func startNfc(onReader readerName: String, waitMessage: String, workMessage: String) throws {
         var handle = SCARDHANDLE()
         var activeProtocol = DWORD()
 
@@ -166,11 +158,13 @@ class PcscWrapper {
         state.szReader = (readerName as NSString).utf8String
         state.dwCurrentState = DWORD(SCARD_STATE_EMPTY)
 
+        let message = "\(waitMessage)\0\(workMessage)\0\0"
+
         guard SCARD_S_SUCCESS == SCardControl(handle, DWORD(RUTOKEN_CONTROL_CODE_START_NFC), (message as NSString).utf8String,
                                               DWORD(message.count), nil, 0, nil),
               SCARD_S_SUCCESS == SCardGetStatusChangeA(context, INFINITE, &state, 1) else {
-            throw ReaderError.readerUnavailable
-        }
+                  throw ReaderError.readerUnavailable
+              }
 
         guard (SCARD_STATE_PRESENT | SCARD_STATE_CHANGED | SCARD_STATE_INUSE) == state.dwEventState else {
             switch getLastNfcStopReason(ofHandle: handle) {
