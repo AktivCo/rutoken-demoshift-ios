@@ -39,24 +39,24 @@ struct PinInputView: View {
 
     var body: some View {
         ZStack {
-            GeometryReader { geometry in
-                VStack(alignment: .leading) {
-                    HStack(alignment: .top) {
-                        Image("logo")
-                            .offset(x: -geometry.frame(in: .global).minX)
-                        Spacer()
-                        Image(systemName: "xmark")
-                            .font(.headline) // Change width of xmark - it is technically text
-                            .foregroundColor(Color("text-blue"))
-                            .frame(width: 30, height: 30)
-                            .background(Color(.systemGray5))
-                            .clipShape(Circle())
-                            .onTapGesture {
-                                self.mode.wrappedValue.dismiss()
+            VStack(alignment: .leading) {
+                HStack(alignment: .top) {
+                    Image("logo")
+                    Spacer()
+                    Image(systemName: "xmark")
+                        .font(.headline) // Change width of xmark - it is technically text
+                        .foregroundColor(Color("text-blue"))
+                        .frame(width: 30, height: 30)
+                        .background(Color(.systemGray5))
+                        .clipShape(Circle())
+                        .onTapGesture {
+                            self.mode.wrappedValue.dismiss()
                         }
-                    }
-                    .padding(.bottom)
+                        .padding(.trailing)
+                }
+                .padding(.vertical)
 
+                Group {
                     HStack {
                         Text(self.idleTitle)
                             .font(.title)
@@ -80,8 +80,8 @@ struct PinInputView: View {
                         .disabled(self.pin.isEmpty)
                     Spacer()
                 }
+                .padding()
             }
-            .padding()
             .offset(y: self.status.isInProgress ? -screen.height : 0)
             .background(Color("sheet-background"))
 
