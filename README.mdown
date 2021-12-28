@@ -18,6 +18,8 @@ Required frameworks:
 * openssl/rtengine/bin/ios-arm64/rtengine.framework (Rutoken SDK);
 * openssl/openssl-shared-1.1/ios-arm64/openssl.framework (Rutoken SDK).
 
+[Integration details of NFC security tokens Rutoken ECP Series to your own applications.](https://dev.rutoken.ru/pages/viewpage.action?pageId=81527019)
+
 ## How to build
 
 * copy frameworks to Frameworks in root directory of project;
