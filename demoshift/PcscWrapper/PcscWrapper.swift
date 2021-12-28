@@ -161,7 +161,7 @@ class PcscWrapper {
         let message = "\(waitMessage)\0\(workMessage)\0\0"
 
         guard SCARD_S_SUCCESS == SCardControl(handle, DWORD(RUTOKEN_CONTROL_CODE_START_NFC), (message as NSString).utf8String,
-                                              DWORD(message.count), nil, 0, nil),
+                                              DWORD(message.utf8.count), nil, 0, nil),
               SCARD_S_SUCCESS == SCardGetStatusChangeA(context, INFINITE, &state, 1) else {
                   throw ReaderError.readerUnavailable
               }
