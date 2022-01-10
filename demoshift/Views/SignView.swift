@@ -11,6 +11,8 @@ import SwiftUI
 
 
 struct SignView: View {
+    @Environment(\.interactorsContainer) var interactorsContainer: InteractorsContainer
+
     @State var showPinInputView = false
     @State var showSignResultView = false
     @State var showDocumentPicker = false
@@ -99,20 +101,21 @@ struct SignView: View {
                                             }
                                         }
 
-                                        startNFC { _ in
-                                            TokenManager.shared.cancelWait()
-                                        }
-                                        defer {
-                                            stopNFC()
-                                        }
-
                                         do {
                                             guard let currentUser = self.user else {
                                                 throw TokenError.generalError
                                             }
-                                            guard let token = TokenManager.shared.waitForToken() else {
-                                                throw TokenManagerError.tokenNotFound
+
+                                            try interactorsContainer.pcscWrapperInteractor?
+                                                .startNfc(withWaitMessage: "Поднесите Рутокен с NFC",
+                                                          workMessage: "Рутокен с NFC подключен, идет обмен данными...")
+                                            defer {
+                                                interactorsContainer.pcscWrapperInteractor?.stopNfc(withMessage:
+                                                                                                        "Работа с Рутокен с NFC завершена")
                                             }
+
+                                            let token = try TokenManager.shared.getToken()
+
                                             guard token.serial == currentUser.tokenSerial else {
                                                 throw TokenManagerError.wrongToken
                                             }
@@ -153,6 +156,8 @@ struct SignView: View {
                                             self.setErrorMessage(message: "Превышен лимит ошибок при вводе PIN-кода")
                                         } catch TokenManagerError.tokenNotFound {
                                             self.setErrorMessage(message: "Не удалось обнаружить Рутокен")
+                                        } catch ReaderError.readerUnavailable {
+                                            self.setErrorMessage(message: "Не удалось обнаружить считыватель")
                                         } catch TokenError.keyPairNotFound {
                                             self.setErrorMessage(message: "Не удалось найти ключи, соответствующие сертификату")
                                         } catch TokenError.tokenDisconnected {

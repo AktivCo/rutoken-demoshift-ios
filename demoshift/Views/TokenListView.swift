@@ -10,6 +10,7 @@ import SwiftUI
 
 
 struct TokenListView: View {
+    @Environment(\.interactorsContainer) var interactorsContainer: InteractorsContainer
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: User.getAllUsers()) var users: FetchedResults<User>
 
@@ -76,17 +77,16 @@ struct TokenListView: View {
                                                 }
                                             }
 
-                                            startNFC { _ in
-                                                TokenManager.shared.cancelWait()
-                                            }
-                                            defer {
-                                                stopNFC()
-                                            }
-
                                             do {
-                                                guard let token = TokenManager.shared.waitForToken() else {
-                                                    throw TokenManagerError.tokenNotFound
+                                                try interactorsContainer.pcscWrapperInteractor?
+                                                    .startNfc(withWaitMessage: "Поднесите Рутокен с NFC",
+                                                              workMessage: "Рутокен с NFC подключен, идет обмен данными...")
+                                                defer {
+                                                    interactorsContainer.pcscWrapperInteractor?.stopNfc(withMessage:
+                                                                                                            "Работа с Рутокен с NFC завершена")
                                                 }
+
+                                                let token = try TokenManager.shared.getToken()
 
                                                 self.selectedTokenSerial = token.serial
 
@@ -106,6 +106,8 @@ struct TokenListView: View {
                                                 self.setErrorMessage(message: "Потеряно соединение с Рутокеном")
                                             } catch TokenManagerError.tokenNotFound {
                                                 self.setErrorMessage(message: "Не удалось обнаружить Рутокен")
+                                            } catch ReaderError.readerUnavailable {
+                                                self.setErrorMessage(message: "Не удалось обнаружить считыватель")
                                             } catch {
                                                 self.setErrorMessage(message: "Что-то пошло не так. Попробуйте повторить операцию")
                                             }

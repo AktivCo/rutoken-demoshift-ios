@@ -42,7 +42,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                                                                                          vcrWrapper: vcrWrapper),
                                                                       vcrListInteractor: VcrListInteractor(state: vcrListState,
                                                                                                            vcrWrapper: vcrWrapper),
-                                                                      userListInteractor: UserListInteractor(pcscWrapper)))
+                                                                      userListInteractor: UserListInteractor(pcscWrapper),
+                                                                      pcscWrapperInteractor: PcscWrapperInteractor(pcscWrapper)))
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

@@ -195,7 +195,7 @@ class PcscWrapper {
         state.dwCurrentState = DWORD(SCARD_STATE_EMPTY)
 
         guard SCARD_S_SUCCESS == SCardControl(handle, DWORD(RUTOKEN_CONTROL_CODE_STOP_NFC), (message as NSString).utf8String,
-                                              DWORD(message.count), nil, 0, nil) else {
+                                              DWORD(message.utf8.count), nil, 0, nil) else {
             throw ReaderError.unknown
         }
     }

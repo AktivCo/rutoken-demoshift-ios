@@ -13,12 +13,14 @@ struct InteractorsContainer {
     let addVcrInteractor: AddVcrInteractor?
     let vcrListInteractor: VcrListInteractor?
     let userListInteractor: UserListInteractor?
+    let pcscWrapperInteractor: PcscWrapperInteractor?
 }
 
 private struct InteractorsContainerEnvironmentKey: EnvironmentKey {
     static let defaultValue = InteractorsContainer(addVcrInteractor: nil,
                                                    vcrListInteractor: nil,
-                                                   userListInteractor: nil)
+                                                   userListInteractor: nil,
+                                                   pcscWrapperInteractor: nil)
 }
 
 extension EnvironmentValues {

@@ -21,6 +21,7 @@
 		119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF042274AB3050002B8C6 /* VcrListView.swift */; };
 		445B3D842758B253004B224C /* VCRCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445B3D832758B253004B224C /* VCRCard.swift */; };
 		448067E6275FD1C700EBF5BB /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448067E5275FD1C700EBF5BB /* NotificationManager.swift */; };
+		4483BA67278C245300D73A44 /* PcscWrapperInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4483BA66278C245300D73A44 /* PcscWrapperInteractor.swift */; };
 		58167F70248628D200C76262 /* SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58167F6F248628D200C76262 /* SignView.swift */; };
 		584300C5248F8B1100DBC98E /* CoreDataUser.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 584300C3248F8B1100DBC98E /* CoreDataUser.xcdatamodeld */; };
 		584300CB2490C72D00DBC98E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584300CA2490C72D00DBC98E /* User.swift */; };
@@ -95,6 +96,7 @@
 		119BF042274AB3050002B8C6 /* VcrListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListView.swift; sourceTree = "<group>"; };
 		445B3D832758B253004B224C /* VCRCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCRCard.swift; sourceTree = "<group>"; };
 		448067E5275FD1C700EBF5BB /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		4483BA66278C245300D73A44 /* PcscWrapperInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PcscWrapperInteractor.swift; sourceTree = "<group>"; };
 		58167F6F248628D200C76262 /* SignView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
 		584300C4248F8B1100DBC98E /* CoreDataUser.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataUser.xcdatamodel; sourceTree = "<group>"; };
 		584300CA2490C72D00DBC98E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				116D39142760DC3D00C40765 /* AddVcrInteractor.swift */,
 				5ED0A735276260F700D67034 /* VcrListInteractor.swift */,
 				5EFD388D2769E97000A77C40 /* UserListInteractor.swift */,
+				4483BA66278C245300D73A44 /* PcscWrapperInteractor.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				116D390F275F7C9C00C40765 /* BulletTextItem.swift in Sources */,
 				119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */,
 				5E33801727674BA400FE7A23 /* VcrInfo.swift in Sources */,
+				4483BA67278C245300D73A44 /* PcscWrapperInteractor.swift in Sources */,
 				588410D924862758003AD26A /* SceneDelegate.swift in Sources */,
 				B15FBD26248E267600385F6E /* Sharables.swift in Sources */,
 				C310886C24939CEF00C6E8FE /* TokenListView.swift in Sources */,
