@@ -11,29 +11,20 @@ import Combine
 
 class VcrListInteractor {
     private var state: VcrListState
-    private let pcscWrapper: PcscWrapper
+    private let vcrWrapper: VcrWrapper
 
     private var cancellable = Set<AnyCancellable>()
 
-    init(state: VcrListState, pcscWrapper: PcscWrapper) {
+    init(state: VcrListState, vcrWrapper: VcrWrapper) {
         self.state = state
-        self.pcscWrapper = pcscWrapper
-        self.pcscWrapper.readers()
+        self.vcrWrapper = vcrWrapper
+        self.vcrWrapper.vcrs
             .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { [unowned self] currentReaders in
-                self.state.vcrs = (listPairedVCR() as? [[String: Any]] ?? []).compactMap { info in
-                    guard let name = info["name"] as? String,
-                          let id = info["fingerprint"] as? Data else {
-                        return nil
-                    }
-                    return VcrInfo(id: id, name: name, isActive: currentReaders.contains(where: { name == $0.name }))
-                }
-            })
+            .assign(to: \.vcrs, on: state)
             .store(in: &cancellable)
     }
 
     public func unpairVcr(id: Data) {
-        unpairVCR(id)
-        state.vcrs.removeAll(where: { $0.id == id })
+        vcrWrapper.unpairVcr(id: id)
     }
 }

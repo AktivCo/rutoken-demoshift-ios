@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		11475CC727739808008A9F85 /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11475CC627739808008A9F85 /* EnvironmentValues.swift */; };
 		11475CC927739FCC008A9F85 /* RoutingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11475CC827739FCC008A9F85 /* RoutingState.swift */; };
+		1168AB3C278F18AF00DD63A0 /* VcrWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168AB3B278F18AF00DD63A0 /* VcrWrapper.swift */; };
 		116D3903275A34B400C40765 /* AddVcrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D3902275A34B400C40765 /* AddVcrView.swift */; };
 		116D390F275F7C9C00C40765 /* BulletTextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D390E275F7C9C00C40765 /* BulletTextItem.swift */; };
 		116D3911275F7CE600C40765 /* HintButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D3910275F7CE600C40765 /* HintButton.swift */; };
@@ -82,6 +83,7 @@
 /* Begin PBXFileReference section */
 		11475CC627739808008A9F85 /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		11475CC827739FCC008A9F85 /* RoutingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingState.swift; sourceTree = "<group>"; };
+		1168AB3B278F18AF00DD63A0 /* VcrWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrWrapper.swift; sourceTree = "<group>"; };
 		116D3902275A34B400C40765 /* AddVcrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVcrView.swift; sourceTree = "<group>"; };
 		116D390E275F7C9C00C40765 /* BulletTextItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletTextItem.swift; sourceTree = "<group>"; };
 		116D3910275F7CE600C40765 /* HintButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintButton.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				5EB182EA276340890078FA5E /* PcscWrapper.swift */,
+				1168AB3B278F18AF00DD63A0 /* VcrWrapper.swift */,
 			);
 			path = PcscWrapper;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 				119310AB27637FE900B64BE0 /* QrCode.swift in Sources */,
 				119BF03D2749506A0002B8C6 /* Hint.swift in Sources */,
 				B15FBD28248E6B9500385F6E /* DocumentPickerView.swift in Sources */,
+				1168AB3C278F18AF00DD63A0 /* VcrWrapper.swift in Sources */,
 				116D3903275A34B400C40765 /* AddVcrView.swift in Sources */,
 				448067E6275FD1C700EBF5BB /* NotificationManager.swift in Sources */,
 				588410D424862758003AD26A /* TokenManager.swift in Sources */,

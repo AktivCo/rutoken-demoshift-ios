@@ -12,39 +12,31 @@ import SwiftUI
 
 class AddVcrInteractor {
     private var routingState: RoutingState
-    private let pcscWrapper: PcscWrapper
+    private let vcrWrapper: VcrWrapper
     private var state: AddVcrState
     private var timer: Timer?
     private var maxTime: CGFloat = 0
     private let timerInterval: CGFloat = 0.01
     private var startTime: UInt64 = 0
 
-    private var readers = [String]()
+    private var readers = [VcrInfo]()
     private var cancellable = Set<AnyCancellable>()
 
-    init(routingState: RoutingState, state: AddVcrState, pcscWrapper: PcscWrapper) {
+    init(routingState: RoutingState, state: AddVcrState, vcrWrapper: VcrWrapper) {
         self.routingState = routingState
         self.state = state
-        self.pcscWrapper = pcscWrapper
-        self.pcscWrapper.readers()
+        self.vcrWrapper = vcrWrapper
+        self.vcrWrapper.vcrs
             .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { [unowned self] newReaders in
+            .sink(receiveValue: { [unowned self] vcrs in
                 if self.routingState.showAddVCRView {
-                    newReaders
-                        .filter { $0.type == .vcr }
-                        .forEach { newReader in
-                            if !readers.contains(where: { $0 == newReader.name }) {
-                                self.routingState.showVCRListView = false
-                                self.routingState.showAddVCRView = false
-                            }
-                        }
-                }
-                readers = (listPairedVCR() as? [[String: Any]] ?? []).compactMap { info in
-                    guard let name = info["name"] as? String else {
-                        return nil
+                    if vcrs.contains(where: { [unowned self] vcr in
+                        !readers.contains(where: { $0.name == vcr.name }) }) {
+                        self.routingState.showVCRListView = false
+                        self.routingState.showAddVCRView = false
                     }
-                    return name
                 }
+                readers = vcrs
             })
             .store(in: &cancellable)
     }

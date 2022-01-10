@@ -28,6 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let pcscWrapper = PcscWrapper() else {
             fatalError("Unable to create SCardEstablishContext")
         }
+        let vcrWrapper = VcrWrapper(pcscWrapper: pcscWrapper)
         let vcrListState = VcrListState()
         let addVcrState = AddVcrState()
         let routingState = RoutingState()
@@ -38,9 +39,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .environmentObject(routingState)
             .environment(\.interactorsContainer, InteractorsContainer(addVcrInteractor: AddVcrInteractor(routingState: routingState,
                                                                                                          state: addVcrState,
-                                                                                                         pcscWrapper: pcscWrapper),
+                                                                                                         vcrWrapper: vcrWrapper),
                                                                       vcrListInteractor: VcrListInteractor(state: vcrListState,
-                                                                                                           pcscWrapper: pcscWrapper),
+                                                                                                           vcrWrapper: vcrWrapper),
                                                                       userListInteractor: UserListInteractor(pcscWrapper)))
 
         // Use a UIHostingController as window root view controller.
