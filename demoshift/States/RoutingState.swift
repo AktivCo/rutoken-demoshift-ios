@@ -12,4 +12,6 @@ import Combine
 class RoutingState: ObservableObject {
     @Published var showVCRListView: Bool = false
     @Published var showAddVCRView: Bool = false
+    @Published var showTokenListView: Bool = false
+    @Published var showSignView: Bool = false
 }

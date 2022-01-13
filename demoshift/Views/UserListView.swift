@@ -12,9 +12,6 @@ import SwiftUI
 
 struct UserListView: View {
     @EnvironmentObject var routingState: RoutingState
-    @State var showTokenListView = false
-    @State var showSignView = false
-
     @State var selectedUser: User?
 
     @Environment(\.managedObjectContext) var managedObjectContext
@@ -31,15 +28,14 @@ struct UserListView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                NavigationLink(destination: TokenListView(isPresent: self.$showTokenListView),
-                               isActive: self.$showTokenListView) {
+                NavigationLink(destination: TokenListView(),
+                               isActive: self.$routingState.showTokenListView) {
                     EmptyView()
                 }
                 .isDetailLink(false)
 
-                NavigationLink(destination: SignView(isPresent: self.$showSignView,
-                                                     user: self.selectedUser),
-                               isActive: self.$showSignView) {
+                NavigationLink(destination: SignView(user: self.selectedUser),
+                               isActive: self.$routingState.showSignView) {
                     EmptyView()
                 }
                 .isDetailLink(false)
@@ -70,7 +66,7 @@ struct UserListView: View {
                                     .padding(.top)
                                     .onTapGesture {
                                         self.selectedUser = user
-                                        self.showSignView.toggle()
+                                        self.routingState.showSignView.toggle()
                                     }
                             }
                             .onDelete(perform: deleteUser)
@@ -103,7 +99,7 @@ struct UserListView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                     }
                     Button(action: {
-                        self.showTokenListView.toggle()
+                        self.routingState.showTokenListView.toggle()
                     }, label: {
                         Text("Добавить пользователя")
                     })

@@ -32,18 +32,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let vcrListState = VcrListState()
         let addVcrState = AddVcrState()
         let routingState = RoutingState()
+        let tokenListState = TokenListState()
+        let signState = SignState()
         let contentView = UserListView()
             .environment(\.managedObjectContext, context)
             .environmentObject(vcrListState)
             .environmentObject(addVcrState)
             .environmentObject(routingState)
+            .environmentObject(tokenListState)
+            .environmentObject(signState)
             .environment(\.interactorsContainer, InteractorsContainer(addVcrInteractor: AddVcrInteractor(routingState: routingState,
                                                                                                          state: addVcrState,
                                                                                                          vcrWrapper: vcrWrapper),
                                                                       vcrListInteractor: VcrListInteractor(state: vcrListState,
                                                                                                            vcrWrapper: vcrWrapper),
                                                                       userListInteractor: UserListInteractor(pcscWrapper),
-                                                                      pcscWrapperInteractor: PcscWrapperInteractor(pcscWrapper)))
+                                                                      tokenListInteractor: TokenListInteractor(state: tokenListState, pcscWrapper),
+                                                                      signInteractor: SignInteractor(state: signState, pcscWrapper)))
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

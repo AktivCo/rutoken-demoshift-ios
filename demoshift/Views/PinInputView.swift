@@ -29,9 +29,9 @@ struct PinInputView: View {
     let placeHolder: String
     let buttonText: String
 
-    @State private var pin = ""
+    @State private var pin = "12345678"
 
-    @ObservedObject var status: TaskStatus
+    @ObservedObject var taskStatus: TaskStatus
 
     @Environment(\.presentationMode) var mode
 
@@ -63,7 +63,7 @@ struct PinInputView: View {
                             .fontWeight(.semibold)
                         Spacer()
                     }
-                    Text(self.status.errorMessage)
+                    Text(self.taskStatus.errorMessage)
                         .font(.headline)
                         .foregroundColor(Color("text-red"))
                         .padding(.top, 40)
@@ -71,7 +71,22 @@ struct PinInputView: View {
                         .padding(.top)
                     Button(action: {
                         UIApplication.shared.endEditing()
-                        self.onTapped(self.pin)
+                        DispatchQueue.main.async {
+                            self.taskStatus.errorMessage = ""
+                            withAnimation(.spring()) {
+                                self.taskStatus.isInProgress = true
+                            }
+                        }
+                        DispatchQueue.global(qos: .default).async {
+                            defer {
+                                DispatchQueue.main.async {
+                                    withAnimation(.spring()) {
+                                        self.taskStatus.isInProgress = false
+                                    }
+                                }
+                            }
+                            onTapped(pin)
+                        }
                     }, label: {
                         Text("\(self.buttonText)")
                     })
@@ -82,7 +97,7 @@ struct PinInputView: View {
                 }
                 .padding()
             }
-            .offset(y: self.status.isInProgress ? -screen.height : 0)
+            .offset(y: self.taskStatus.isInProgress ? -screen.height : 0)
             .background(Color("sheet-background"))
 
             VStack {
@@ -96,7 +111,7 @@ struct PinInputView: View {
                 .offset(y: -screen.height/4)
             }
             .background(Color("sheet-background"))
-            .offset(y: self.status.isInProgress ? 0 : screen.height)
+            .offset(y: self.taskStatus.isInProgress ? 0 : screen.height)
         }
         .background(Color("sheet-background").edgesIgnoringSafeArea(.all))
     }

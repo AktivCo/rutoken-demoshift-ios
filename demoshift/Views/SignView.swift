@@ -13,26 +13,18 @@ import SwiftUI
 struct SignView: View {
     @Environment(\.interactorsContainer) var interactorsContainer: InteractorsContainer
 
-    @State var showPinInputView = false
-    @State var showSignResultView = false
-    @State var showDocumentPicker = false
-    @State var signatureToShare: SharableSignature?
-    @State var documentToShare: SharableDocument?
+    @EnvironmentObject var state: SignState
 
     @State var wrappedUrl = AccessedUrl(Bundle.main.urls(forResourcesWithExtension: "pdf", subdirectory: "")?.first)
-
-    @Binding var isPresent: Bool
+    @State var showDocumentPicker = false
 
     let user: User?
 
-    @ObservedObject private var taskStatus = TaskStatus()
-
     var body: some View {
         VStack {
-            NavigationLink(destination: SignResultView(isParentPresent: self.$isPresent,
-                                                       document: documentToShare,
-                                                       signature: signatureToShare),
-                           isActive: self.$showSignResultView) {
+            NavigationLink(destination: SignResultView(document: state.documentToShare,
+                                                       signature: state.signatureToShare),
+                           isActive: self.$state.showSignResultView) {
                 EmptyView()
             }
             .isDetailLink(false)
@@ -70,7 +62,8 @@ struct SignView: View {
                 })
 
             Button(action: {
-                self.showPinInputView.toggle()
+                state.showSignResultView = false
+                state.showPinInputView.toggle()
             }, label: {
                 Text("Подписать")
             })
@@ -78,105 +71,19 @@ struct SignView: View {
                 .padding()
                 .disabled(self.wrappedUrl == nil)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .sheet(isPresented: self.$showPinInputView, onDismiss: {
-                    self.taskStatus.errorMessage = ""
+                .sheet(isPresented: self.$state.showPinInputView, onDismiss: {
+                    self.state.taskStatus.errorMessage = ""
                 }, content: {
                     PinInputView(idleTitle: "Введите PIN-код",
                                  progressTitle: "Выполняется подпись документа",
                                  placeHolder: "PIN-код",
                                  buttonText: "Продолжить",
-                                 status: self.taskStatus,
+                                 taskStatus: self.state.taskStatus,
                                  onTapped: { pin in
-                                    self.taskStatus.errorMessage = ""
-                                    withAnimation(.spring()) {
-                                        self.taskStatus.isInProgress = true
-                                    }
-
-                                    DispatchQueue.global(qos: .default).async {
-                                        defer {
-                                            DispatchQueue.main.async {
-                                                withAnimation(.spring()) {
-                                                    self.taskStatus.isInProgress = false
-                                                }
-                                            }
-                                        }
-
-                                        do {
-                                            guard let currentUser = self.user else {
-                                                throw TokenError.generalError
-                                            }
-
-                                            try interactorsContainer.pcscWrapperInteractor?
-                                                .startNfc(withWaitMessage: "Поднесите Рутокен с NFC",
-                                                          workMessage: "Рутокен с NFC подключен, идет обмен данными...")
-                                            defer {
-                                                interactorsContainer.pcscWrapperInteractor?.stopNfc(withMessage:
-                                                                                                        "Работа с Рутокен с NFC завершена")
-                                            }
-
-                                            let token = try TokenManager.shared.getToken()
-
-                                            guard token.serial == currentUser.tokenSerial else {
-                                                throw TokenManagerError.wrongToken
-                                            }
-
-                                            let document = try Data(contentsOf: self.wrappedUrl!.url)
-
-                                            try token.login(pin: pin)
-
-                                            guard let cert = Cert(id: currentUser.certID, body: currentUser.certBody) else {
-                                                throw TokenError.generalError
-                                            }
-
-                                            let signature = try token.cmsSign(document, withCert: cert)
-
-                                            // For correct work with AirDrop all sharable items should be in the same folder
-                                            let cmsFile = FileManager.default.temporaryDirectory
-                                                                            .appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent).sig")
-                                            let signedFile = FileManager.default.temporaryDirectory
-                                                                                .appendingPathComponent("\(self.wrappedUrl!.url.lastPathComponent)")
-
-                                            do {
-                                                try signature.write(to: cmsFile, atomically: false, encoding: .utf8)
-                                                try document.write(to: signedFile)
-                                            } catch {
-                                                throw TokenError.generalError
-                                            }
-
-                                            self.signatureToShare = SharableSignature(rawSignature: signature, cmsFile: cmsFile)
-                                            self.documentToShare = SharableDocument(signedFile: signedFile)
-
-                                            DispatchQueue.main.async {
-                                                self.showPinInputView = false
-                                                self.showSignResultView = true
-                                            }
-                                        } catch TokenError.incorrectPin {
-                                            self.setErrorMessage(message: "Неверный PIN-код")
-                                        } catch TokenError.lockedPin {
-                                            self.setErrorMessage(message: "Превышен лимит ошибок при вводе PIN-кода")
-                                        } catch TokenManagerError.tokenNotFound {
-                                            self.setErrorMessage(message: "Не удалось обнаружить Рутокен")
-                                        } catch ReaderError.readerUnavailable {
-                                            self.setErrorMessage(message: "Не удалось обнаружить считыватель")
-                                        } catch TokenError.keyPairNotFound {
-                                            self.setErrorMessage(message: "Не удалось найти ключи, соответствующие сертификату")
-                                        } catch TokenError.tokenDisconnected {
-                                            self.setErrorMessage(message: "Потеряно соединение с Рутокеном")
-                                        } catch TokenManagerError.wrongToken {
-                                            self.setErrorMessage(message: "Пользователь зарегистрирован с другим Рутокеном")
-                                        } catch {
-                                            self.setErrorMessage(message: "Что-то пошло не так. Попробуйте повторить операцию")
-                                        }
-                                    }
+                        interactorsContainer.signInteractor?.sign(withPin: pin, forUser: user, wrappedUrl: wrappedUrl!)
                     })
                 })
         }
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
-    }
-
-    func setErrorMessage(message: String) {
-        DispatchQueue.main.async {
-            self.taskStatus.errorMessage = message
-        }
     }
 }

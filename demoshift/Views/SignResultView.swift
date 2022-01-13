@@ -10,9 +10,8 @@ import SwiftUI
 
 
 struct SignResultView: View {
+    @EnvironmentObject var routingState: RoutingState
     @State var showShareView = false
-
-    @Binding var isParentPresent: Bool
 
     let document: SharableDocument?
     let signature: SharableSignature?
@@ -43,7 +42,7 @@ struct SignResultView: View {
                 }
 
             Button(action: {
-                self.isParentPresent.toggle()
+                self.routingState.showSignView = false
             }, label: {
                 Text("К списку пользователей")
             })
