@@ -39,12 +39,79 @@ NFC-устройств [семейства Рутокен ЭЦП](https://www.ru
 
 ## Подробности реализации
 
-Для начала работы с NFC устройствами Рутокен необходимо использовать функцию `startNFC((NSError)->())`,
-которая запускает NFC считыватель. Функция принимает коллбек, в который передается ошибка в случае ее возникновения, например:
-1. Завершение поиска NFC устройств по таймауту (60 секунд)
-2. По нажатию кнопки "Отмена" на системном окне NFC считывателя
+### Обнаружение Рутокена с NFC
 
-При завершении необходимых операций с Рутокеном требуется вызвать функцию `stopNFC()`, чтобы остановить поиск NFC устройств.
+Для начала работы с NFC устройствами Рутокен необходимо запустить обнаружение NFC устройств на iPhone.
+По окончанию работы обнаружение необходимо остановить. Для этого используется функция:
+`LONG SCardControl(
+  [in]  SCARDHANDLE hCard,
+  [in]  DWORD       dwControlCode,
+  [in]  LPCVOID     pbSendBuffer,
+  [in]  DWORD       cbSendLength,
+  [out] LPVOID      pbRecvBuffer,
+  [in]  DWORD       cbRecvLength,
+  [out] LPDWORD     lpBytesReturned
+)`
+
+Параметр dwControlCode отвечает за тип операции, которую необходимо выполнить, и может принимать следующие значения:
+- RUTOKEN_CONTROL_CODE_START_NFC - запуск обнаружения по NFC
+- RUTOKEN_CONTROL_CODE_STOP_NFC - остановка обнаружения по NFC
+- RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON - возврат причины прекращения обнаружения по NFC
+
+
+Параметр pbSendBuffer используется для передачи дополнительной информации:
+- при RUTOKEN_CONTROL_CODE_START_NFC: параметр задан в формате `"\(waitMessage)\0\(workMessage)\0\0"`
+и содержит два сообщения: об ожидании карты и при обнаружении карты.
+- при RUTOKEN_CONTROL_CODE_STOP_NFC: параметр содержит сообщение о завершении работы с картой.
+- при RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON: параметр не используется.
+
+
+Рекомендуемый порядок работы с Рутокеном с NFC:
+- вызов функции SCardControl с параметром RUTOKEN_CONTROL_CODE_START_NFC
+- работа с Рутокеном
+- вызов функции SCardControl с параметром RUTOKEN_CONTROL_CODE_STOP_NFC
+
+Причину завершения обнаружения NFC устройств можно получить с помощью вызова функции SCardControl с параметром RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON.
+
+Возможные причины:
+- RUTOKEN_NFC_STOP_REASON_FINISHED - вызов SCardControl с параметром RUTOKEN_CONTROL_CODE_STOP_NFC
+- RUTOKEN_NFC_STOP_REASON_UNKNOWN - причина завершения неизвестна
+- RUTOKEN_NFC_STOP_REASON_TIMEOUT - системный таймаут
+- RUTOKEN_NFC_STOP_REASON_CANCELLED_BY_USER - нажатие кнопки "Отмена" на системном окне обнаружения NFC
+- RUTOKEN_NFC_STOP_REASON_NO_ERROR - обнаружение NFC никогда не завершалось
+
+
+### Получение типа устройства Рутокен
+Получение типа устройства Рутокен доступно с помощью функции:
+`LONG SCardGetAttrib(
+  [in]      SCARDHANDLE hCard,
+  [in]      DWORD       dwAttrId,
+  [out]     LPBYTE      pbAttr,
+  [in, out] LPDWORD     pcbAttrLen
+)`
+
+В качестве параметра dwAttrId необходимо передать SCARD_ATTR_VENDOR_IFD_TYPE.
+
+Возможные типы:
+- RUTOKEN_UNKNOWN_TYPE
+- RUTOKEN_BT_TYPE
+- RUTOKEN_NFC_TYPE
+- RUTOKEN_VCR_TYPE
+
+### Работа с вирутальным считывателем
+Для спаривания с новым виртуальным считывателем необходимо вызвать функцию `NSString* generatePairingQR(void)`,
+она возвращает изображение QR-кода в виде base64 строки. Для спаривания необходимо отобразить QR-код на экране и считать его с помощью приложения Рутокен VCR.
+
+Для получения списка спаренных токенов необходимо вызвать функцию `NSArray* listPairedVCR(void)`,
+она возвращает массив словарей, содержащих информацию о считывателях.
+
+Ключи словаря:
+- name - имя считывателя
+- cert - сертификат считывателя в виде BASE64-строки,
+- fingerprint - SHA1-хеш от сертификата считывателя
+
+Для отмены спаривания со считывателем необходимо вызвать функцию `BOOL unpairVCR(NSData* vcrId)`,
+она возвращает true, если спаривание отменено и false в противном случае. В качестве параметра она принимает SHA1-хеш от сертификата считывателя, спаривание с которым необходимо отменить. 
 
 ## Ограничения
 

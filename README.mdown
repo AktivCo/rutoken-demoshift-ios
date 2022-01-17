@@ -39,12 +39,79 @@ To create a key pair and a certificate on Rutoken ECP Series family devices foll
 
 ## Implementation Details
 
-To start working with NFC Rutoken devices, you should use the function `startNFC((NSError)->())`,
-which launches an NFC reader. The function accepts a callback to which the error is transmitted if it occurs, for example:
-1. Completion of the search for NFC devices by timeout (60 seconds)
-2. By pressing the "Cancel" button on the NFC reader system window
+### Discovering Rutoken NFC
 
-Upon completion of the necessary operations with Rutoken, you should call the function `stopNFC()` to stop the search for NFC devices.
+Before start working with the Rutoken NFC devices, the NFC discovering should be started on iPhone.
+When work is over you should finish discovering. There is function for control NFC discovering:
+`LONG SCardControl(
+  [in]  SCARDHANDLE hCard,
+  [in]  DWORD       dwControlCode,
+  [in]  LPCVOID     pbSendBuffer,
+  [in]  DWORD       cbSendLength,
+  [out] LPVOID      pbRecvBuffer,
+  [in]  DWORD       cbRecvLength,
+  [out] LPDWORD     lpBytesReturned
+)`
+
+dwControlCode - parameter for controlling the type of operation to be performed:
+- RUTOKEN_CONTROL_CODE_START_NFC - start NFC discovering
+- RUTOKEN_CONTROL_CODE_STOP_NFC - stop NFC discovering
+- RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON - return NFC discovering stop reason
+
+pbSendBuffer - parameter for sending additional information:
+- for RUTOKEN_CONTROL_CODE_START_NFC: parameter formed as `"\(waitMessage)\0\(workMessage)\0\0"`
+and contains two messages: when iOS is searching for Rutoken with NFC and when Rutoken with NFC is found.
+- for RUTOKEN_CONTROL_CODE_STOP_NFC: parameter contains message, displayed when discovering is stopped.
+- for RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON: parameter is unused.
+
+
+Most used workflow with Rutoken with NFC:
+- SCardControl call with RUTOKEN_CONTROL_CODE_START_NFC parameter
+- work with Rutoken
+- SCardControl call with RUTOKEN_CONTROL_CODE_STOP_NFC parameter
+
+After NFC discovering is finished, the reason can be obtained with SCardControl, called with RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON parameter.
+
+The reasons can be:
+- RUTOKEN_NFC_STOP_REASON_FINISHED - SCardControl call with RUTOKEN_CONTROL_CODE_STOP_NFC parameter
+- RUTOKEN_NFC_STOP_REASON_UNKNOWN - unknown reason
+- RUTOKEN_NFC_STOP_REASON_TIMEOUT - system timeout
+- RUTOKEN_NFC_STOP_REASON_CANCELLED_BY_USER - tap "Cancel" button on iOS system window
+- RUTOKEN_NFC_STOP_REASON_NO_ERROR - discovering has never stopped
+
+
+### Retrieving Rutoken type
+Obtaining Rutoken's type is available with function:
+`LONG SCardGetAttrib(
+  [in]      SCARDHANDLE hCard,
+  [in]      DWORD       dwAttrId,
+  [out]     LPBYTE      pbAttr,
+  [in, out] LPDWORD     pcbAttrLen
+)`
+
+The SCARD_ATTR_VENDOR_IFD_TYPE should be passed as dwAttrId parameter.
+
+Available types:
+- RUTOKEN_UNKNOWN_TYPE
+- RUTOKEN_BT_TYPE
+- RUTOKEN_NFC_TYPE
+- RUTOKEN_VCR_TYPE
+
+### Work with VCR
+Call `NSString* generatePairingQR(void)` function to pair with new VCR.
+It returns BASE64 string, which contains image of QR-code. You should display this image in you app, so it can be scanned with Rutoken VCR app to perform pairing.
+
+Call `NSArray* listPairedVCR(void)` function to get list of paired readers.
+It returns array of dictionaries, with information about readers.
+
+Available keys:
+- name - reader's name
+- cert - reader's certificate as BASE64-string
+- fingerprint - SHA1 digest of reader's certificate
+
+Call `BOOL unpairVCR(NSData* vcrId)` function to cancel pairing.
+It returns true, if unpairing was successful and false otherwise.
+It requires SHA1 digest of reader's certificate as parameter. 
 
 ## Restriction
 
