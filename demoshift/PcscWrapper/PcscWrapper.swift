@@ -226,9 +226,10 @@ class PcscWrapper {
     }
 
     private func allocatePointerForString(_ str: String) -> UnsafePointer<Int8> {
-        let rawPointer = UnsafeMutableRawPointer.allocate(byteCount: MemoryLayout<Int8>.stride*str.count,
+        let toRawString = str + "\0"
+        let rawPointer = UnsafeMutableRawPointer.allocate(byteCount: MemoryLayout<Int8>.stride*toRawString.utf8.count,
                                                           alignment: MemoryLayout<Int8>.alignment)
-        return UnsafePointer(rawPointer.initializeMemory(as: Int8.self, from: str, count: str.count))
+        return UnsafePointer(rawPointer.initializeMemory(as: Int8.self, from: toRawString, count: toRawString.utf8.count))
     }
 
     private func listReaders() -> [String] {
