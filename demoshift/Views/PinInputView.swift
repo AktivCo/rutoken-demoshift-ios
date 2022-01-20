@@ -39,24 +39,27 @@ struct PinInputView: View {
 
     var body: some View {
         ZStack {
-            VStack(alignment: .leading) {
-                HStack(alignment: .top) {
-                    Image("logo")
-                    Spacer()
-                    Image(systemName: "xmark")
-                        .font(.headline) // Change width of xmark - it is technically text
-                        .foregroundColor(Color("text-blue"))
-                        .frame(width: 30, height: 30)
-                        .background(Color(.systemGray5))
-                        .clipShape(Circle())
-                        .onTapGesture {
-                            self.mode.wrappedValue.dismiss()
-                        }
-                        .padding(.trailing)
+            VStack {
+                GeometryReader { _ in
+                    HStack(alignment: .top) {
+                        Image("logo")
+                        Spacer()
+                        Image(systemName: "xmark")
+                            .font(.headline) // Change width of xmark - it is technically text
+                            .foregroundColor(Color("text-blue"))
+                            .frame(width: 30, height: 30)
+                            .background(Color(.systemGray5))
+                            .clipShape(Circle())
+                            .onTapGesture {
+                                self.mode.wrappedValue.dismiss()
+                            }
+                            .padding(.trailing)
+                    }
+                    .padding(.vertical)
                 }
-                .padding(.vertical)
+                .frame(maxHeight: 120)
 
-                Group {
+                VStack(alignment: .leading) {
                     HStack {
                         Text(self.idleTitle)
                             .font(.title)
