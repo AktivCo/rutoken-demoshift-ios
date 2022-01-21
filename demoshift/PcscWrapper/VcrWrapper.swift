@@ -14,7 +14,6 @@ class VcrWrapper {
         let id: Data
         let name: String
         let cert: String
-        let emoji: String
     }
 
     private var vcrsPublisher = CurrentValueSubject<[VcrInfo], Never>([])
@@ -46,11 +45,10 @@ class VcrWrapper {
         return (listPairedVCR() as? [[String: Any]] ?? []).compactMap { info in
             guard let fingerprint = info["fingerprint"] as? Data,
                   let name = info["name"] as? String,
-                  let cert = info["cert"] as? String,
-                  let emoji = info["emoji"] as? String else {
+                  let cert = info["cert"] as? String else {
                       return nil
                   }
-            return ListVcr(id: fingerprint, name: name, cert: cert, emoji: emoji)
+            return ListVcr(id: fingerprint, name: name, cert: cert)
         }
     }
 }
