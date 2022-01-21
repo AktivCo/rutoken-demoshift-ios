@@ -147,8 +147,8 @@ struct SignView: View {
                                             self.documentToShare = SharableDocument(signedFile: signedFile)
 
                                             DispatchQueue.main.async {
-                                                self.showPinInputView.toggle()
-                                                self.showSignResultView.toggle()
+                                                self.showPinInputView = false
+                                                self.showSignResultView = true
                                             }
                                         } catch TokenError.incorrectPin {
                                             self.setErrorMessage(message: "Неверный PIN-код")

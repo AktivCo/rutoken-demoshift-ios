@@ -95,8 +95,8 @@ struct TokenListView: View {
                                                 self.selectedTokenCerts = try token.enumerateCerts()
 
                                                 DispatchQueue.main.async {
-                                                    self.showPinInputView.toggle()
-                                                    self.showCertListView.toggle()
+                                                    self.showPinInputView = false
+                                                    self.showCertListView = true
                                                 }
                                             } catch TokenError.incorrectPin {
                                                 self.setErrorMessage(message: "Неверный PIN-код")
