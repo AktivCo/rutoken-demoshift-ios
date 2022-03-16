@@ -434,7 +434,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script only for inner development\nif [[ -d Frameworks ]]\nthen\n    exit 0   \nfi\n\nmkdir Frameworks\npython scripts/download_deps.py -p ios\n\nfind external -type d -name \"*.framework\" | xargs -I {} cp -R {} Frameworks/\n";
+			shellScript = "# This script only for inner development\nif [[ -d Frameworks ]]\nthen\n    exit 0   \nfi\n\nmkdir Frameworks\npython3 scripts/download_deps.py -p ios\n\nfind external -type d -name \"*.framework\" | xargs -I {} cp -R {} Frameworks/\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
