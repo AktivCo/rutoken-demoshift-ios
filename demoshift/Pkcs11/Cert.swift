@@ -105,7 +105,7 @@ class Cert: Identifiable {
             return nil
         }
 
-        switch EVP_PKEY_base_id(key) {
+        switch EVP_PKEY_get_base_id(key) {
         case NID_id_GostR3410_2001:
             return "ГОСТ Р 34.10-2001"
         case NID_id_GostR3410_2012_256:
