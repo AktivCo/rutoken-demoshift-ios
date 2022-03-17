@@ -27,7 +27,7 @@ struct Hint: View {
                 }
                 Text(titleBulletText)
                     .padding(.vertical)
-                ForEach(bulletText.indices) { i in
+                ForEach(bulletText.indices, id: \.self) { i in
                     BulletTextItem(bullet: "\(i+1).", text: bulletText[i])
                 }
             }

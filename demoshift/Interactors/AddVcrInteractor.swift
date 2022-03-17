@@ -31,7 +31,7 @@ class AddVcrInteractor {
             .sink(receiveValue: { [unowned self] vcrs in
                 if self.routingState.showAddVCRView {
                     if vcrs.contains(where: { [unowned self] vcr in
-                        !readers.contains(where: { $0.name == vcr.name }) }) {
+                        !self.readers.contains(where: { $0.name == vcr.name }) }) {
                         self.routingState.showVCRListView = false
                         self.routingState.showAddVCRView = false
                     }
