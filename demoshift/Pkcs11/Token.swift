@@ -78,7 +78,7 @@ class Token {
     public func login(pin: String) throws {
         do {
             var rawPin: [UInt8] = Array(pin.utf8)
-            let rv = C_Login(self.session, CK_USER_TYPE(CKU_USER), &rawPin, CK_ULONG(pin.count))
+            let rv = C_Login(self.session, CK_USER_TYPE(CKU_USER), &rawPin, CK_ULONG(rawPin.count))
             guard rv == CKR_OK || rv == CKR_USER_ALREADY_LOGGED_IN else {
                 switch Int32(rv) {
                 case CKR_PIN_INCORRECT:
