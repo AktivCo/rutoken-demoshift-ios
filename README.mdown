@@ -18,7 +18,7 @@ Required frameworks:
 * openssl/rtengine/bin/ios-arm64/rtengine.framework (Rutoken SDK);
 * openssl/openssl-shared-1.1/ios-arm64/openssl.framework (Rutoken SDK).
 
-[Integration details of NFC security tokens Rutoken ECP Series to your own applications.](https://dev.rutoken.ru/pages/viewpage.action?pageId=81527019)
+##### ==Attention, this is an instruction for setting up the Rutoken Demoshift application. Read more about possibilities and embedding of tokens in your applications in [__integration details of NFC security tokens Rutoken ECP Series to your own applications__](https://dev.rutoken.ru/pages/viewpage.action?pageId=81527019).==
 
 ## How to build
 
@@ -39,87 +39,13 @@ To create a key pair and a certificate on Rutoken ECP Series family devices foll
 * Make sure that website has found the certificate and the key pair on your device;
 * Disconnect the device from the desktop and use it with Apple device.
 
-## Implementation Details
-
-### Discovering Rutoken NFC
-
-Before start working with the Rutoken NFC devices, the NFC discovering should be started on iPhone.
-When work is over you should finish discovering. There is function for control NFC discovering:
-`LONG SCardControl(
-  [in]  SCARDHANDLE hCard,
-  [in]  DWORD       dwControlCode,
-  [in]  LPCVOID     pbSendBuffer,
-  [in]  DWORD       cbSendLength,
-  [out] LPVOID      pbRecvBuffer,
-  [in]  DWORD       cbRecvLength,
-  [out] LPDWORD     lpBytesReturned
-)`
-
-dwControlCode - parameter for controlling the type of operation to be performed:
-- RUTOKEN_CONTROL_CODE_START_NFC - start NFC discovering
-- RUTOKEN_CONTROL_CODE_STOP_NFC - stop NFC discovering
-- RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON - return NFC discovering stop reason
-
-pbSendBuffer - parameter for sending additional information:
-- for RUTOKEN_CONTROL_CODE_START_NFC: parameter formed as `"\(waitMessage)\0\(workMessage)\0\0"`
-and contains two messages: when iOS is searching for Rutoken with NFC and when Rutoken with NFC is found.
-- for RUTOKEN_CONTROL_CODE_STOP_NFC: parameter contains message, displayed when discovering is stopped.
-- for RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON: parameter is unused.
-
-
-Most used workflow with Rutoken with NFC:
-- SCardControl call with RUTOKEN_CONTROL_CODE_START_NFC parameter
-- work with Rutoken
-- SCardControl call with RUTOKEN_CONTROL_CODE_STOP_NFC parameter
-
-After NFC discovering is finished, the reason can be obtained with SCardControl, called with RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON parameter.
-
-The reasons can be:
-- RUTOKEN_NFC_STOP_REASON_FINISHED - SCardControl call with RUTOKEN_CONTROL_CODE_STOP_NFC parameter
-- RUTOKEN_NFC_STOP_REASON_UNKNOWN - unknown reason
-- RUTOKEN_NFC_STOP_REASON_TIMEOUT - system timeout
-- RUTOKEN_NFC_STOP_REASON_CANCELLED_BY_USER - tap "Cancel" button on iOS system window
-- RUTOKEN_NFC_STOP_REASON_NO_ERROR - discovering has never stopped
-
-
-### Retrieving Rutoken type
-Obtaining Rutoken's type is available with function:
-`LONG SCardGetAttrib(
-  [in]      SCARDHANDLE hCard,
-  [in]      DWORD       dwAttrId,
-  [out]     LPBYTE      pbAttr,
-  [in, out] LPDWORD     pcbAttrLen
-)`
-
-The SCARD_ATTR_VENDOR_IFD_TYPE should be passed as dwAttrId parameter.
-
-Available types:
-- RUTOKEN_UNKNOWN_TYPE
-- RUTOKEN_BT_TYPE
-- RUTOKEN_NFC_TYPE
-- RUTOKEN_VCR_TYPE
-
-### Work with VCR
-Call `NSString* generatePairingQR(void)` function to pair with new VCR.
-It returns BASE64 string, which contains image of QR-code. You should display this image in you app, so it can be scanned with Rutoken VCR app to perform pairing.
-
-Call `NSArray* listPairedVCR(void)` function to get list of paired readers.
-It returns array of dictionaries, with information about readers.
-
-Available keys:
-- name - reader's name
-- cert - reader's certificate as BASE64-string
-- fingerprint - SHA1 digest of reader's certificate
-
-Call `BOOL unpairVCR(NSData* vcrId)` function to cancel pairing.
-It returns true, if unpairing was successful and false otherwise.
-It requires SHA1 digest of reader's certificate as parameter. 
-
 ## Restriction
 
-* Rutoken DemoShift can only be run on physical Apple devices, not on emulators.
+* Rutoken DemoShift can only be run on physical Apple devices, not on emulators. Please note that VCR API is
+only available on iPad.
 
 ## License
 
-Project source code is distributed under [Simplified BSD License] (LICENSE),
-rutoken-demoshift-ios folder contains objects of copyright and distributed under commercial license of JSC “Aktiv-Soft”, [License Agreement] (https://download.rutoken.ru/License_Agreement.pdf) (only in Russian).
+Project source code is distributed under [Simplified BSD License](LICENSE),
+rutoken-demoshift-ios folder contains objects of copyright and distributed under [commercial license of JSC
+“Aktiv-Soft”](https://download.rutoken.ru/License_Agreement.pdf) (only in Russian).

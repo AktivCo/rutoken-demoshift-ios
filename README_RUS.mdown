@@ -18,7 +18,7 @@ NFC-устройств [семейства Рутокен ЭЦП](https://www.ru
 * openssl/rtengine/bin/ios-arm64/rtengine.framework (Rutoken SDK);
 * openssl/openssl-shared-1.1/ios-arm64/openssl.framework (Rutoken SDK).
 
-[Особенности встраивания NFC-устройств семейства Рутокен ЭЦП в собственные приложения.](https://dev.rutoken.ru/pages/viewpage.action?pageId=81527019)
+##### ==Внимание, это инструкция по настройке приложения Рутокен Демосмена. Подробнее о возможностях и встраивании токенов в ваши приложения читайте в [__особенностях встраивания NFC-устройств семейства Рутокен ЭЦП в собственные приложения__](https://dev.rutoken.ru/pages/viewpage.action?pageId=81527019).==
 
 ## Как собрать
 
@@ -39,87 +39,13 @@ NFC-устройств [семейства Рутокен ЭЦП](https://www.ru
 * Убедитесь, что веб-сайт обнаружил ключевую пару и сертфикат на устройстве;
 * Отключите устройство Рутокен от компьютера и используйте его вместе с устройством Apple.
 
-## Подробности реализации
-
-### Обнаружение Рутокена с NFC
-
-Для начала работы с NFC устройствами Рутокен необходимо запустить обнаружение NFC устройств на iPhone.
-По окончанию работы обнаружение необходимо остановить. Для этого используется функция:
-`LONG SCardControl(
-  [in]  SCARDHANDLE hCard,
-  [in]  DWORD       dwControlCode,
-  [in]  LPCVOID     pbSendBuffer,
-  [in]  DWORD       cbSendLength,
-  [out] LPVOID      pbRecvBuffer,
-  [in]  DWORD       cbRecvLength,
-  [out] LPDWORD     lpBytesReturned
-)`
-
-Параметр dwControlCode отвечает за тип операции, которую необходимо выполнить, и может принимать следующие значения:
-- RUTOKEN_CONTROL_CODE_START_NFC - запуск обнаружения по NFC
-- RUTOKEN_CONTROL_CODE_STOP_NFC - остановка обнаружения по NFC
-- RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON - возврат причины прекращения обнаружения по NFC
-
-
-Параметр pbSendBuffer используется для передачи дополнительной информации:
-- при RUTOKEN_CONTROL_CODE_START_NFC: параметр задан в формате `"\(waitMessage)\0\(workMessage)\0\0"`
-и содержит два сообщения: об ожидании карты и при обнаружении карты.
-- при RUTOKEN_CONTROL_CODE_STOP_NFC: параметр содержит сообщение о завершении работы с картой.
-- при RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON: параметр не используется.
-
-
-Рекомендуемый порядок работы с Рутокеном с NFC:
-- вызов функции SCardControl с параметром RUTOKEN_CONTROL_CODE_START_NFC
-- работа с Рутокеном
-- вызов функции SCardControl с параметром RUTOKEN_CONTROL_CODE_STOP_NFC
-
-Причину завершения обнаружения NFC устройств можно получить с помощью вызова функции SCardControl с параметром RUTOKEN_CONTROL_CODE_LAST_NFC_STOP_REASON.
-
-Возможные причины:
-- RUTOKEN_NFC_STOP_REASON_FINISHED - вызов SCardControl с параметром RUTOKEN_CONTROL_CODE_STOP_NFC
-- RUTOKEN_NFC_STOP_REASON_UNKNOWN - причина завершения неизвестна
-- RUTOKEN_NFC_STOP_REASON_TIMEOUT - системный таймаут
-- RUTOKEN_NFC_STOP_REASON_CANCELLED_BY_USER - нажатие кнопки "Отмена" на системном окне обнаружения NFC
-- RUTOKEN_NFC_STOP_REASON_NO_ERROR - обнаружение NFC никогда не завершалось
-
-
-### Получение типа устройства Рутокен
-Получение типа устройства Рутокен доступно с помощью функции:
-`LONG SCardGetAttrib(
-  [in]      SCARDHANDLE hCard,
-  [in]      DWORD       dwAttrId,
-  [out]     LPBYTE      pbAttr,
-  [in, out] LPDWORD     pcbAttrLen
-)`
-
-В качестве параметра dwAttrId необходимо передать SCARD_ATTR_VENDOR_IFD_TYPE.
-
-Возможные типы:
-- RUTOKEN_UNKNOWN_TYPE
-- RUTOKEN_BT_TYPE
-- RUTOKEN_NFC_TYPE
-- RUTOKEN_VCR_TYPE
-
-### Работа с виртуальным считывателем
-Для спаривания с новым виртуальным считывателем необходимо вызвать функцию `NSString* generatePairingQR(void)`,
-она возвращает изображение QR-кода в виде base64 строки. Для спаривания необходимо отобразить QR-код на экране и считать его с помощью приложения Рутокен VCR.
-
-Для получения списка спаренных виртуальных считывателей необходимо вызвать функцию `NSArray* listPairedVCR(void)`,
-она возвращает массив словарей, содержащих информацию о считывателях.
-
-Ключи словаря:
-- name - имя считывателя
-- cert - сертификат считывателя в виде BASE64-строки
-- fingerprint - SHA1-хеш от сертификата считывателя
-
-Для отмены спаривания со считывателем необходимо вызвать функцию `BOOL unpairVCR(NSData* vcrId)`,
-она возвращает true, если спаривание отменено и false в противном случае. В качестве параметра она принимает SHA1-хеш от сертификата считывателя, спаривание с которым необходимо отменить. 
-
 ## Ограничения
 
 * Приложение Рутокен Демосмена может быть запущено только на физических устройствах Apple, не на эмуляторе.
+Обратите внимание, что работа с VCR API доступна только на iPad.
 
 ## Лицензия
 
-Программный код проекта распространяется по [Simplified BSD License] (LICENSE_RUS),
-директория rutoken-demoshift-ios содержит объекты авторского права и распространяется по коммерческой лицензии АО "Актив-Софт", [текст лицензии] (https://download.rutoken.ru/License_Agreement.pdf).
+Программный код проекта распространяется по [Simplified BSD License](LICENSE_RUS),
+директория rutoken-demoshift-ios содержит объекты авторского права и распространяется по [коммерческой лицензии
+АО "Актив-Софт"](https://download.rutoken.ru/License_Agreement.pdf).
