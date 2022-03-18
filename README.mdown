@@ -122,4 +122,4 @@ It requires SHA1 digest of reader's certificate as parameter.
 ## License
 
 Project source code is distributed under [Simplified BSD License] (LICENSE),
-example folder contains objects of copyright and distributed under commercial license of JSC “Aktiv-Soft”, [License Agreement] (https://download.rutoken.ru/License_Agreement.pdf) (only in Russian).
+rutoken-demoshift-ios folder contains objects of copyright and distributed under commercial license of JSC “Aktiv-Soft”, [License Agreement] (https://download.rutoken.ru/License_Agreement.pdf) (only in Russian).
