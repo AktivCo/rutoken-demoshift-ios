@@ -1,27 +1,33 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+from argparse import ArgumentParser
 from collections import defaultdict
+from glob import glob
+from itertools import permutations
 from os import path, remove, makedirs, listdir, chmod
 from os import name as os_name
 from os.path import dirname, realpath, join
-from urllib.request import urlopen, Request
-from urllib.error import HTTPError
-from argparse import ArgumentParser
 from re import compile, escape
-from zipfile import ZipFile
-from glob import glob
-from queue import Queue
-from threading import Thread, Lock
 from shutil import rmtree
-from urllib.parse import urlencode
-from itertools import permutations
+from threading import Thread, Lock
+from zipfile import ZipFile
+
+try:  # python3
+    from urllib.parse import urlencode
+    from urllib.request import urlopen, Request
+    from urllib.error import HTTPError
+    from queue import Queue
+except ImportError:  # python2
+    from urllib2 import urlopen, HTTPError, Request
+    from urllib import urlencode
+    from Queue import Queue
 
 if os_name != "nt":
     from os import symlink
 
-url_with_bins = "http://aktiv-builds/new/binary_deps"
-default_external_config = join(dirname(__file__), "..", "external.config")
+URL_WITH_BINS = "http://aktiv-builds/new/binary_deps"
+DEFAULT_EXTERNAL_CONFIG = join(dirname(dirname(__file__)), "external.config")
 print_lock = Lock()
 MAX_PATH_WIN = 248
 
@@ -77,17 +83,13 @@ def get_archive_list(package_url=None, dep_name=None):
 
     buf = response.read().decode()
     content = buf.split("\0")
-    return filter(None, content)
+    return list(filter(None, content))
 
 
 def split_platform(platform):
-    parts = []
     platform_list = platform.split("-")
 
-    for platform_part in platform_list:
-        parts.append(platform_part.split("+"))
-
-    return parts
+    return [platform_part.split('+') for platform_part in platform_list]
 
 
 def make_extendable_pattern(parts):
@@ -115,16 +117,9 @@ def get_best_dependency(dep_matches, platform_runtime):
     deps = defaultdict(list)
     for match in dep_matches:
         groups_len = len(match.groups())
-        if groups_len == 7:
-            # if clang
-            # (os, '', '', arch, '', '', runtime_ver)
-            runtime_version = match.group(7)
-            deps[runtime_version].append(match)
-        else:
-            # else msvc
-            # (os, '', arch, '', runtime_ver)
-            runtime_version = match.group(5)
-            deps[runtime_version].append(match)
+
+        runtime_version = match.group(7) if groups_len == 7 else match.group(5)
+        deps[runtime_version].append(match)
 
     valid_runtimes = list(filter(lambda runtime: runtime <= platform_runtime,
                                  sorted(deps.keys(), reverse=True)))
@@ -242,7 +237,7 @@ def clean_folder_with_deps(path_to_package=None, external_out=None, dep_name=Non
 
     with ZipFile(path_to_package, "r") as archive:
         folder_in_archive = set([i.split("/")[1] for i in archive.namelist() if i.endswith('/')])
-        folder_in_archive = filter(None, list(folder_in_archive))
+        folder_in_archive = set(filter(None, list(folder_in_archive)))
     local_folder = [i for i in listdir(path_to_dep)]
 
     for folder in local_folder:
@@ -281,7 +276,7 @@ def exist_platform_in_dep(force, dep_name=None, revision=None, platform=None, lo
 
 def worker(external_out, platform, target, force, dep_name=None, revision=None, deps_tree=None):
     package = "{0}-{1}.zip".format(dep_name, revision)
-    package_url = "{0}/{1}/{2}".format(url_with_bins, dep_name, package)
+    package_url = "{0}/{1}/{2}".format(URL_WITH_BINS, dep_name, package)
     path_to_package = path.join(external_out, package)
 
     archive_list = get_archive_list(package_url, dep_name)
@@ -294,9 +289,9 @@ def worker(external_out, platform, target, force, dep_name=None, revision=None, 
         return None
 
     if dep_name in deps_tree and pattern[0] != "*":
-        platforms_match_local = filter(compile(pattern[1]).search, deps_tree[dep_name].keys())
-        platforms_match_server = filter(compile(pattern[1]).search, archive_list)
-        platform_match_all = list(set(platforms_match_server) - set(platforms_match_local))
+        platforms_match_local = set(filter(compile(pattern[1]).search, deps_tree[dep_name].keys()))
+        platforms_match_server = set(filter(compile(pattern[1]).search, archive_list))
+        platform_match_all = platforms_match_server - platforms_match_local
         for platform in platform_match_all:
             if exist_platform_in_dep(force, dep_name, revision, platform, deps_tree[dep_name]):
                 continue
@@ -305,7 +300,7 @@ def worker(external_out, platform, target, force, dep_name=None, revision=None, 
                 if download_binary(package_url, package, path_to_package, remote_path):
                     post_download_steps(path_to_package, external_out, dep_name, revision)
 
-        platform_not_match = list(set(deps_tree[dep_name].keys()) - set(platforms_match_local))
+        platform_not_match = set(deps_tree[dep_name].keys()) - platforms_match_local
         for platform in platform_not_match:
             local_revision = deps_tree[dep_name][platform]
             if local_revision != revision:
@@ -318,12 +313,12 @@ def worker(external_out, platform, target, force, dep_name=None, revision=None, 
                 post_download_steps(path_to_package, external_out, dep_name, revision)
 
 
-def update(external_out, force: bool, dep_name=None, revision=None, deps_tree=None):
+def update(external_out, force, dep_name=None, revision=None, deps_tree=None):
     if dep_name not in deps_tree:
         return None
 
     package = "{0}-{1}.zip".format(dep_name, revision)
-    package_url = "{0}/{1}/{2}".format(url_with_bins, dep_name, package)
+    package_url = "{0}/{1}/{2}".format(URL_WITH_BINS, dep_name, package)
     path_to_package = path.join(external_out, package)
 
     platforms = deps_tree[dep_name].keys()
@@ -387,7 +382,7 @@ def get_arguments():
     parser = ArgumentParser(description="Script for download binary dependencies, requires external.config file")
     parser.add_argument("-p", "--platform", help="Platform for binary dependencies", type=str, required=False)
     parser.add_argument("-e", "--external-config", help="Path to external.config", type=str, required=False,
-                        default=default_external_config)
+                        default=DEFAULT_EXTERNAL_CONFIG)
     parser.add_argument("-t", "--target", help="Target for binary dependencies: release/debug", type=str,
                         required=False)
     parser.add_argument("-u", "--update", help="Updating all binary dependencies", action="store_true", required=False)
@@ -402,7 +397,7 @@ def get_arguments():
 
 
 def main():
-    workspace = realpath(join(dirname(__file__), ".."))
+    workspace = dirname(dirname(realpath(__file__)))
     external_out = join(workspace, "external")
 
     args = get_arguments()
