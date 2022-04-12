@@ -15,8 +15,8 @@ External dependencies are located in [Rutoken SDK](http://www.rutoken.ru/develop
 Required frameworks:
 * mobile/ios/pcsc/lib/RtPcsc.framework (Rutoken SDK);
 * mobile/ios/pkcs11/lib/rtpkcs11ecp.framework (Rutoken SDK);
-* openssl/rtengine/bin/ios-arm64/rtengine.framework (Rutoken SDK);
-* openssl/openssl-shared-1.1/ios-arm64/openssl.framework (Rutoken SDK).
+* openssl/bin/3.0/rtengine-3.0/ios-arm64/rtengine.framework (Rutoken SDK);
+* openssl/bin/3.0/openssl-3.0/ios-arm64/openssl.framework (Rutoken SDK).
 
 ##### ==Attention, this is an instruction for setting up the Rutoken Demoshift application. Read more about possibilities and embedding of tokens in your applications in [__integration details of NFC security tokens Rutoken ECP Series to your own applications__](https://dev.rutoken.ru/pages/viewpage.action?pageId=81527019).==
 

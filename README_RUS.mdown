@@ -15,8 +15,8 @@ NFC-устройств [семейства Рутокен ЭЦП](https://www.ru
 Необходимые фреймворки:
 * mobile/ios/pcsc/lib/RtPcsc.framework (Rutoken SDK);
 * mobile/ios/pkcs11/lib/rtpkcs11ecp.framework (Rutoken SDK);
-* openssl/rtengine/bin/ios-arm64/rtengine.framework (Rutoken SDK);
-* openssl/openssl-shared-1.1/ios-arm64/openssl.framework (Rutoken SDK).
+* openssl/bin/3.0/rtengine-3.0/ios-arm64/rtengine.framework (Rutoken SDK);
+* openssl/bin/3.0/openssl-3.0/ios-arm64/openssl.framework (Rutoken SDK).
 
 ##### ==Внимание, это инструкция по настройке приложения Рутокен Демосмена. Подробнее о возможностях и встраивании токенов в ваши приложения читайте в [__особенностях встраивания NFC-устройств семейства Рутокен ЭЦП в собственные приложения__](https://dev.rutoken.ru/pages/viewpage.action?pageId=81527019).==
 
