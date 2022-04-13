@@ -4,12 +4,14 @@
 <dict>
 	<key>destination</key>
 	<string>export</string>
+	<key>manageAppVersionAndBuildNumber</key>
+	<true/>
 	<key>method</key>
 	<string>app-store</string>
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>ru.rutoken.demoshift</key>
-		<string>demoshift-appstore</string>
+		<string>match AppStore ru.rutoken.demoshift</string>
 	</dict>
 	<key>signingCertificate</key>
 	<string>Apple Distribution</string>
