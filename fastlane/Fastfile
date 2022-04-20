@@ -72,8 +72,21 @@ platform :ios do
        )
      end
 
+     groups = "dev"
+     if options[:publish_to] == "internal"
+       groups = "QA,Product"
+     elsif options[:publish_to] == "external"
+       groups = "Employee,Public"
+     elsif options[:publish_to] != "dev"
+       UI.user_error!("publish_to should be one of the following: dev, internal, external")
+     end
+
      upload_to_testflight(
-       ipa: (options[:ipa_path] ? options[:ipa_path] : "./build/demoshift.ipa")
+       ipa: (options[:ipa_path] ? options[:ipa_path] : "./build/demoshift.ipa"),
+       notify_external_testers: true,
+       distribute_external: true,
+       groups: groups,
+       changelog: "New version avaliable"
      )
 
    end

@@ -12,9 +12,9 @@ workflow:
 
 
 variables:
-  PRODUCTION:
-    value: "false"
-    description: "Is this build production or not"
+  PUBLISH_TO:
+    value: "none"
+    description: "To whom build should be published, possible values: none, dev, internal, external"
 
   VAULT_ADDR: "https://vault.aktivco.ru"
   FOLDER_ARTIFACTS: "artifacts"
@@ -105,7 +105,7 @@ export:
   stage: export
   tags: [vagrant-darwin]
   rules:
-    - if: $PRODUCTION == "true"
+    - if: $PUBLISH_TO != "none"
     - when: never
   needs:
     - job: build
@@ -135,7 +135,7 @@ testFlight:
   stage: publish
   tags: [vagrant-darwin]
   rules:
-    - if: $PRODUCTION == "true"
+    - if: $PUBLISH_TO != "none"
     - when: never
   needs:
     - job: export
@@ -149,7 +149,7 @@ testFlight:
   script:
     - PATH_TO_EXPORT_DIR="${FOLDER_ARTIFACTS}/ios-arm64-clang"
     - |
-      fastlane publish ipa_path:"${PATH_TO_EXPORT_DIR}/demoshift.ipa"
+      fastlane publish ipa_path:"${PATH_TO_EXPORT_DIR}/demoshift.ipa" publish_to:${PUBLISH_TO}
 
 
 archive:
