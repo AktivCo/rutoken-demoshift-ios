@@ -642,7 +642,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "app-icon";
 				CODE_SIGN_ENTITLEMENTS = demoshift/demoshift.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_ASSET_PATHS = "\"demoshift/Preview Content\"";
 				DEVELOPMENT_TEAM = TRCKC8GFT7;
 				ENABLE_PREVIEWS = YES;
@@ -660,6 +661,7 @@
 				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.rutoken.demoshift;
 				PRODUCT_NAME = "Демосмена";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development ru.rutoken.demoshift";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/demoshift/Pkcs11/Demoshift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -672,7 +674,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "app-icon";
 				CODE_SIGN_ENTITLEMENTS = demoshift/demoshift.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_ASSET_PATHS = "\"demoshift/Preview Content\"";
 				DEVELOPMENT_TEAM = TRCKC8GFT7;
 				ENABLE_PREVIEWS = YES;
@@ -690,6 +693,7 @@
 				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.rutoken.demoshift;
 				PRODUCT_NAME = "Демосмена";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development ru.rutoken.demoshift";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/demoshift/Pkcs11/Demoshift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

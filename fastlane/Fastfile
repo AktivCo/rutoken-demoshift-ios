@@ -1,0 +1,81 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Build application"
+
+  lane :build do |options|
+
+    if is_ci
+      app_store_connect_api_key(
+        key_id: ENV["KEY_ID"],
+        issuer_id: ENV["ISSUER_ID"],
+        key_filepath: ENV["API_KEY"],
+        duration: 1200,
+        in_house: false
+      )
+    end
+
+    match(
+      git_url: "git@scm.aktivco.ru:rutoken/dev/ios-projects/fastlane/developer-certificates.git",
+      keychain_password: ENV["KEYCHAIN_PASSWORD"],
+      type: "development",
+      readonly: !is_ci
+    )
+
+    build_app(
+      scheme: "demoshift",
+      clean: true,
+      skip_package_ipa: true,
+      archive_path: (options[:output_path] ? options[:output_path] : "./build/demoshift.xcarchive")
+    )
+
+  end
+
+  lane :export do |options|
+
+    if is_ci
+      app_store_connect_api_key(
+        key_id: ENV["KEY_ID"],
+        issuer_id: ENV["ISSUER_ID"],
+        key_filepath: ENV["API_KEY"],
+        duration: 1200,
+        in_house: false
+      )
+    end
+
+    match(
+      git_url: "git@scm.aktivco.ru:rutoken/dev/ios-projects/fastlane/distribution-certificates.git",
+      keychain_password: ENV["KEYCHAIN_PASSWORD"],
+      type: "appstore",
+      readonly: !is_ci
+    )
+
+    build_app(
+      scheme: "demoshift",
+      skip_build_archive: true,
+      output_directory: (options[:output_path] ? options[:output_path] : "./build/"),
+      output_name: "demoshift.ipa",
+      archive_path: (options[:archive_path] ? options[:archive_path] : "./build/demoshift.xcarchive")
+    )
+
+   end
+
+   lane :publish do |options|
+
+     if is_ci
+       app_store_connect_api_key(
+         key_id: ENV["KEY_ID"],
+         issuer_id: ENV["ISSUER_ID"],
+         key_filepath: ENV["API_KEY"],
+         duration: 1200,
+         in_house: false
+       )
+     end
+
+     upload_to_testflight(
+       ipa: (options[:ipa_path] ? options[:ipa_path] : "./build/demoshift.ipa")
+     )
+
+   end
+
+end
