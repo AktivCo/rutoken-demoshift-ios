@@ -1,61 +1,77 @@
 stages:
   - build
+  - export
   - publish
 
 
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"'
+      when: never
+    - when: always
+
+
 variables:
+  PRODUCTION:
+    value: "false"
+    description: "Is this build production or not"
+
   VAULT_ADDR: "https://vault.aktivco.ru"
   FOLDER_ARTIFACTS: "artifacts"
 
-.vault_provision_secrets: &vault_secrets
-  - PROJECT_ROLE="ci-${CI_PROJECT_NAME}"
+  MATCH_PASSWORD: ""
+  KEYCHAIN_PASSWORD: "vagrant"
+  KEY_ID: ""
+  ISSUER_ID: ""
+  API_KEY: "/tmp/api_key.p8"
+
+
+.vault_base_secrets: &vault_base_secrets
   - export VAULT_TOKEN="$(vault write -field=token auth/jwt/login role=${PROJECT_ROLE} jwt=${CI_JOB_JWT})"
 
-  - IOS_DEVELOPER_IDENTITY="/tmp/ios_developer_identity.p12"
-  - DISTRIBUTION_IDENTITY="/tmp/distribution_identity.p12"
+  - KEY_ID="$(vault kv get -field=key_id ci/apple/identity/api-key)"
+  - ISSUER_ID="$(vault kv get -field=issuer_id ci/apple/identity/api-key)"
+  - vault kv get -field=key ci/apple/identity/api-key | base64 --decode > ${API_KEY}
+  
+  - SSH_PRIVATE_KEY="${HOME}/.ssh/id_rsa"
+  - vault kv get -field=private ci/apple/identity/ssh-key > ${SSH_PRIVATE_KEY}
+  - chmod 0600 ${SSH_PRIVATE_KEY}
+  
 
-  - PROVISIONING_DIR="${HOME}/Library/MobileDevice/Provisioning Profiles"
-  - mkdir -p "${PROVISIONING_DIR}"
-  - BUILD_PROFILE="${PROVISIONING_DIR}/build.mobileprovision"
-  - EXPORT_PROFILE="${PROVISIONING_DIR}/export.mobileprovision"
-
-  - vault kv get -field=identity ci/apple/identity/ios-developer-id | base64 --decode > ${IOS_DEVELOPER_IDENTITY}
-  - vault kv get -field=identity ci/apple/identity/distribution-id | base64 --decode > ${DISTRIBUTION_IDENTITY}
-
-  - vault kv get -field=build ci/apple/${CI_PROJECT_NAME}/provisioning-profile | base64 --decode > "${BUILD_PROFILE}"
-  - vault kv get -field=export ci/apple/${CI_PROJECT_NAME}/provisioning-profile | base64 --decode > "${EXPORT_PROFILE}"
-
-  - APPLE_ACCOUNT_USER="$(vault kv get -field=user ci/apple/identity/account)"
-  - APPLE_ACCOUNT_PASSWORD="$(vault kv get -field=password ci/apple/identity/account)"
-
-  - IOS_DEVELOPER_IDENTITY_PASSPHRASE="$(vault kv get -field=passphrase ci/apple/identity/ios-developer-id)"
-  - DISTRIBUTION_IDENTITY_PASSPHRASE="$(vault kv get -field=passphrase ci/apple/identity/distribution-id)"
-
-  - vault token revoke -self
-
-    # Import Sign Certificate
-    # https://stackoverflow.com/questions/10538942/add-a-keychain-to-search-list
-    # https://github.com/fastlane/fastlane/issues/15185#issuecomment-577876643
+.keychain_creation: &keychain_creation
   - SIGN_KEYCHAIN="${HOME}/Library/Keychains/login.keychain"
   - SIGN_KEYCHAIN_FILE="${SIGN_KEYCHAIN}-db"
-  - KEYCHAIN_PASSWORD="vagrant"
 
-    # Add keychain to list of keychains
   - security list-keychains -s ${SIGN_KEYCHAIN_FILE}
   - security unlock-keychain -p ${KEYCHAIN_PASSWORD} ${SIGN_KEYCHAIN_FILE}
-  - |
-    security import ${IOS_DEVELOPER_IDENTITY} \
-                    -P ${IOS_DEVELOPER_IDENTITY_PASSPHRASE} \
-                    -k ${SIGN_KEYCHAIN_FILE} \
-                    -T /usr/bin/codesign \
-                    -T /usr/bin/productsign
-  - |
-    security import ${DISTRIBUTION_IDENTITY} \
-                    -P ${DISTRIBUTION_IDENTITY_PASSPHRASE} \
-                    -k ${SIGN_KEYCHAIN_FILE} \
-                    -T /usr/bin/codesign \
-                    -T /usr/bin/productsign
-  - "security set-key-partition-list -S apple-tool:,apple: -k ${KEYCHAIN_PASSWORD} ${SIGN_KEYCHAIN_FILE} > /dev/null"
+
+
+.vautl_build_secrets: &vault_build_secrets
+  - PROJECT_ROLE="ci-${CI_PROJECT_NAME}"
+
+  - *vault_base_secrets
+  - DEVELOPMENT_MATCH_PASSWORD="$(vault kv get -field=developer ci/apple/identity/fastlane-identity)"
+
+  - vault token revoke -self
+  - *keychain_creation
+
+
+.vault_export_secrets: &vault_export_secrets
+  - PROJECT_ROLE="ci-ios-prod"
+
+  - *vault_base_secrets
+  - DISTRIBUTION_MATCH_PASSWORD="$(vault kv get -field=distribution ci/apple/identity-prod/fastlane-identity)"
+
+  - vault token revoke -self
+  - *keychain_creation
+
+
+.vault_testflight_secrets: &vault_testflight_secrets
+  - PROJECT_ROLE="ci-ios-prod"
+  - *vault_base_secrets
+  - vault token revoke -self
+
+  - *keychain_creation
 
 
 build:
@@ -67,31 +83,17 @@ build:
     RT_CI_VAGRANT_BOX_CPUS: 2
     RT_CI_VAGRANT_BOX_MEMORY: 2048
   before_script:
-    - *vault_secrets
+    - *vault_build_secrets
+
+    - ip=$(dig scm.aktivco.ru +short)
+    - ssh-keyscan scm.aktivco.ru,$ip >> ~/.ssh/known_hosts
   script:
-    - PATH_TO_ARCHIVE="${CI_BUILDS_DIR}/demoshift.xcarchive"
-    - PATH_TO_EXPORT_DIR="${CI_BUILDS_DIR}/demoshift-release"
-    - echo "BuildNumber = ${CI_JOB_ID}" > demoshift/Config.xcconfig
-    - |
-      xcodebuild clean archive -configuration release \
-                               -scheme demoshift \
-                               -archivePath ${PATH_TO_ARCHIVE}
-    - |
-      xcodebuild -exportArchive \
-                 -archivePath ${PATH_TO_ARCHIVE} \
-                 -exportOptionsPlist demoshift/export.plist \
-                 -exportPath ${PATH_TO_EXPORT_DIR}
-    - |
-      if [[ ${CI_COMMIT_REF_NAME} = ${CI_DEFAULT_BRANCH} ]]
-      then
-          xcrun altool --upload-app \
-                       --type ios \
-                       -f ${PATH_TO_EXPORT_DIR}/*.ipa \
-                       -u ${APPLE_ACCOUNT_USER} \
-                       -p ${APPLE_ACCOUNT_PASSWORD}
-      fi
     - mkdir ${FOLDER_ARTIFACTS}
-    - mv ${PATH_TO_ARCHIVE} ${FOLDER_ARTIFACTS}/ios-arm64-clang
+    - PATH_TO_ARCHIVE="${FOLDER_ARTIFACTS}/ios-arm64-clang/demoshift.xcarchive"
+    - echo "BuildNumber = ${CI_JOB_ID}" > demoshift/Config.xcconfig
+    - MATCH_PASSWORD=${DEVELOPMENT_MATCH_PASSWORD}
+    - |
+      fastlane build output_path:${PATH_TO_ARCHIVE}
     - chmod -R +r ${FOLDER_ARTIFACTS}
   artifacts:
     paths:
@@ -99,14 +101,65 @@ build:
     expire_in: 2 hrs
 
 
-publishArtifacts:
+export:
+  stage: export
+  tags: [vagrant-darwin]
+  rules:
+    - if: $PRODUCTION == "true"
+    - when: never
+  needs:
+    - job: build
+  variables:
+    RT_CI_VAGRANT_BOX_NAME: rutoken/macos
+    RT_CI_VAGRANT_BOX_VERSION: 1.3.0
+    RT_CI_VAGRANT_BOX_CPUS: 2
+    RT_CI_VAGRANT_BOX_MEMORY: 2048
+  before_script:
+    - *vault_export_secrets
+
+    - ip=$(dig scm.aktivco.ru +short)
+    - ssh-keyscan scm.aktivco.ru,$ip >> ~/.ssh/known_hosts
+  script:
+    - PATH_TO_ARCHIVE="${FOLDER_ARTIFACTS}/ios-arm64-clang/demoshift.xcarchive"
+    - PATH_TO_EXPORT_DIR="${FOLDER_ARTIFACTS}/ios-arm64-clang"
+    - MATCH_PASSWORD=${DISTRIBUTION_MATCH_PASSWORD}
+    - |
+      fastlane export archive_path:${PATH_TO_ARCHIVE} output_path:${PATH_TO_EXPORT_DIR}
+  artifacts:
+    paths:
+      - ${FOLDER_ARTIFACTS}/
+    expire_in: 2 hrs
+
+
+testFlight:
+  stage: publish
+  tags: [vagrant-darwin]
+  rules:
+    - if: $PRODUCTION == "true"
+    - when: never
+  needs:
+    - job: export
+  variables:
+    RT_CI_VAGRANT_BOX_NAME: rutoken/macos
+    RT_CI_VAGRANT_BOX_VERSION: 1.3.0
+    RT_CI_VAGRANT_BOX_CPUS: 2
+    RT_CI_VAGRANT_BOX_MEMORY: 2048
+  before_script:
+    - *vault_testflight_secrets
+  script:
+    - PATH_TO_EXPORT_DIR="${FOLDER_ARTIFACTS}/ios-arm64-clang"
+    - |
+      fastlane publish ipa_path:"${PATH_TO_EXPORT_DIR}/demoshift.ipa"
+
+
+archive:
   image: 
     name: ${NEXUS_PREFIX}-publish-artifacts:latest
     entrypoint: ["/bin/bash"]
   stage: publish
   tags: [local]
-  dependencies:
-    - build
+  needs:
+    - job: build
   variables:
     GIT_STRATEGY: none
     PACKAGE_URL: "${AKTIV_BUILDS_DIRECTORY}/${CI_PROJECT_NAME}/${CI_PROJECT_NAME}-${CI_COMMIT_SHA}.zip"
