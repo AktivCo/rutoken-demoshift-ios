@@ -39,66 +39,64 @@ struct PinInputView: View {
 
     var body: some View {
         ZStack {
-            VStack {
-                GeometryReader { _ in
-                    HStack(alignment: .top) {
-                        Image("logo")
-                        Spacer()
-                        Image(systemName: "xmark")
-                            .font(.headline) // Change width of xmark - it is technically text
-                            .foregroundColor(Color("text-blue"))
-                            .frame(width: 30, height: 30)
-                            .background(Color(.systemGray5))
-                            .clipShape(Circle())
-                            .onTapGesture {
-                                self.mode.wrappedValue.dismiss()
-                            }
-                            .padding(.trailing)
-                    }
-                    .padding(.vertical)
+            VStack(alignment: .leading) {
+                HStack(alignment: .top) {
+                    Image("logo")
+                    Spacer()
+                    Image(systemName: "xmark")
+                        .font(.headline) // Change width of xmark - it is technically text
+                        .foregroundColor(Color("text-blue"))
+                        .frame(width: 30, height: 30)
+                        .background(Color(.systemGray5))
+                        .clipShape(Circle())
+                        .onTapGesture {
+                            self.mode.wrappedValue.dismiss()
+                        }
+                        .padding(.trailing)
                 }
-                .frame(maxHeight: 120)
+                .padding(.vertical)
 
-                VStack(alignment: .leading) {
-                    HStack {
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading) {
                         Text(self.idleTitle)
                             .font(.title)
                             .fontWeight(.semibold)
-                        Spacer()
-                    }
-                    Text(self.taskStatus.errorMessage)
-                        .font(.headline)
-                        .foregroundColor(Color("text-red"))
-                        .padding(.top, 40)
-                    TextFieldWithFloatingLabel(placeHolder: self.placeHolder, text: self.$pin)
-                        .padding(.top)
-                    Button(action: {
-                        UIApplication.shared.endEditing()
-                        DispatchQueue.main.async {
-                            self.taskStatus.errorMessage = ""
-                            withAnimation(.spring()) {
-                                self.taskStatus.isInProgress = true
-                            }
-                        }
-                        DispatchQueue.global(qos: .default).async {
-                            defer {
-                                DispatchQueue.main.async {
-                                    withAnimation(.spring()) {
-                                        self.taskStatus.isInProgress = false
-                                    }
+                        Text(self.taskStatus.errorMessage)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .font(.headline)
+                            .foregroundColor(Color("text-red"))
+                            .padding(.top)
+                        TextFieldWithFloatingLabel(placeHolder: self.placeHolder, text: self.$pin)
+                            .padding(.top)
+                        Button(action: {
+                            UIApplication.shared.endEditing()
+                            DispatchQueue.main.async {
+                                self.taskStatus.errorMessage = ""
+                                withAnimation(.spring()) {
+                                    self.taskStatus.isInProgress = true
                                 }
                             }
-                            onTapped(pin)
-                        }
-                    }, label: {
-                        Text("\(self.buttonText)")
-                    })
-                        .buttonStyle(RoundedFilledButton())
-                        .padding(.top, 40)
-                        .disabled(self.pin.isEmpty)
-                    Spacer()
+                            DispatchQueue.global(qos: .default).async {
+                                defer {
+                                    DispatchQueue.main.async {
+                                        withAnimation(.spring()) {
+                                            self.taskStatus.isInProgress = false
+                                        }
+                                    }
+                                }
+                                onTapped(pin)
+                            }
+                        }, label: {
+                            Text("\(self.buttonText)")
+                        })
+                            .buttonStyle(RoundedFilledButton())
+                            .padding(.top)
+                            .disabled(self.pin.isEmpty)
+                        Spacer()
+                    }
                 }
-                .padding()
+                .edgesIgnoringSafeArea(.all)
+                .padding(.horizontal)
             }
             .offset(y: self.taskStatus.isInProgress ? -screen.height : 0)
             .background(Color("sheet-background"))
@@ -115,6 +113,9 @@ struct PinInputView: View {
             }
             .background(Color("sheet-background"))
             .offset(y: self.taskStatus.isInProgress ? 0 : screen.height)
+        }
+        .onTapGesture {
+            UIApplication.shared.endEditing()
         }
         .background(Color("sheet-background").edgesIgnoringSafeArea(.all))
     }
