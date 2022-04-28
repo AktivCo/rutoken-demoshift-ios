@@ -42,6 +42,7 @@ struct SignResultView: View {
                 }
 
             Button(action: {
+                self.routingState.showSignResultView = false
                 self.routingState.showSignView = false
             }, label: {
                 Text("К списку пользователей")

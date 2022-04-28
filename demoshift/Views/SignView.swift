@@ -13,6 +13,7 @@ import SwiftUI
 struct SignView: View {
     @Environment(\.interactorsContainer) var interactorsContainer: InteractorsContainer
 
+    @EnvironmentObject var routingState: RoutingState
     @EnvironmentObject var state: SignState
 
     @State var wrappedUrl = AccessedUrl(Bundle.main.urls(forResourcesWithExtension: "pdf", subdirectory: "")?.first)
@@ -24,7 +25,7 @@ struct SignView: View {
         VStack {
             NavigationLink(destination: SignResultView(document: state.documentToShare,
                                                        signature: state.signatureToShare),
-                           isActive: self.$state.showSignResultView) {
+                           isActive: self.$routingState.showSignResultView) {
                 EmptyView()
             }
             .isDetailLink(false)
@@ -62,7 +63,6 @@ struct SignView: View {
                 })
 
             Button(action: {
-                state.showSignResultView = false
                 state.showPinInputView.toggle()
             }, label: {
                 Text("Подписать")

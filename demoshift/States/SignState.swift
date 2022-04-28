@@ -11,7 +11,6 @@ import SwiftUI
 
 class SignState: ObservableObject {
     @Published var showPinInputView = false
-    @Published var showSignResultView = false
     @Published var signatureToShare: SharableSignature?
     @Published var documentToShare: SharableDocument?
     @Published var readers = [Reader]()
