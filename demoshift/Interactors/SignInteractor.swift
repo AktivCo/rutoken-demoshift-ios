@@ -12,12 +12,14 @@ import SwiftUI
 
 class SignInteractor {
     private let pcscWrapper: PcscWrapper
+    private var routingState: RoutingState
     private var state: SignState
 
     private var cancellable = Set<AnyCancellable>()
 
-    init(state: SignState, _ pcscWrapper: PcscWrapper) {
+    init(state: SignState, routingState: RoutingState, _ pcscWrapper: PcscWrapper) {
         self.state = state
+        self.routingState = routingState
         self.pcscWrapper = pcscWrapper
         self.pcscWrapper.readers()
             .receive(on: DispatchQueue.main)
@@ -66,7 +68,7 @@ class SignInteractor {
                 state.signatureToShare = sign
                 state.documentToShare = doc
                 state.showPinInputView = false
-                state.showSignResultView = true
+                routingState.showSignResultView = true
             }
         } catch TokenError.incorrectPin {
             setErrorMessage(message: "Неверный PIN-код")

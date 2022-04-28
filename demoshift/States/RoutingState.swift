@@ -14,4 +14,5 @@ class RoutingState: ObservableObject {
     @Published var showAddVCRView: Bool = false
     @Published var showTokenListView: Bool = false
     @Published var showSignView: Bool = false
+    @Published var showSignResultView: Bool = false
 }
