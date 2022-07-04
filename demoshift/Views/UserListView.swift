@@ -18,7 +18,7 @@ struct UserListView: View {
     @FetchRequest(fetchRequest: User.getAllUsers()) var users: FetchedResults<User>
 
     init() {
-        if #available(iOS 14.0, *) {} else {
+        if #unavailable(iOS 14.0) {
             UITableView.appearance().separatorStyle = .none
         }
 
