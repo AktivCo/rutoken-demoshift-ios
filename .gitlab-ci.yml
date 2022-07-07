@@ -1,7 +1,8 @@
 stages:
   - build
+  - archive
   - export
-  - publish
+  - deploy
 
 
 workflow:
@@ -102,68 +103,16 @@ build:
     expire_in: 2 hrs
 
 
-export:
-  stage: export
-  tags: [vagrant-darwin]
-  rules:
-    - if: $PUBLISH_TO != "none"
-    - when: never
-  needs:
-    - job: build
-  variables:
-    RT_CI_VAGRANT_BOX_NAME: rutoken/macos
-    RT_CI_VAGRANT_BOX_VERSION: 1.3.0
-    RT_CI_VAGRANT_BOX_CPUS: 2
-    RT_CI_VAGRANT_BOX_MEMORY: 2048
-  before_script:
-    - *vault_export_secrets
-
-    - ip=$(dig scm.aktivco.ru +short)
-    - ssh-keyscan scm.aktivco.ru,$ip >> ~/.ssh/known_hosts
-  script:
-    - PATH_TO_ARCHIVE="${FOLDER_ARTIFACTS}/ios-arm64-clang/demoshift.xcarchive"
-    - PATH_TO_EXPORT_DIR="${FOLDER_ARTIFACTS}/ios-arm64-clang"
-    - MATCH_PASSWORD=${DISTRIBUTION_MATCH_PASSWORD}
-    - |
-      fastlane export archive_path:${PATH_TO_ARCHIVE} output_path:${PATH_TO_EXPORT_DIR}
-  artifacts:
-    paths:
-      - ${FOLDER_ARTIFACTS}/
-    expire_in: 2 hrs
-
-
-testFlight:
-  stage: publish
-  tags: [vagrant-darwin]
-  rules:
-    - if: $PUBLISH_TO != "none"
-    - when: never
-  needs:
-    - job: export
-  variables:
-    RT_CI_VAGRANT_BOX_NAME: rutoken/macos
-    RT_CI_VAGRANT_BOX_VERSION: 1.3.0
-    RT_CI_VAGRANT_BOX_CPUS: 2
-    RT_CI_VAGRANT_BOX_MEMORY: 2048
-  before_script:
-    - *vault_testflight_secrets
-  script:
-    - PATH_TO_EXPORT_DIR="${FOLDER_ARTIFACTS}/ios-arm64-clang"
-    - |
-      fastlane publish ipa_path:"${PATH_TO_EXPORT_DIR}/demoshift.ipa" publish_to:${PUBLISH_TO}
-
-
 archive:
   image: 
     name: ${NEXUS_PREFIX}-publish-artifacts:latest
     entrypoint: ["/bin/bash"]
-  stage: publish
+  stage: archive
   tags: [local]
   needs:
     - job: build
   variables:
     GIT_STRATEGY: none
-    PACKAGE_URL: "${AKTIV_BUILDS_DIRECTORY}/${CI_PROJECT_NAME}/${CI_PROJECT_NAME}-${CI_COMMIT_SHA}.zip"
   before_script:
     - PROJECT_ROLE="ci-publish-artifacts"
     - export VAULT_TOKEN="$(vault write -field=token auth/jwt/login role=${PROJECT_ROLE} jwt=${CI_JOB_JWT})"
@@ -177,6 +126,15 @@ archive:
     - vault token revoke -self
 
   script:
+    - |
+      if [[ ${PUBLISH_TO} == "none" ]]
+      then
+          PROJECT_NAME_LOCAL="${CI_PROJECT_NAME}"
+      else
+          PROJECT_NAME_LOCAL="${CI_PROJECT_NAME}-production"
+      fi
+    - PACKAGE_URL="${AKTIV_BUILDS_DIRECTORY}/${PROJECT_NAME_LOCAL}/${PROJECT_NAME_LOCAL}-${CI_COMMIT_SHA}.zip"
+
     - FOLDER_OUT="${CI_PROJECT_DIR}/out"
     - ALL_ARTIFACTS="${FOLDER_OUT}/${CI_PROJECT_NAME}"
     - mkdir -p "${ALL_ARTIFACTS}"
@@ -184,6 +142,14 @@ archive:
     - cp -r ${FOLDER_ARTIFACTS}/* ${ALL_ARTIFACTS}/
 
     - curl --output /dev/null --silent --head --fail ${PACKAGE_URL} && ret=0 || ret=${?}
+
+    - |
+      if [[ ${ret} -eq 0 && ${PUBLISH_TO} != "none" ]]
+      then
+          echo "No need to reupload archive!"
+          exit 0
+      fi
+
     - UPLOAD_ARCHIVE="${CI_PROJECT_DIR}/${CI_PROJECT_NAME}.zip"
     - |
       if [ ${ret} -eq 0 ]
@@ -212,3 +178,63 @@ archive:
       scp -o StrictHostKeyChecking=no \
           -o UserKnownHostsFile=/dev/null \
           ${UPLOAD_ARCHIVE} ${PACKAGE_URL}
+
+
+export:
+  stage: export
+  tags: [vagrant-darwin]
+  rules:
+    - if: $PUBLISH_TO != "none"
+    - when: never
+  needs:
+    - job: archive
+      artifacts: false
+      optional: true
+  variables:
+    RT_CI_VAGRANT_BOX_NAME: rutoken/macos
+    RT_CI_VAGRANT_BOX_VERSION: 1.3.0
+    RT_CI_VAGRANT_BOX_CPUS: 2
+    RT_CI_VAGRANT_BOX_MEMORY: 2048
+  before_script:
+    - *vault_export_secrets
+
+    - ip=$(dig scm.aktivco.ru +short)
+    - ssh-keyscan scm.aktivco.ru,$ip >> ~/.ssh/known_hosts
+  script:
+    - PROJECT_NAME_LOCAL="${CI_PROJECT_NAME}-production"
+    - PACKAGE_URL="http://aktiv-builds/new/${PROJECT_NAME_LOCAL}/${PROJECT_NAME_LOCAL}-${CI_COMMIT_SHA}.zip"
+    - wget ${PACKAGE_URL} -O product.zip -q
+    - unzip product.zip
+
+    - PATH_TO_ARCHIVE="${CI_PROJECT_NAME}/ios-arm64-clang/demoshift.xcarchive"
+    - PATH_TO_EXPORT_DIR="${CI_PROJECT_NAME}/ios-arm64-clang"
+    - MATCH_PASSWORD=${DISTRIBUTION_MATCH_PASSWORD}
+    - |
+      fastlane export archive_path:${PATH_TO_ARCHIVE} output_path:${PATH_TO_EXPORT_DIR}
+  artifacts:
+    paths:
+      - ${CI_PROJECT_NAME}/
+    expire_in: 2 hrs
+
+
+testFlight:
+  stage: deploy
+  tags: [vagrant-darwin]
+  rules:
+    - if: $PUBLISH_TO != "none"
+    - when: never
+  needs:
+    - job: export
+  variables:
+    RT_CI_VAGRANT_BOX_NAME: rutoken/macos
+    RT_CI_VAGRANT_BOX_VERSION: 1.3.0
+    RT_CI_VAGRANT_BOX_CPUS: 2
+    RT_CI_VAGRANT_BOX_MEMORY: 2048
+  before_script:
+    - *vault_testflight_secrets
+  script:
+    - PATH_TO_EXPORT_DIR="${CI_PROJECT_NAME}/ios-arm64-clang"
+    - |
+      fastlane publish ipa_path:"${PATH_TO_EXPORT_DIR}/demoshift.ipa" publish_to:${PUBLISH_TO}
+
+
