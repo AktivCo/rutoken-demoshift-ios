@@ -16,6 +16,9 @@ variables:
   PUBLISH_TO:
     value: "none"
     description: "To whom build should be published, possible values: none, dev, internal, external"
+  SKIP_BUILD:
+    value: "false"
+    description: "Run only deploy jobs. Values: true/false"
 
   VAULT_ADDR: "https://vault.aktivco.ru"
   FOLDER_ARTIFACTS: "artifacts"
@@ -79,6 +82,9 @@ variables:
 build:
   stage: build
   tags: [vagrant-darwin]
+  rules:
+    - if: $SKIP_BUILD == "false"
+    - when: never
   variables:
     RT_CI_VAGRANT_BOX_NAME: rutoken/macos
     RT_CI_VAGRANT_BOX_VERSION: 1.4.0
@@ -109,6 +115,9 @@ archive:
     entrypoint: ["/bin/bash"]
   stage: archive
   tags: [local]
+  rules:
+    - if: $SKIP_BUILD == "false"
+    - when: never
   needs:
     - job: build
   variables:
