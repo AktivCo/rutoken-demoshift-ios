@@ -133,7 +133,8 @@ archive:
       else
           PROJECT_NAME_LOCAL="${CI_PROJECT_NAME}-production"
       fi
-    - PACKAGE_URL="${AKTIV_BUILDS_DIRECTORY}/${PROJECT_NAME_LOCAL}/${PROJECT_NAME_LOCAL}-${CI_COMMIT_SHA}.zip"
+    - PACKAGE_URL="https://builds.aktivco.ru/new/${PROJECT_NAME_LOCAL}/${PROJECT_NAME_LOCAL}-${CI_COMMIT_SHA}.zip"
+    - UPLOAD_PACKAGE_URL="${AKTIV_BUILDS_DIRECTORY}/${PROJECT_NAME_LOCAL}/${PROJECT_NAME_LOCAL}-${CI_COMMIT_SHA}.zip"
 
     - FOLDER_OUT="${CI_PROJECT_DIR}/out"
     - ALL_ARTIFACTS="${FOLDER_OUT}/${CI_PROJECT_NAME}"
@@ -177,7 +178,7 @@ archive:
     - |
       scp -o StrictHostKeyChecking=no \
           -o UserKnownHostsFile=/dev/null \
-          ${UPLOAD_ARCHIVE} ${PACKAGE_URL}
+          ${UPLOAD_ARCHIVE} ${UPLOAD_PACKAGE_URL}
 
 
 export:
@@ -202,7 +203,7 @@ export:
     - ssh-keyscan scm.aktivco.ru,$ip >> ~/.ssh/known_hosts
   script:
     - PROJECT_NAME_LOCAL="${CI_PROJECT_NAME}-production"
-    - PACKAGE_URL="http://aktiv-builds/new/${PROJECT_NAME_LOCAL}/${PROJECT_NAME_LOCAL}-${CI_COMMIT_SHA}.zip"
+    - PACKAGE_URL="https://builds.aktivco.ru/new/${PROJECT_NAME_LOCAL}/${PROJECT_NAME_LOCAL}-${CI_COMMIT_SHA}.zip"
     - wget ${PACKAGE_URL} -O product.zip -q
     - unzip product.zip
 
