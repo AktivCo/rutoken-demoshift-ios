@@ -41,6 +41,13 @@ platform :ios do
         duration: 1200,
         in_house: false
       )
+
+      set_info_plist_value(
+        path: (options[:archive_path] ? (options[:archive_path]+"/Info.plist") : "./build/demoshift.xcarchive/Info.plist"),
+        key: "ApplicationProperties",
+        subkey: "CFBundleVersion",
+        value: (latest_testflight_build_number+1).to_s
+      )
     end
 
     match(
