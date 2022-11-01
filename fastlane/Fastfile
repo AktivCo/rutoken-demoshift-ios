@@ -42,13 +42,14 @@ platform :ios do
         in_house: false
       )
 
+    end
       set_info_plist_value(
         path: (options[:archive_path] ? (options[:archive_path]+"/Info.plist") : "./build/demoshift.xcarchive/Info.plist"),
         key: "ApplicationProperties",
         subkey: "CFBundleVersion",
-        value: (latest_testflight_build_number+1).to_s
+        value: (latest_testflight_build_number(version: get_version_number(xcodeproj: "demoshift.xcodeproj"))+1).to_s
       )
-    end
+
 
     match(
       git_url: "git@scm.aktivco.ru:rutoken/dev/ios-projects/fastlane/distribution-certificates.git",
