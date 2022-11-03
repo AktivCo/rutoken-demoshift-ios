@@ -658,7 +658,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.rutoken.demoshift;
 				PRODUCT_NAME = "Демосмена";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development ru.rutoken.demoshift";
@@ -690,7 +690,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.rutoken.demoshift;
 				PRODUCT_NAME = "Демосмена";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development ru.rutoken.demoshift";
