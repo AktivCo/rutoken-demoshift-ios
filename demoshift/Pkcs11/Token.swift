@@ -121,6 +121,163 @@ class Token {
         }
     }
 
+    public func cmsDecrypt(_ encryptedCms: Data, withCert cert: Cert) throws -> Data {
+        do {
+            var decryptedCms = Data()
+
+            guard let privateKey = try? findObject(ofType: CKO_PRIVATE_KEY, byId: cert.id),
+            let publicKey = try? findObject(ofType: CKO_PUBLIC_KEY, byId: cert.id) else {
+                throw TokenError.keyPairNotFound
+            }
+
+            var functionList = CK_FUNCTION_LIST()
+            try withUnsafeMutablePointer(to: &functionList) { pointer in
+                var functionListPointer: UnsafeMutablePointer<CK_FUNCTION_LIST>? = pointer
+                let rv = C_GetFunctionList(&functionListPointer)
+                guard rv == CKR_OK else {
+                    throw TokenError.generalError
+                }
+
+                guard let wrappedSession = rt_eng_p11_session_wrap(functionListPointer, self.session, 0, nil) else {
+                    throw TokenError.generalError
+                }
+                defer {
+                    rt_eng_p11_session_free(wrappedSession)
+                }
+
+                guard let key = rt_eng_p11_key_pair_wrap(wrappedSession, privateKey, publicKey) else {
+                    throw TokenError.generalError
+                }
+                defer {
+                    EVP_PKEY_free(key)
+                }
+
+                guard let inBio = BIO_new(BIO_s_mem()),
+                      let outBio = BIO_new(BIO_s_mem()) else {
+                    throw TokenError.generalError
+                }
+                defer {
+                    BIO_free(inBio)
+                    BIO_free(outBio)
+                }
+
+                try encryptedCms.withUnsafeBytes {
+                    let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self)
+                    let res = BIO_write(inBio, pointer, Int32(encryptedCms.count))
+                    if res != encryptedCms.count {
+                        throw TokenError.generalError
+                    }
+                }
+
+                guard let cms = exposed_PEM_read_bio_CMS(inBio, nil, nil, nil) else {
+                    throw TokenError.generalError
+                }
+                defer {
+                    CMS_ContentInfo_free(cms)
+                }
+
+                guard CMS_decrypt(cms, key, nil, nil, outBio, UInt32(CMS_BINARY)) == 1 else {
+                    throw TokenError.generalError
+                }
+
+                let resLength = exposed_BIO_get_mem_data(outBio, nil)
+                guard resLength > 0 else {
+                    throw TokenError.generalError
+                }
+
+                var result = Data(repeating: 0x00, count: Int(resLength))
+                try result.withUnsafeMutableBytes {
+                    let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self)
+                    guard BIO_read(outBio, pointer, Int32(resLength)) > 0 else {
+                        throw TokenError.generalError
+                    }
+                }
+
+                decryptedCms = result
+            }
+            return decryptedCms
+        } catch let error {
+            if TokenManager.shared.isConnected(token: self) {
+                throw error
+            }
+            throw TokenError.tokenDisconnected
+        }
+    }
+
+    public func cmsEncrypt(_ document: Data, withCert cert: Cert) throws -> String {
+        do {
+            var encodedCms = String()
+
+            guard let bio = BIO_new(BIO_s_mem()) else {
+                throw TokenError.generalError
+            }
+            defer {
+                BIO_free(bio)
+            }
+
+            try document.withUnsafeBytes {
+                let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self)
+                let res = BIO_write(bio, pointer, Int32(document.count))
+                if res != document.count {
+                    throw TokenError.generalError
+                }
+            }
+
+            try cert.body.withUnsafeBytes {
+                var pointer: UnsafePointer<UInt8>? = $0.baseAddress?.assumingMemoryBound(to: UInt8.self)
+                guard let x509 = d2i_X509(nil, &pointer, cert.body.count) else {
+                    throw TokenError.generalError
+                }
+                defer {
+                    X509_free(x509)
+                }
+
+                guard let certs = exposed_sk_X509_new_null() else {
+                    throw TokenError.generalError
+                }
+                defer {
+                    exposed_sk_X509_free(certs)
+                }
+
+                guard exposed_sk_X509_push(certs, x509) == 1 else {
+                    throw TokenError.generalError
+                }
+
+                guard let cipher = exposed_EVP_get_cipherbynid(Int32(rt_eng_nid_gost28147_cfb)) else {
+                    throw TokenError.generalError
+                }
+
+                guard let cms = CMS_encrypt(certs, bio, cipher, UInt32(CMS_KEY_PARAM | CMS_BINARY)) else {
+                    throw TokenError.generalError
+                }
+                defer {
+                    CMS_ContentInfo_free(cms)
+                }
+
+                let cmsLength = i2d_CMS_ContentInfo(cms, nil)
+                var cmsData = Data(repeating: 0x00, count: Int(cmsLength))
+                cmsData.withUnsafeMutableBytes {
+                    var pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self)
+                    i2d_CMS_ContentInfo(cms, &pointer)
+                }
+
+                // Add EOL after every 64th symbol
+                // Add EOL after every 64th symbol
+                let rawSignature = cmsData.base64EncodedString().enumerated().map { (idx, el) in
+                    idx > 0 && idx % 64 == 0 ? ["\n", el] : [el]
+                }.joined()
+
+                encodedCms = "-----BEGIN CMS-----\n" + rawSignature + "\n-----END CMS-----"
+            }
+            return encodedCms
+        } catch let error {
+        if TokenManager.shared.isConnected(token: self) {
+            throw error
+        }
+            throw TokenError.tokenDisconnected
+        }
+    }
+
     public func cmsSign(_ document: Data, withCert cert: Cert) throws -> String {
         do {
             var encodedCms: String = ""

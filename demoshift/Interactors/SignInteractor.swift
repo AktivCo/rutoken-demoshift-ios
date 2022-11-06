@@ -10,6 +10,12 @@ import Combine
 import SwiftUI
 
 
+extension Data {
+    static func random(length: Int) -> Data {
+        return Data((0 ..< length).map { _ in UInt8.random(in: UInt8.min ... UInt8.max) })
+    }
+}
+
 class SignInteractor {
     private let pcscWrapper: PcscWrapper
     private var routingState: RoutingState
@@ -25,6 +31,22 @@ class SignInteractor {
             .receive(on: DispatchQueue.main)
             .assign(to: \.readers, on: state)
             .store(in: &cancellable)
+    }
+
+    func testEncryptDecryptCms(on token: Token, withData data: Data, withCert cert: Cert, desc: String) {
+        print("==================")
+        print(desc)
+        do {
+            let encryptedCms = try token.cmsEncrypt(data, withCert: cert)
+            let decryptedData = try token.cmsDecrypt(encryptedCms.data(using: .utf8)!, withCert: cert)
+            guard decryptedData == data else {
+                print("Test is failed")
+                return
+            }
+            print("Success")
+        } catch {
+            print("Test is failed")
+        }
     }
 
     func sign(withPin pin: String, forUser choosenUser: User?, wrappedUrl: AccessedUrl?) {
@@ -51,6 +73,9 @@ class SignInteractor {
 
             let document = try Data(contentsOf: wrappedUrl.url)
             let signature = try token.cmsSign(document, withCert: cert)
+
+            testEncryptDecryptCms(on: token, withData: Data.random(length: 1000), withCert: cert, desc: "Small data")
+            testEncryptDecryptCms(on: token, withData: document, withCert: cert, desc: "Big data")
 
             // For correct work with AirDrop all sharable items should be in the same folder
             let cmsFile = FileManager.default.temporaryDirectory
