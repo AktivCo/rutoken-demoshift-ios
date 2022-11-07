@@ -26,7 +26,7 @@ struct TokenListView: View {
             if !state.readers.contains(where: { $0.type == .nfc || $0.type == .vcr }) {
                 VStack {
                     Text("Если на вашем мобильном устройстве нет NFC модуля,\n " +
-                         "вам неоходимо подключить виртуальный считыватель.")
+                         "вам необходимо подключить виртуальный считыватель.")
                         .font(.headline)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 200)
