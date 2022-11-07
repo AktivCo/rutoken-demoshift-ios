@@ -80,7 +80,7 @@ class Token {
             var rawPin: [UInt8] = Array(pin.utf8)
             let rv = C_Login(self.session, CK_USER_TYPE(CKU_USER), &rawPin, CK_ULONG(rawPin.count))
             guard rv == CKR_OK || rv == CKR_USER_ALREADY_LOGGED_IN else {
-                switch Int32(rv) {
+                switch rv {
                 case CKR_PIN_INCORRECT:
                     throw TokenError.incorrectPin
                 case CKR_PIN_LOCKED:
@@ -207,7 +207,7 @@ class Token {
         }
     }
 
-    private func findObjects(ofType type: Int32) throws -> [CK_OBJECT_HANDLE] {
+    private func findObjects(ofType type: UInt) throws -> [CK_OBJECT_HANDLE] {
         var objectType = CK_OBJECT_CLASS(type)
         var template = withUnsafeMutablePointer(to: &objectType) { pointer in
             CK_ATTRIBUTE(type: CK_ATTRIBUTE_TYPE(CKA_CLASS),
@@ -241,7 +241,7 @@ class Token {
         return objects
     }
 
-    private func findObject(ofType type: Int32, byId id: Data) throws -> CK_OBJECT_HANDLE? {
+    private func findObject(ofType type: UInt, byId id: Data) throws -> CK_OBJECT_HANDLE? {
         var objectType = CK_OBJECT_CLASS(type)
 
         let objectTypePointer = UnsafeMutablePointer<UInt>.allocate(capacity: MemoryLayout.size(ofValue: objectType))
