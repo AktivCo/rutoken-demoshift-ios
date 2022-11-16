@@ -84,7 +84,7 @@ class Token: Identifiable {
         }
     }
 
-    public func login(pin: String) throws {
+    func login(pin: String) throws {
         do {
             var rawPin: [UInt8] = Array(pin.utf8)
             let rv = C_Login(self.session, CK_USER_TYPE(CKU_USER), &rawPin, CK_ULONG(rawPin.count))
@@ -106,7 +106,11 @@ class Token: Identifiable {
         }
     }
 
-    public func enumerateCerts() throws -> [Cert] {
+    func logout() {
+        C_Logout(self.session)
+    }
+
+    func enumerateCerts() throws -> [Cert] {
         do {
             var certs: [Cert] = []
             let objects = try self.findObjects(ofType: CKO_CERTIFICATE)
@@ -130,7 +134,7 @@ class Token: Identifiable {
         }
     }
 
-    public func cmsSign(_ document: Data, withCert cert: Cert) throws -> String {
+    func cmsSign(_ document: Data, withCert cert: Cert) throws -> String {
         do {
             var encodedCms: String = ""
 

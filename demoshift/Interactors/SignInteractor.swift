@@ -75,6 +75,9 @@ class SignInteractor {
                 throw TokenManagerError.wrongToken
             }
             try token.login(pin: pin)
+            defer {
+                token.logout()
+            }
 
             guard let cert = Cert(id: choosenUser.certID, body: choosenUser.certBody) else {
                 throw TokenError.generalError

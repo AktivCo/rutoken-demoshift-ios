@@ -71,6 +71,9 @@ class TokenListInteractor {
             }
 
             try token.login(pin: pin)
+            defer {
+                token.logout()
+            }
             let certs = try token.enumerateCerts()
             DispatchQueue.main.async { [unowned self] in
                 state.selectedTokenSerial = token.serial
