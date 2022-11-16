@@ -55,45 +55,9 @@ struct TokenListView: View {
                         interactorsContainer.tokenListInteractor?.didSelectToken(type: .NFC)
                     }
                 }
-
-                ForEach(state.tokens) { token in
-                    Divider()
-                        .padding()
-                    VStack {
-                        HStack(alignment: .center) {
-                            VStack(alignment: .leading) {
-                                Text("Рутокен CCID")
-                                    .font(.headline)
-                                Text("Серийный номер: \(token.serial)")
-                                    .font(.footnote)
-                                HStack {
-                                    ForEach(token.interfaces, id: \.self) { interface in
-                                        Group {
-                                            getInterfaceIcon(interface)
-                                            Text(interface.rawValue)
-                                                .font(.footnote)
-                                        }
-                                        .foregroundColor(interface == token.type ? Color.blue: nil)
-                                    }
-                                }
-                            }
-                            Spacer()
-                            Image(systemName: "person.badge.key.fill")
-                                .renderingMode(.original)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                        }
-                        Spacer()
-                    }
+                Text("ПОДКЛЮЧЕННЫЕ РУТОКЕНЫ")
                     .padding()
-                    .frame(maxHeight: 80)
-                    .background(Color("listitem-background"))
-                    .cornerRadius(20)
-                    .shadow(color: Color.black.opacity(0.5), radius: 2, x: 2.5, y: 2.5) .padding(.horizontal)
-                    .onTapGesture {
-                        interactorsContainer.tokenListInteractor?.didSelectToken(token.serial, type: token.type)
-                    }
-                }
+                getUsbTokenItems()
                 Spacer()
             }
             .background(EmptyView().sheet(isPresented: self.$state.showPinInputView, onDismiss: {
@@ -126,6 +90,45 @@ struct TokenListView: View {
             return Image(systemName: "wave.3.backward.circle")
         case .BT:
             return Image(systemName: "point.3.connected.trianglepath.dotted")
+        }
+    }
+
+    func getUsbTokenItems() -> some View {
+        ForEach(state.tokens) { token in
+            VStack {
+                HStack(alignment: .center) {
+                    VStack(alignment: .leading) {
+                        Text(token.modelName.rawValue)
+                            .font(.headline)
+                        Text("Серийный номер: \(token.serial)")
+                            .font(.footnote)
+                        HStack {
+                            ForEach(token.interfaces, id: \.self) { interface in
+                                Group {
+                                    getInterfaceIcon(interface)
+                                    Text(interface.rawValue)
+                                        .font(.footnote)
+                                }
+                                .foregroundColor(interface == token.type ? Color.blue: nil)
+                            }
+                        }
+                    }
+                    Spacer()
+                    Image(systemName: "person.badge.key.fill")
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
+                Spacer()
+            }
+            .padding()
+            .frame(maxHeight: 80)
+            .background(Color("listitem-background"))
+            .cornerRadius(20)
+            .shadow(color: Color.black.opacity(0.5), radius: 2, x: 2.5, y: 2.5) .padding(.horizontal)
+            .onTapGesture {
+                interactorsContainer.tokenListInteractor?.didSelectToken(token.serial, type: token.type)
+            }
         }
     }
 }

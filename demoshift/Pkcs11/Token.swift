@@ -23,6 +23,7 @@ class Token: Identifiable {
     let serial: String
     let type: TokenType
     let interfaces: [TokenType]
+    let modelName: TokenModelName
 
     private var session = CK_SESSION_HANDLE(NULL_PTR)
 
@@ -50,6 +51,11 @@ class Token: Identifiable {
             return nil
         }
         self.serial = String(format: "%0.10d", decimalSerial)
+
+        guard let modelName = TokenModelName(tokenInfo.hardwareVersion, tokenInfo.firmwareVersion) else {
+            return nil
+        }
+        self.modelName = modelName
 
         var extendedTokenInfo = CK_TOKEN_INFO_EXTENDED()
         extendedTokenInfo.ulSizeofThisStructure = UInt(MemoryLayout.size(ofValue: extendedTokenInfo))

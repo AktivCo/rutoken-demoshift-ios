@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		112E2190291E8788009897D6 /* TokenType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112E218F291E8788009897D6 /* TokenType.swift */; };
+		112E219429250636009897D6 /* TokenModelName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112E219329250636009897D6 /* TokenModelName.swift */; };
 		11475CC727739808008A9F85 /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11475CC627739808008A9F85 /* EnvironmentValues.swift */; };
 		11475CC927739FCC008A9F85 /* RoutingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11475CC827739FCC008A9F85 /* RoutingState.swift */; };
 		1168AB3C278F18AF00DD63A0 /* VcrWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168AB3B278F18AF00DD63A0 /* VcrWrapper.swift */; };
@@ -87,6 +88,7 @@
 
 /* Begin PBXFileReference section */
 		112E218F291E8788009897D6 /* TokenType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenType.swift; sourceTree = "<group>"; };
+		112E219329250636009897D6 /* TokenModelName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModelName.swift; sourceTree = "<group>"; };
 		11475CC627739808008A9F85 /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		11475CC827739FCC008A9F85 /* RoutingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingState.swift; sourceTree = "<group>"; };
 		1168AB3B278F18AF00DD63A0 /* VcrWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrWrapper.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 			children = (
 				5E33801627674BA400FE7A23 /* VcrInfo.swift */,
 				112E218F291E8788009897D6 /* TokenType.swift */,
+				112E219329250636009897D6 /* TokenModelName.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 			files = (
 				588410D624862758003AD26A /* AppDelegate.swift in Sources */,
 				119310AD2767865200B64BE0 /* ProgressRectangle.swift in Sources */,
+				112E219429250636009897D6 /* TokenModelName.swift in Sources */,
 				116D39172760DC7100C40765 /* AddVcrState.swift in Sources */,
 				58167F70248628D200C76262 /* SignView.swift in Sources */,
 				4492D1DA2790121B00ED0394 /* SignState.swift in Sources */,
