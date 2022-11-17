@@ -87,9 +87,9 @@ build:
     - when: never
   variables:
     RT_CI_VAGRANT_BOX_NAME: rutoken/macos
-    RT_CI_VAGRANT_BOX_VERSION: 1.4.0
+    RT_CI_VAGRANT_BOX_VERSION: 1.5.0
     RT_CI_VAGRANT_BOX_CPUS: 2
-    RT_CI_VAGRANT_BOX_MEMORY: 2048
+    RT_CI_VAGRANT_BOX_MEMORY: 4096
   before_script:
     - *vault_build_secrets
 
@@ -202,9 +202,9 @@ export:
       optional: true
   variables:
     RT_CI_VAGRANT_BOX_NAME: rutoken/macos
-    RT_CI_VAGRANT_BOX_VERSION: 1.4.0
+    RT_CI_VAGRANT_BOX_VERSION: 1.5.0
     RT_CI_VAGRANT_BOX_CPUS: 2
-    RT_CI_VAGRANT_BOX_MEMORY: 2048
+    RT_CI_VAGRANT_BOX_MEMORY: 4096
   before_script:
     - *vault_export_secrets
 
@@ -213,7 +213,7 @@ export:
   script:
     - PROJECT_NAME_LOCAL="${CI_PROJECT_NAME}-production"
     - PACKAGE_URL="https://builds.aktivco.ru/new/${PROJECT_NAME_LOCAL}/${PROJECT_NAME_LOCAL}-${CI_COMMIT_SHA}.zip"
-    - wget ${PACKAGE_URL} -O product.zip -q
+    - curl ${PACKAGE_URL} -o product.zip -s
     - unzip product.zip
 
     - PATH_TO_ARCHIVE="${CI_PROJECT_NAME}/ios-arm64-clang/demoshift.xcarchive"
@@ -237,9 +237,9 @@ testFlight:
     - job: export
   variables:
     RT_CI_VAGRANT_BOX_NAME: rutoken/macos
-    RT_CI_VAGRANT_BOX_VERSION: 1.4.0
+    RT_CI_VAGRANT_BOX_VERSION: 1.5.0
     RT_CI_VAGRANT_BOX_CPUS: 2
-    RT_CI_VAGRANT_BOX_MEMORY: 2048
+    RT_CI_VAGRANT_BOX_MEMORY: 4096
   before_script:
     - *vault_testflight_secrets
   script:
