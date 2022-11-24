@@ -17,18 +17,28 @@ class User: NSManagedObject, Identifiable {
     @NSManaged private(set) var expired: String
 
     @NSManaged private(set) var tokenSerial: String
+    @NSManaged private var tokenInterfaces: Data
+
+    var tokenSupportedInterfaces: [TokenType] {
+        (try? JSONDecoder().decode([TokenType].self, from: tokenInterfaces)) ?? [TokenType]()
+    }
 
     @NSManaged private(set) var certID: Data
     @NSManaged private(set) var certBody: Data
 
-    static func makeUser(forCert cert: Cert, withTokenSerial tokenSerial: String, context: NSManagedObjectContext?) -> User? {
+    static func makeUser(forCert cert: Cert, withTokenSerial tokenSerial: String, tokenInterfaces: [TokenType],
+                         context: NSManagedObjectContext?) -> User? {
         guard let ctx = context else {
             return nil
         }
-        return User(cert, withTokenSerial: tokenSerial, context: ctx)
+        guard let interfaces = try? JSONEncoder().encode(tokenInterfaces) else {
+            return nil
+        }
+        return User(cert, withTokenSerial: tokenSerial, tokenInterfaces: interfaces, context: ctx)
     }
 
-    convenience init?(_ cert: Cert, withTokenSerial tokenSerial: String, context: NSManagedObjectContext) {
+    convenience init?(_ cert: Cert, withTokenSerial tokenSerial: String, tokenInterfaces: Data,
+                      context: NSManagedObjectContext) {
         guard let entity = NSEntityDescription.entity(forEntityName: "User", in: context) else {
             return nil
         }
@@ -38,6 +48,7 @@ class User: NSManagedObject, Identifiable {
         self.company = cert.companyName
         self.expired = cert.expired
         self.tokenSerial = tokenSerial
+        self.tokenInterfaces = tokenInterfaces
         self.certID = cert.id
         self.certBody = cert.body
     }

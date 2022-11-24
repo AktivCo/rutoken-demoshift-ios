@@ -30,6 +30,7 @@ struct Reader {
         case bt
         case nfc
         case vcr
+        case usb
     }
 
     let name: String
@@ -309,6 +310,8 @@ class PcscWrapper {
             return .nfc
         case RUTOKEN_VCR_TYPE:
             return .vcr
+        case RUTOKEN_USB_TYPE:
+            return .usb
         default:
             return .unknown
         }

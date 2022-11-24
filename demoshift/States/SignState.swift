@@ -14,6 +14,7 @@ class SignState: ObservableObject {
     @Published var signatureToShare: SharableSignature?
     @Published var documentToShare: SharableDocument?
     @Published var readers = [Reader]()
+    @Published var tokens = [Token]()
 
     @Published var taskStatus = TaskStatus()
 }

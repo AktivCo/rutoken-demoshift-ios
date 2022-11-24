@@ -13,8 +13,11 @@ class TokenListState: ObservableObject {
     @Published var showCertListView = false
     @Published var showPinInputView = false
     @Published var selectedTokenSerial = ""
+    @Published var selectedTokenType: TokenType = .NFC
+    @Published var selectedTokenInterfaces = [TokenType]()
     @Published var selectedTokenCerts: [Cert] = []
     @Published var readers = [Reader]()
+    @Published var tokens = [Token]()
 
     @Published var taskStatus = TaskStatus()
 }

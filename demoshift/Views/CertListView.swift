@@ -36,6 +36,7 @@ struct CertListView: View {
                                 }
                                 guard User.makeUser(forCert: cert,
                                                     withTokenSerial: self.state.selectedTokenSerial,
+                                                    tokenInterfaces: self.state.selectedTokenInterfaces,
                                                     context: self.managedObjectContext) != nil else {
                                     return
                                 }

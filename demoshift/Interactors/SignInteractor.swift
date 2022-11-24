@@ -15,6 +15,7 @@ class SignInteractor {
     private var routingState: RoutingState
     private var state: SignState
 
+    private let semaphore = DispatchSemaphore.init(value: 0)
     private var cancellable = Set<AnyCancellable>()
 
     init(state: SignState, routingState: RoutingState, _ pcscWrapper: PcscWrapper) {
@@ -25,27 +26,57 @@ class SignInteractor {
             .receive(on: DispatchQueue.main)
             .assign(to: \.readers, on: state)
             .store(in: &cancellable)
+        TokenManager.shared.tokens()
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.tokens, on: state)
+            .store(in: &cancellable)
     }
 
     func sign(withPin pin: String, forUser choosenUser: User?, wrappedUrl: AccessedUrl?) {
         do {
-            guard let user = choosenUser,
+            guard let choosenUser = choosenUser,
                   let wrappedUrl = wrappedUrl else {
                 throw TokenError.generalError
             }
 
-            try startNfc(withWaitMessage: "Поднесите Рутокен с NFC", workMessage: "Рутокен с NFC подключен, идет обмен данными...")
+            var isNFC = false
             defer {
-                try? stopNfc(withMessage: "Работа с Рутокен с NFC завершена")
+                if isNFC {
+                    try? stopNfc(withMessage: "Работа с Рутокен с NFC завершена")
+                }
             }
 
-            let token = try TokenManager.shared.getToken()
-            guard token.serial == user.tokenSerial else {
+            let token: Token
+
+            if let usbToken = state.tokens.first(where: { $0.serial == choosenUser.tokenSerial }) {
+                token = usbToken
+            } else {
+                if choosenUser.tokenSupportedInterfaces.contains(.NFC) {
+                    isNFC = true
+                    var nfcToken: Token?
+                    let cancellable = TokenManager.shared.tokens().sink { [unowned self] in
+                        if let card = $0.first(where: { $0.type == .NFC }) {
+                            nfcToken = card
+                            semaphore.signal()
+                        }
+                    }
+                    try startNfc(withWaitMessage: "Поднесите Рутокен с NFC", workMessage: "Рутокен с NFC подключен, идет обмен данными...")
+                    _ = semaphore.wait(timeout: .now() + 2)
+                    guard let nfcToken else {
+                        throw TokenManagerError.tokenNotFound
+                    }
+                    token = nfcToken
+                } else {
+                    throw TokenManagerError.tokenNotFound
+                }
+            }
+
+            guard token.serial == choosenUser.tokenSerial else {
                 throw TokenManagerError.wrongToken
             }
             try token.login(pin: pin)
 
-            guard let cert = Cert(id: user.certID, body: user.certBody) else {
+            guard let cert = Cert(id: choosenUser.certID, body: choosenUser.certBody) else {
                 throw TokenError.generalError
             }
 

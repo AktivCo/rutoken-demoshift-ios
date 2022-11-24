@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		112E2190291E8788009897D6 /* TokenType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112E218F291E8788009897D6 /* TokenType.swift */; };
 		11475CC727739808008A9F85 /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11475CC627739808008A9F85 /* EnvironmentValues.swift */; };
 		11475CC927739FCC008A9F85 /* RoutingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11475CC827739FCC008A9F85 /* RoutingState.swift */; };
 		1168AB3C278F18AF00DD63A0 /* VcrWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168AB3B278F18AF00DD63A0 /* VcrWrapper.swift */; };
@@ -85,6 +86,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		112E218F291E8788009897D6 /* TokenType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenType.swift; sourceTree = "<group>"; };
 		11475CC627739808008A9F85 /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		11475CC827739FCC008A9F85 /* RoutingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingState.swift; sourceTree = "<group>"; };
 		1168AB3B278F18AF00DD63A0 /* VcrWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrWrapper.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				5E33801627674BA400FE7A23 /* VcrInfo.swift */,
+				112E218F291E8788009897D6 /* TokenType.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				588410D824862758003AD26A /* UserCard.swift in Sources */,
 				C399859224864A1D004C5889 /* Cert.swift in Sources */,
 				5EFD388E2769E97000A77C40 /* UserListInteractor.swift in Sources */,
+				112E2190291E8788009897D6 /* TokenType.swift in Sources */,
 				584300C5248F8B1100DBC98E /* CoreDataUser.xcdatamodeld in Sources */,
 				B158944124863EE000C8485E /* DocumentViewer.swift in Sources */,
 				4492D1D827900F1300ED0394 /* SignInteractor.swift in Sources */,

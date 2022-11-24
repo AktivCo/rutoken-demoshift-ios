@@ -18,15 +18,11 @@ enum TokenError: Error {
     case tokenDisconnected
 }
 
-class Token {
-    enum TokenType {
-        case NFC
-        case BT
-    }
-
+class Token: Identifiable {
     let slot: CK_SLOT_ID
     let serial: String
     let type: TokenType
+    let interfaces: [TokenType]
 
     private var session = CK_SESSION_HANDLE(NULL_PTR)
 
@@ -50,7 +46,10 @@ class Token {
             return nil
         }
 
-        self.serial = serial.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let decimalSerial = Int(serial.trimmingCharacters(in: .whitespacesAndNewlines), radix: 16) else {
+            return nil
+        }
+        self.serial = String(format: "%0.10d", decimalSerial)
 
         var extendedTokenInfo = CK_TOKEN_INFO_EXTENDED()
         extendedTokenInfo.ulSizeofThisStructure = UInt(MemoryLayout.size(ofValue: extendedTokenInfo))
@@ -65,9 +64,13 @@ class Token {
             self.type = .BT
         case TOKEN_TYPE_RUTOKEN_ECP_NFC:
             self.type = .NFC
+        case TOKEN_TYPE_RUTOKEN_ECP:
+            self.type = .USB
         default:
             return nil
         }
+
+        self.interfaces = [type]
 
         rv = C_OpenSession(self.slot, CK_FLAGS(CKF_SERIAL_SESSION), nil, nil, &self.session)
         guard rv == CKR_OK else {

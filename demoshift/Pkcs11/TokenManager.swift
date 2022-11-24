@@ -6,6 +6,7 @@
 //  Copyright © 2020 Aktiv Co. All rights reserved.
 //
 
+import Combine
 import Foundation
 
 
@@ -19,6 +20,12 @@ class TokenManager {
     static let shared = TokenManager()
 
     let rtengine: OpaquePointer
+
+    private var tokensPublisher = CurrentValueSubject<[Token], Never>([])
+
+    public func tokens() -> AnyPublisher<[Token], Never> {
+        return tokensPublisher.share().eraseToAnyPublisher()
+    }
 
     public func isConnected(token: Token) -> Bool {
         var slotInfo = CK_SLOT_INFO()
@@ -34,7 +41,7 @@ class TokenManager {
         return true
     }
 
-    public func getToken() throws -> Token {
+    private func getTokens() throws -> [Token] {
         var ctr: UInt = 0
         var rv = C_GetSlotList(CK_BBOOL(CK_TRUE), nil, &ctr)
         guard rv == CKR_OK else {
@@ -42,7 +49,7 @@ class TokenManager {
         }
 
         guard ctr != 0 else {
-            throw TokenManagerError.tokenNotFound
+            return []
         }
 
         var slots = Array(repeating: CK_SLOT_ID(0), count: Int(ctr))
@@ -51,12 +58,7 @@ class TokenManager {
             throw TokenManagerError.unknownError
         }
 
-        let tokens = slots.compactMap { Token(slot: $0) }
-        guard let token = tokens.first(where: { $0.type == .NFC }) else {
-            throw TokenManagerError.tokenNotFound
-        }
-
-        return token
+        return slots.compactMap { Token(slot: $0) }
     }
 
     private init() {
@@ -75,8 +77,25 @@ class TokenManager {
         var initArgs = CK_C_INITIALIZE_ARGS()
         initArgs.flags = UInt(CKF_OS_LOCKING_OK)
 
-        let rv = C_Initialize(&initArgs)
+        var rv = C_Initialize(&initArgs)
         assert(rv == CKR_OK)
+
+        DispatchQueue.global().async { [unowned self] in
+            if let tokens = try? getTokens() {
+                tokensPublisher.send(tokens)
+            }
+
+            while true {
+                var slotId = CK_SLOT_ID()
+                rv = C_WaitForSlotEvent(0, &slotId, nil)
+
+                guard rv != CKR_CRYPTOKI_NOT_INITIALIZED else { return }
+                guard rv == CKR_OK else { continue }
+                guard let tokens = try? getTokens() else { continue }
+
+                tokensPublisher.send(tokens)
+            }
+        }
     }
 
     deinit {
