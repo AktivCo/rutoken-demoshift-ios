@@ -82,50 +82,33 @@ struct TokenListView: View {
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
     }
 
-    func getInterfaceIcon(_ type: TokenType) -> some View {
-        switch type {
-        case .USB:
-            return Image(systemName: "cable.connector.horizontal")
-        case .NFC:
-            return Image(systemName: "wave.3.backward.circle")
-        case .BT:
-            return Image(systemName: "point.3.connected.trianglepath.dotted")
-        }
-    }
-
     func getUsbTokenItems() -> some View {
         ForEach(state.tokens) { token in
-            VStack {
-                HStack(alignment: .center) {
-                    VStack(alignment: .leading) {
-                        Text(token.modelName.rawValue)
-                            .font(.headline)
-                        Text("Серийный номер: \(token.serial)")
-                            .font(.footnote)
-                        HStack {
-                            ForEach(token.interfaces, id: \.self) { interface in
-                                Group {
-                                    getInterfaceIcon(interface)
-                                    Text(interface.rawValue)
-                                        .font(.footnote)
-                                }
-                                .foregroundColor(interface == token.type ? Color.blue: nil)
-                            }
-                        }
-                    }
-                    Spacer()
-                    Image(systemName: "person.badge.key.fill")
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+            HStack(spacing: 0) {
+                Image("usb")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(Color("text-red"))
+                    .padding(.vertical, 28)
+                    .padding(.leading, 28)
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(token.modelName.rawValue)
+                        .font(.system(size: 16, weight: .medium))
+                        .padding(.bottom, 14)
+                    Text("Серийный номер: \(token.serial)")
+                        .font(.system(size: 16))
+                        .fontWeight(.light)
+                        .foregroundColor(Color("text-gray"))
                 }
+                .padding(.vertical, 27)
+                .padding(.leading, 16)
                 Spacer()
             }
-            .padding()
-            .frame(maxHeight: 80)
+            .frame(maxWidth: .infinity, maxHeight: 106, alignment: .leading)
             .background(Color("listitem-background"))
-            .cornerRadius(20)
-            .shadow(color: Color.black.opacity(0.5), radius: 2, x: 2.5, y: 2.5) .padding(.horizontal)
+            .cornerRadius(30)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 20)
             .onTapGesture {
                 interactorsContainer.tokenListInteractor?.didSelectToken(token.serial, type: token.type)
             }
