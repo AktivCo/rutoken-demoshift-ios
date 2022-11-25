@@ -51,11 +51,7 @@ class Token: Identifiable {
             return nil
         }
         self.serial = String(format: "%0.10d", decimalSerial)
-
-        guard let model = TokenModelName(tokenInfo.hardwareVersion, tokenInfo.firmwareVersion) else {
-            return nil
-        }
-        self.modelName = model
+        self.modelName = TokenModelName(tokenInfo.hardwareVersion, tokenInfo.firmwareVersion)
 
         rv = C_OpenSession(self.slot, CK_FLAGS(CKF_SERIAL_SESSION), nil, nil, &self.session)
         guard rv == CKR_OK else {

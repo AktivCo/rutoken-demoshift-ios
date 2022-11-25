@@ -108,32 +108,14 @@ struct TokenListView: View {
             }
         }
         ForEach(state.tokens) { token in
-            HStack(spacing: 0) {
-                Image("usb")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .foregroundColor(Color("text-red"))
-                    .padding(.vertical, 28)
-                    .padding(.leading, 28)
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(token.modelName.rawValue)
-                        .font(.system(size: 16, weight: .medium))
-                        .padding(.bottom, 14)
-                    Text("Серийный номер: \(token.serial)")
-                        .font(.system(size: 16))
-                        .fontWeight(.light)
-                        .foregroundColor(Color("text-gray"))
+            TokenCard(modelName: token.modelName,
+                      serial: token.serial,
+                      currentInterface: token.currentInterface,
+                      interfaces: token.supportedInterfaces)
+                .allowsHitTesting(token.modelName != .unsupported)
+                .onTapGesture {
+                    interactorsContainer.tokenListInteractor?.didSelectToken(token.serial, type: token.currentInterface)
                 }
-                .padding(.vertical, 27)
-                .padding(.leading, 16)
-                Spacer()
-            }
-            .frame(maxWidth: .infinity, maxHeight: 106, alignment: .leading)
-            .background(Color("listitem-background"))
-            .cornerRadius(30)
-            .onTapGesture {
-                interactorsContainer.tokenListInteractor?.didSelectToken(token.serial, type: token.currentInterface)
-            }
         }
         .padding(.vertical, 10)
     }

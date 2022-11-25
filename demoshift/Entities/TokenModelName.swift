@@ -10,10 +10,11 @@ enum TokenModelName: String {
     case rutoken2 = "Рутокен ЭЦП 2.0"
     case rutoken3 = "Рутокен ЭЦП 3.0"
     case pki = "Рутокен ЭЦП PKI"
+    case unsupported = "Неподдерживаемый Рутокен"
 }
 
 extension TokenModelName {
-    init?(_ hardwareVersion: CK_VERSION, _ firmwareVersion: CK_VERSION) {
+    init(_ hardwareVersion: CK_VERSION, _ firmwareVersion: CK_VERSION) {
         let AA = hardwareVersion.major
         let BB = hardwareVersion.minor
         let CC = firmwareVersion.major
@@ -37,7 +38,7 @@ extension TokenModelName {
              (60, _, 28, _):
             self = .rutoken3
         default:
-            return nil
+            self = .unsupported
         }
     }
 }

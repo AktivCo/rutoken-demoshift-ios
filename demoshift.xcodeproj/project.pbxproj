@@ -21,6 +21,7 @@
 		119310AD2767865200B64BE0 /* ProgressRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119310AC2767865200B64BE0 /* ProgressRectangle.swift */; };
 		119BF03D2749506A0002B8C6 /* Hint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF03C2749506A0002B8C6 /* Hint.swift */; };
 		119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF042274AB3050002B8C6 /* VcrListView.swift */; };
+		445761AD2930A2C6009694AE /* TokenCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445761AC2930A2C6009694AE /* TokenCard.swift */; };
 		445B3D842758B253004B224C /* VCRCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445B3D832758B253004B224C /* VCRCard.swift */; };
 		448067E6275FD1C700EBF5BB /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448067E5275FD1C700EBF5BB /* NotificationManager.swift */; };
 		4483BA67278C245300D73A44 /* TokenListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4483BA66278C245300D73A44 /* TokenListInteractor.swift */; };
@@ -101,6 +102,7 @@
 		119310AC2767865200B64BE0 /* ProgressRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressRectangle.swift; sourceTree = "<group>"; };
 		119BF03C2749506A0002B8C6 /* Hint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hint.swift; sourceTree = "<group>"; };
 		119BF042274AB3050002B8C6 /* VcrListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListView.swift; sourceTree = "<group>"; };
+		445761AC2930A2C6009694AE /* TokenCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCard.swift; sourceTree = "<group>"; };
 		445B3D832758B253004B224C /* VCRCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCRCard.swift; sourceTree = "<group>"; };
 		448067E5275FD1C700EBF5BB /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4483BA66278C245300D73A44 /* TokenListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenListInteractor.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				448067E5275FD1C700EBF5BB /* NotificationManager.swift */,
 				119310AA27637FE900B64BE0 /* QrCode.swift */,
 				119310AC2767865200B64BE0 /* ProgressRectangle.swift */,
+				445761AC2930A2C6009694AE /* TokenCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				C3C5FE85248A741700751E3A /* LoadingIndicator.swift in Sources */,
 				584300CB2490C72D00DBC98E /* User.swift in Sources */,
 				116D39152760DC3D00C40765 /* AddVcrInteractor.swift in Sources */,
+				445761AD2930A2C6009694AE /* TokenCard.swift in Sources */,
 				C3CE1BAF24866DD400981E61 /* SignResultView.swift in Sources */,
 				116D390F275F7C9C00C40765 /* BulletTextItem.swift in Sources */,
 				119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */,
