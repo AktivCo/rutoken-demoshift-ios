@@ -18,48 +18,46 @@ struct TokenListView: View {
     @EnvironmentObject var routingState: RoutingState
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 0) {
             Text("Выберите Рутокен")
                 .font(.headline)
-                .padding(.top)
-            ScrollView {
+                .padding(.top, 22)
+                .padding(.leading, 20)
+            ScrollView(showsIndicators: false) {
                 if !state.readers.contains(where: { $0.type == .nfc || $0.type == .vcr }) {
-                    VStack {
-                        Text("Если на вашем мобильном устройстве нет NFC модуля,\n " +
-                             "вам необходимо подключить виртуальный считыватель.")
-                            .font(.headline)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: 200)
-                    .background(Color("listitem-background"))
-                    .cornerRadius(20)
-                    .shadow(color: Color.black.opacity(0.5), radius: 2, x: 2.5, y: 2.5) .padding(.horizontal)
+                    Text("Для подключения Рутокена с NFC используйте виртуальный считыватель")
+                        .font(.system(size: 16))
+                        .padding(.top, 98)
+                        .padding(.bottom, 96)
                 } else {
-                    VStack {
-                        HStack(alignment: .top) {
+                    VStack(spacing: 0) {
+                        HStack(alignment: .top, spacing: 0) {
                             Text("Подключить Рутокен с NFC")
                                 .font(.headline)
+                                .padding(.top, 4)
                             Spacer()
                             Image("nfc-icon-gray")
                                 .renderingMode(.original)
                                 .resizable()
-                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 138, height: 138, alignment: .center)
                         }
+                        .padding(.vertical, 34)
+                        .padding(.leading, 23)
+                        .padding(.trailing, 20)
                         Spacer()
                     }
-                    .padding()
-                    .frame(maxHeight: 200)
+                    .frame(maxHeight: 213)
                     .background(Color("listitem-background"))
-                    .cornerRadius(20)
-                    .shadow(color: Color.black.opacity(0.5), radius: 2, x: 2.5, y: 2.5) .padding(.horizontal)
+                    .cornerRadius(30)
                     .onTapGesture {
                         interactorsContainer.tokenListInteractor?.didSelectToken(type: .NFC)
                     }
                 }
-                Text("ПОДКЛЮЧЕННЫЕ РУТОКЕНЫ")
-                    .padding()
-                getUsbTokenItems()
+                usbTokenList()
                 Spacer()
             }
+            .padding(.top, 22)
+            .padding(.horizontal, 20)
             .background(EmptyView().sheet(isPresented: self.$state.showPinInputView, onDismiss: {
                 self.state.showPinInputView = false
                 self.state.taskStatus.errorMessage = ""
@@ -82,7 +80,33 @@ struct TokenListView: View {
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
     }
 
+    @ViewBuilder
+    func usbTokenList() -> some View {
+        Text("ПОДКЛЮЧЕННЫЕ РУТОКЕНЫ")
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, 24)
+        if #unavailable(iOS 16.0) {
+            Text("Для работы с устройствами Рутокен ЭЦП 2.0 и 3.0 требуется iOS 16 и новее")
+                .multilineTextAlignment(.center)
+                .font(.system(size: 16))
+                .padding(.horizontal, 20)
+                .padding(.top, 66)
+        } else {
+            getUsbTokenItems()
+        }
+    }
+
+    @ViewBuilder
     func getUsbTokenItems() -> some View {
+        if state.tokens.isEmpty {
+            VStack(alignment: .center, spacing: 0) {
+                Text("Нет доступных устройств. Подключите Рутокен контактно и он отобразится в этом разделе")
+                    .multilineTextAlignment(.center)
+                    .font(.system(size: 16))
+                    .padding(.horizontal, 20)
+                    .padding(.top, 66)
+            }
+        }
         ForEach(state.tokens) { token in
             HStack(spacing: 0) {
                 Image("usb")
@@ -107,11 +131,10 @@ struct TokenListView: View {
             .frame(maxWidth: .infinity, maxHeight: 106, alignment: .leading)
             .background(Color("listitem-background"))
             .cornerRadius(30)
-            .padding(.horizontal, 20)
-            .padding(.bottom, 20)
             .onTapGesture {
                 interactorsContainer.tokenListInteractor?.didSelectToken(token.serial, type: token.type)
             }
         }
+        .padding(.vertical, 10)
     }
 }
