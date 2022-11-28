@@ -31,7 +31,7 @@ class TokenListInteractor {
             .store(in: &cancellable)
     }
 
-    func didSelectToken(_ serial: String = "", type: TokenType) {
+    func didSelectToken(_ serial: String = "", type: TokenInterface) {
         state.selectedTokenType = type
         state.showPinInputView = true
         state.selectedTokenSerial = serial
@@ -52,7 +52,7 @@ class TokenListInteractor {
             if isNFC {
                 var nfcToken: Token?
                 let cancellable = TokenManager.shared.tokens().sink { [unowned self] in
-                    if let card = $0.first(where: { $0.type == .NFC }) {
+                    if let card = $0.first(where: { $0.currentInterface == .NFC }) {
                         nfcToken = card
                         semaphore.signal()
                     }
@@ -77,8 +77,8 @@ class TokenListInteractor {
             let certs = try token.enumerateCerts()
             DispatchQueue.main.async { [unowned self] in
                 state.selectedTokenSerial = token.serial
-                state.selectedTokenType = token.type
-                state.selectedTokenInterfaces = token.interfaces
+                state.selectedTokenType = token.currentInterface
+                state.selectedTokenInterfaces = token.supportedInterfaces
                 state.selectedTokenCerts = certs
                 state.showPinInputView = false
                 state.showCertListView = true

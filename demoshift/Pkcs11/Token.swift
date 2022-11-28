@@ -21,8 +21,8 @@ enum TokenError: Error {
 class Token: Identifiable {
     let slot: CK_SLOT_ID
     let serial: String
-    let type: TokenType
-    let interfaces: [TokenType]
+    private(set) var currentInterface: TokenInterface!
+    private(set) var supportedInterfaces: [TokenInterface]!
     let modelName: TokenModelName
 
     private var session = CK_SESSION_HANDLE(NULL_PTR)
@@ -52,36 +52,26 @@ class Token: Identifiable {
         }
         self.serial = String(format: "%0.10d", decimalSerial)
 
-        guard let modelName = TokenModelName(tokenInfo.hardwareVersion, tokenInfo.firmwareVersion) else {
+        guard let model = TokenModelName(tokenInfo.hardwareVersion, tokenInfo.firmwareVersion) else {
             return nil
         }
-        self.modelName = modelName
-
-        var extendedTokenInfo = CK_TOKEN_INFO_EXTENDED()
-        extendedTokenInfo.ulSizeofThisStructure = UInt(MemoryLayout.size(ofValue: extendedTokenInfo))
-
-        rv = C_EX_GetTokenInfoExtended(slot, &extendedTokenInfo)
-        guard rv == CKR_OK else {
-            return nil
-        }
-
-        switch Int32(extendedTokenInfo.ulTokenType) {
-        case TOKEN_TYPE_RUTOKEN_ECPDUAL_BT:
-            self.type = .BT
-        case TOKEN_TYPE_RUTOKEN_ECP_NFC:
-            self.type = .NFC
-        case TOKEN_TYPE_RUTOKEN_ECP:
-            self.type = .USB
-        default:
-            return nil
-        }
-
-        self.interfaces = [type]
+        self.modelName = model
 
         rv = C_OpenSession(self.slot, CK_FLAGS(CKF_SERIAL_SESSION), nil, nil, &self.session)
         guard rv == CKR_OK else {
             return nil
         }
+
+        guard let (currentInterface, supportedInterfaces) = getTokenInterfaces() else {
+            return nil
+        }
+
+        guard let interface = TokenInterface(currentInterface) else {
+            return nil
+        }
+
+        self.currentInterface = interface
+        self.supportedInterfaces = [TokenInterface](bits: supportedInterfaces)
     }
 
     func login(pin: String) throws {
@@ -113,7 +103,7 @@ class Token: Identifiable {
     func enumerateCerts() throws -> [Cert] {
         do {
             var certs: [Cert] = []
-            let objects = try self.findObjects(ofType: CKO_CERTIFICATE)
+            let objects = try findObjects((CK_OBJECT_CLASS(CKO_CERTIFICATE), CKA_CLASS))
             for obj in objects {
                 guard let cert = Cert.makeCert(fromHandle: obj, inSession: self.session) else {
                     continue
@@ -220,15 +210,17 @@ class Token: Identifiable {
         }
     }
 
-    private func findObjects(ofType type: UInt) throws -> [CK_OBJECT_HANDLE] {
-        var objectType = CK_OBJECT_CLASS(type)
-        var template = withUnsafeMutablePointer(to: &objectType) { pointer in
-            CK_ATTRIBUTE(type: CK_ATTRIBUTE_TYPE(CKA_CLASS),
-                         pValue: pointer,
-                         ulValueLen: CK_ULONG(MemoryLayout.size(ofValue: pointer.pointee)))
+    private func findObjects(_ attributes: (CK_ULONG, UInt)...) throws -> [CK_OBJECT_HANDLE] {
+        var values = [CK_ULONG]()
+        var template = attributes.map { value, type in
+            values.append(value)
+            return withUnsafeMutablePointer(to: &(values[values.endIndex - 1])) { pointer in
+                CK_ATTRIBUTE(type: CK_ATTRIBUTE_TYPE(type),
+                             pValue: pointer,
+                             ulValueLen: CK_ULONG(MemoryLayout.size(ofValue: pointer.pointee)))
+            }
         }
-
-        var rv = C_FindObjectsInit(self.session, &template, 1)
+        var rv = C_FindObjectsInit(self.session, &template, CK_ULONG(template.count))
         guard rv == CKR_OK else {
             throw TokenError.generalError
         }
@@ -252,6 +244,47 @@ class Token: Identifiable {
         } while count == maxCount
 
         return objects
+    }
+
+    private func getTokenInterfaces() -> (CK_ULONG, CK_ULONG)? {
+        guard let handle =  try? findObjects((CK_OBJECT_CLASS(CKO_HW_FEATURE), CKA_CLASS),
+                                             (CK_HW_FEATURE_TYPE(CKH_VENDOR_TOKEN_INFO), CKA_HW_FEATURE_TYPE)).first else {
+            return nil
+        }
+
+        let valueSize: CK_ULONG = 0
+        let currentInterfaceAttr = CK_ATTRIBUTE(type: CK_ATTRIBUTE_TYPE(CKA_VENDOR_CURRENT_TOKEN_INTERFACE),
+                                                pValue: nil,
+                                                ulValueLen: valueSize)
+        let supportedInterfaceAttr = CK_ATTRIBUTE(type: CK_ATTRIBUTE_TYPE(CKA_VENDOR_SUPPORTED_TOKEN_INTERFACE),
+                                                  pValue: nil,
+                                                  ulValueLen: valueSize)
+
+        var template = [currentInterfaceAttr, supportedInterfaceAttr]
+
+        var rv = C_GetAttributeValue(session, handle, &template, CK_ULONG(template.count))
+        guard rv == CKR_OK else {
+            return nil
+        }
+
+        for i in 0..<template.count {
+            template[i].pValue = UnsafeMutableRawPointer.allocate(byteCount: Int(template[i].ulValueLen), alignment: 1)
+        }
+        defer {
+            for i in 0..<template.count {
+                template[i].pValue.deallocate()
+            }
+        }
+
+        rv = C_GetAttributeValue(session, handle, &template, CK_ULONG(template.count))
+        guard rv == CKR_OK else {
+            return nil
+        }
+
+        return (UnsafeRawBufferPointer(start: template[0].pValue.assumingMemoryBound(to: UInt8.self),
+                                       count: Int(template[0].ulValueLen)).load(as: CK_ULONG.self),
+                UnsafeRawBufferPointer(start: template[1].pValue.assumingMemoryBound(to: UInt8.self),
+                                       count: Int(template[1].ulValueLen)).load(as: CK_ULONG.self))
     }
 
     private func findObject(ofType type: UInt, byId id: Data) throws -> CK_OBJECT_HANDLE? {

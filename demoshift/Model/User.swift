@@ -19,14 +19,14 @@ class User: NSManagedObject, Identifiable {
     @NSManaged private(set) var tokenSerial: String
     @NSManaged private var tokenInterfaces: Data
 
-    var tokenSupportedInterfaces: [TokenType] {
-        (try? JSONDecoder().decode([TokenType].self, from: tokenInterfaces)) ?? [TokenType]()
+    var tokenSupportedInterfaces: [TokenInterface] {
+        (try? JSONDecoder().decode([TokenInterface].self, from: tokenInterfaces)) ?? [TokenInterface]()
     }
 
     @NSManaged private(set) var certID: Data
     @NSManaged private(set) var certBody: Data
 
-    static func makeUser(forCert cert: Cert, withTokenSerial tokenSerial: String, tokenInterfaces: [TokenType],
+    static func makeUser(forCert cert: Cert, withTokenSerial tokenSerial: String, tokenInterfaces: [TokenInterface],
                          context: NSManagedObjectContext?) -> User? {
         guard let ctx = context else {
             return nil

@@ -132,7 +132,7 @@ struct TokenListView: View {
             .background(Color("listitem-background"))
             .cornerRadius(30)
             .onTapGesture {
-                interactorsContainer.tokenListInteractor?.didSelectToken(token.serial, type: token.type)
+                interactorsContainer.tokenListInteractor?.didSelectToken(token.serial, type: token.currentInterface)
             }
         }
         .padding(.vertical, 10)

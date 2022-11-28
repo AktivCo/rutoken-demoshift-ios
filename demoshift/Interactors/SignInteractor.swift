@@ -55,7 +55,7 @@ class SignInteractor {
                     isNFC = true
                     var nfcToken: Token?
                     let cancellable = TokenManager.shared.tokens().sink { [unowned self] in
-                        if let card = $0.first(where: { $0.type == .NFC }) {
+                        if let card = $0.first(where: { $0.currentInterface == .NFC }) {
                             nfcToken = card
                             semaphore.signal()
                         }
