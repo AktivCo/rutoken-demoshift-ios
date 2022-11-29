@@ -109,8 +109,8 @@ class SignInteractor {
             setErrorMessage(message: "Неверный PIN-код")
         } catch TokenError.lockedPin {
             setErrorMessage(message: "Превышен лимит ошибок при вводе PIN-кода")
-        } catch TokenManagerError.tokenNotFound {
-            setErrorMessage(message: "Не удалось обнаружить Рутокен")
+        } catch TokenManagerError.tokenNotFound, ReaderError.timeout {
+            setErrorMessage(message: "Рутокен не обнаружен. Для продолжения работы подключите Рутокен к устройству")
         } catch ReaderError.readerUnavailable {
             setErrorMessage(message: "Не удалось обнаружить считыватель")
         } catch TokenError.keyPairNotFound {
@@ -119,6 +119,7 @@ class SignInteractor {
             setErrorMessage(message: "Потеряно соединение с Рутокеном")
         } catch TokenManagerError.wrongToken {
             setErrorMessage(message: "Пользователь зарегистрирован с другим Рутокеном")
+        } catch ReaderError.cancelledByUser {
         } catch {
             setErrorMessage(message: "Что-то пошло не так. Попробуйте повторить операцию")
         }

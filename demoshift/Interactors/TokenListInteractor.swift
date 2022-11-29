@@ -89,10 +89,11 @@ class TokenListInteractor {
             self.setErrorMessage(message: "Превышен лимит ошибок при вводе PIN-кода")
         } catch TokenError.tokenDisconnected {
             self.setErrorMessage(message: "Потеряно соединение с Рутокеном")
-        } catch TokenManagerError.tokenNotFound {
-            self.setErrorMessage(message: "Не удалось обнаружить Рутокен")
+        } catch TokenManagerError.tokenNotFound, ReaderError.timeout {
+            setErrorMessage(message: "Рутокен не обнаружен. Для продолжения работы подключите Рутокен к устройству")
         } catch ReaderError.readerUnavailable {
             self.setErrorMessage(message: "Не удалось обнаружить считыватель")
+        } catch ReaderError.cancelledByUser {
         } catch {
             self.setErrorMessage(message: "Что-то пошло не так. Попробуйте повторить операцию")
         }
