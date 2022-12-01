@@ -19,16 +19,26 @@ struct TokenListView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            NavigationLink(destination: VcrListView(),
+                           isActive: self.$routingState.showStackedAddVCRView) {
+                EmptyView()
+            }
+            .isDetailLink(false)
             Text("Выберите Рутокен")
                 .font(.headline)
                 .padding(.top, 22)
                 .padding(.leading, 20)
             ScrollView(showsIndicators: false) {
                 if !state.readers.contains(where: { $0.type == .nfc || $0.type == .vcr }) {
-                    Text("Для подключения Рутокена с NFC используйте виртуальный считыватель")
-                        .font(.system(size: 16))
-                        .padding(.top, 98)
-                        .padding(.bottom, 96)
+                    Button {
+                        self.routingState.showStackedAddVCRView.toggle()
+                    } label: {
+                        Text("Для подключения Рутокена с NFC используйте виртуальный считыватель")
+                            .font(.system(size: 16))
+                            .foregroundColor(Color("text-blue"))
+                            .padding(.top, 98)
+                            .padding(.bottom, 96)
+                    }
                 } else {
                     VStack(spacing: 0) {
                         HStack(alignment: .top, spacing: 0) {
