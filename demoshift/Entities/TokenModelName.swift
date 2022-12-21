@@ -14,7 +14,12 @@ enum TokenModelName: String {
 }
 
 extension TokenModelName {
-    init(_ hardwareVersion: CK_VERSION, _ firmwareVersion: CK_VERSION) {
+    init(_ hardwareVersion: CK_VERSION, _ firmwareVersion: CK_VERSION, _ tokenClass: CK_ULONG) {
+        guard tokenClass == TOKEN_CLASS_ECP || tokenClass == TOKEN_CLASS_ECP_BT || tokenClass == TOKEN_CLASS_ECPDUAL else {
+            self = .unsupported
+            return
+        }
+
         let AA = hardwareVersion.major
         let BB = hardwareVersion.minor
         let CC = firmwareVersion.major

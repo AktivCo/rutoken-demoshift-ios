@@ -51,7 +51,15 @@ class Token: Identifiable {
             return nil
         }
         self.serial = String(format: "%0.10d", decimalSerial)
-        self.modelName = TokenModelName(tokenInfo.hardwareVersion, tokenInfo.firmwareVersion)
+
+        var extendedTokenInfo = CK_TOKEN_INFO_EXTENDED()
+        extendedTokenInfo.ulSizeofThisStructure = UInt(MemoryLayout.size(ofValue: extendedTokenInfo))
+        rv = C_EX_GetTokenInfoExtended(slot, &extendedTokenInfo)
+        guard rv == CKR_OK else {
+            return nil
+        }
+
+        self.modelName = TokenModelName(tokenInfo.hardwareVersion, tokenInfo.firmwareVersion, extendedTokenInfo.ulTokenClass)
 
         rv = C_OpenSession(self.slot, CK_FLAGS(CKF_SERIAL_SESSION), nil, nil, &self.session)
         guard rv == CKR_OK else {
