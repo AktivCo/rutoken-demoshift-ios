@@ -116,15 +116,18 @@ private struct ColorHelper {
     }
 }
 
-extension UIColor {
-    typealias RGBa = (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)
-    var rgba: RGBa {
-        var red: CGFloat = 0
-        var green: CGFloat = 0
-        var blue: CGFloat = 0
-        var alpha: CGFloat = 0
-        getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+struct RGBa {
+    var red: CGFloat
+    var green: CGFloat
+    var blue: CGFloat
+    var alpha: CGFloat
+}
 
-        return (red, green, blue, alpha)
+extension UIColor {
+    var rgba: RGBa {
+        var color = RGBa(red: 0, green: 0, blue: 0, alpha: 0)
+        getRed(&color.red, green: &color.green, blue: &color.blue, alpha: &color.alpha)
+
+        return color
     }
 }
