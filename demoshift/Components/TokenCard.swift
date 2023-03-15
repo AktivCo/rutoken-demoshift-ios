@@ -21,40 +21,38 @@ struct TokenCard: View {
         self.serial = serial
         self.currentInterface = currentInterface
         self.interfaces = interfaces
-
-        if interfaces.contains(.BT) {
-            self.iconName = "ble"
-        } else {
-            self.iconName = "usb"
-        }
+        self.iconName = interfaces.contains(.BT) ? "ble" : "usb"
     }
 
     var body: some View {
         HStack(spacing: 0) {
             Image(iconName)
                 .resizable()
-                .frame(width: 50, height: 50)
+                .frame(width: 90, height: 90)
                 .aspectRatio(contentMode: .fit)
-                .padding(.vertical, 28)
-                .padding(.leading, 28)
+                .padding(.vertical, 8)
+                .padding(.leading, 8)
             VStack(alignment: .leading, spacing: 0) {
                 Text(modelName.rawValue)
                     .font(.system(size: 16, weight: .medium))
-                    .fixedSize(horizontal: false, vertical: true)
                     .foregroundColor(modelName == .unsupported ? Color("text-gray") : nil)
-                    .padding(.top, modelName == .unsupported ? 28 : 27)
+                    .padding(.top, 10)
                 Spacer()
-                Text(modelName == .unsupported ? "Приложение работает только с Рутокен ЭЦП 2.0 и 3.0" : "Серийный номер: \(serial)")
+                Text(modelName == .unsupported ? "Приложение работает только с Рутокен ЭЦП 2.0 и 3.0" : "Серийный номер")
                     .font(.system(size: 16).weight(.light))
-                    .fixedSize(horizontal: false, vertical: true)
                     .multilineTextAlignment(.leading)
                     .foregroundColor(Color("text-gray"))
+                    .padding(.bottom, modelName == .unsupported ? 10 : 4)
+                if modelName != .unsupported {
+                    Text(serial)
+                        .font(.system(size: 16).weight(.light))
+                        .foregroundColor(Color("text-gray"))
+                        .padding(.bottom, 10)
+                }
             }
-            .padding(.bottom, modelName == .unsupported ? 5 : 27)
             .padding(.leading, 16)
             Spacer()
         }
-        .frame(maxWidth: .infinity, maxHeight: 106, alignment: .leading)
         .background(Color("listitem-background"))
         .cornerRadius(30)
     }
