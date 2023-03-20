@@ -87,7 +87,7 @@ build:
     - when: never
   variables:
     RT_CI_VAGRANT_BOX_NAME: rutoken/macos
-    RT_CI_VAGRANT_BOX_VERSION: 1.5.0
+    RT_CI_VAGRANT_BOX_VERSION: 1.6.0
     RT_CI_VAGRANT_BOX_CPUS: 2
     RT_CI_VAGRANT_BOX_MEMORY: 4096
   before_script:
@@ -202,7 +202,7 @@ export:
       optional: true
   variables:
     RT_CI_VAGRANT_BOX_NAME: rutoken/macos
-    RT_CI_VAGRANT_BOX_VERSION: 1.5.0
+    RT_CI_VAGRANT_BOX_VERSION: 1.6.0
     RT_CI_VAGRANT_BOX_CPUS: 2
     RT_CI_VAGRANT_BOX_MEMORY: 4096
   before_script:
@@ -237,7 +237,7 @@ testFlight:
     - job: export
   variables:
     RT_CI_VAGRANT_BOX_NAME: rutoken/macos
-    RT_CI_VAGRANT_BOX_VERSION: 1.5.0
+    RT_CI_VAGRANT_BOX_VERSION: 1.6.0
     RT_CI_VAGRANT_BOX_CPUS: 2
     RT_CI_VAGRANT_BOX_MEMORY: 4096
   before_script:
