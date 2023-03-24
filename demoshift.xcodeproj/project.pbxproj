@@ -23,6 +23,7 @@
 		119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF042274AB3050002B8C6 /* VcrListView.swift */; };
 		445761AD2930A2C6009694AE /* TokenCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445761AC2930A2C6009694AE /* TokenCard.swift */; };
 		445B3D842758B253004B224C /* VCRCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445B3D832758B253004B224C /* VCRCard.swift */; };
+		446EABE229CD88FA00C50643 /* BluetoothHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446EABE129CD88FA00C50643 /* BluetoothHelper.swift */; };
 		448067E6275FD1C700EBF5BB /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448067E5275FD1C700EBF5BB /* NotificationManager.swift */; };
 		4483BA67278C245300D73A44 /* TokenListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4483BA66278C245300D73A44 /* TokenListInteractor.swift */; };
 		4492D1D827900F1300ED0394 /* SignInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4492D1D727900F1300ED0394 /* SignInteractor.swift */; };
@@ -104,6 +105,7 @@
 		119BF042274AB3050002B8C6 /* VcrListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListView.swift; sourceTree = "<group>"; };
 		445761AC2930A2C6009694AE /* TokenCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCard.swift; sourceTree = "<group>"; };
 		445B3D832758B253004B224C /* VCRCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCRCard.swift; sourceTree = "<group>"; };
+		446EABE129CD88FA00C50643 /* BluetoothHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothHelper.swift; sourceTree = "<group>"; };
 		448067E5275FD1C700EBF5BB /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4483BA66278C245300D73A44 /* TokenListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenListInteractor.swift; sourceTree = "<group>"; };
 		4492D1D727900F1300ED0394 /* SignInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInteractor.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				5EFD388D2769E97000A77C40 /* UserListInteractor.swift */,
 				4483BA66278C245300D73A44 /* TokenListInteractor.swift */,
 				4492D1D727900F1300ED0394 /* SignInteractor.swift */,
+				446EABE129CD88FA00C50643 /* BluetoothHelper.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -434,7 +437,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nif which swiftlint >/dev/null; then\n  swiftlint lint --strict\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nif which swiftlint >/dev/null; then\n  swiftlint --fix && swiftlint lint --strict\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		C37D605D246D63ED003E0761 /* Copy External Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -483,6 +486,7 @@
 				588410DA24862758003AD26A /* UserListView.swift in Sources */,
 				C3FF05FA2497F5AF00C8F4B1 /* CertListView.swift in Sources */,
 				5ED0A7382762614400D67034 /* VcrListState.swift in Sources */,
+				446EABE229CD88FA00C50643 /* BluetoothHelper.swift in Sources */,
 				4492D1DC279012B800ED0394 /* TokenListState.swift in Sources */,
 				588410D824862758003AD26A /* UserCard.swift in Sources */,
 				C399859224864A1D004C5889 /* Cert.swift in Sources */,

@@ -10,10 +10,16 @@ import Combine
 import SwiftUI
 
 
+enum CommonError: Error {
+    case bluetoothIsOff
+}
+
 class SignInteractor {
     private let pcscWrapper: PcscWrapper
     private var routingState: RoutingState
     private var state: SignState
+
+    private let btHelper: BluetoothHelper
 
     private let semaphore = DispatchSemaphore.init(value: 0)
     private var cancellable = Set<AnyCancellable>()
@@ -30,6 +36,8 @@ class SignInteractor {
             .receive(on: DispatchQueue.main)
             .assign(to: \.tokens, on: state)
             .store(in: &cancellable)
+
+        self.btHelper = BluetoothHelper()
     }
 
     func sign(withPin pin: String, forUser choosenUser: User?, wrappedUrl: AccessedUrl?) {
@@ -48,8 +56,8 @@ class SignInteractor {
 
             let token: Token
 
-            if let usbToken = state.tokens.first(where: { $0.serial == choosenUser.tokenSerial }) {
-                token = usbToken
+            if let connectedToken = state.tokens.first(where: { $0.serial == choosenUser.tokenSerial }) {
+                token = connectedToken
             } else if choosenUser.tokenSupportedInterfaces.contains(.NFC) {
                 isNFC = true
                 var nfcToken: Token?
@@ -60,14 +68,17 @@ class SignInteractor {
                     }
                 }
                 let welcomeMessage = choosenUser.tokenSupportedInterfaces.contains(.USB) ?
-                    "Поднесите Рутокен с NFC или отмените операцию и подключите Рутокен по USB" :
-                    "Поднесите Рутокен с NFC"
+                "Поднесите Рутокен с NFC или отмените операцию и подключите Рутокен по USB" :
+                "Поднесите Рутокен с NFC"
                 try startNfc(withWaitMessage: welcomeMessage, workMessage: "Рутокен с NFC подключен, идет обмен данными...")
                 _ = semaphore.wait(timeout: .now() + 2)
                 guard let nfcToken else {
                     throw TokenManagerError.tokenNotFound
                 }
                 token = nfcToken
+            } else if choosenUser.tokenSupportedInterfaces.contains(.BT),
+                      btHelper.state.value != .poweredOn {
+                throw CommonError.bluetoothIsOff
             } else {
                 throw TokenManagerError.tokenNotFound
             }
@@ -105,6 +116,8 @@ class SignInteractor {
                 state.showPinInputView = false
                 routingState.showSignResultView = true
             }
+        } catch CommonError.bluetoothIsOff {
+            setErrorMessage(message: "Рутокен не обнаружен, т.к Bluetooth выключен. Включите его или подключите токен по USB")
         } catch TokenError.incorrectPin {
             setErrorMessage(message: "Неверный PIN-код")
         } catch TokenError.lockedPin {

@@ -10,14 +10,14 @@ enum TokenModelName: String {
     case rutoken2 = "Рутокен ЭЦП 2.0"
     case rutoken3 = "Рутокен ЭЦП 3.0"
     case pki = "Рутокен ЭЦП PKI"
-    case ble = "Рутокен ЭЦП 3.0 Bluetooth"
+    case bt = "Рутокен ЭЦП 3.0 Bluetooth"
     case unsupported = "Неподдерживаемый Рутокен"
 }
 
 extension TokenModelName {
     init(_ hardwareVersion: CK_VERSION, _ firmwareVersion: CK_VERSION, _ tokenClass: CK_ULONG) {
         if tokenClass == TOKEN_CLASS_ECP_BT {
-            self = .ble
+            self = .bt
             return
         }
 
