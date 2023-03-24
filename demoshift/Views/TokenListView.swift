@@ -62,7 +62,7 @@ struct TokenListView: View {
                             interactorsContainer.tokenListInteractor?.didSelectToken(type: .NFC)
                         }
                     }
-                    usbTokenList()
+                    tokenList()
                     Spacer()
                 }
             }
@@ -91,7 +91,7 @@ struct TokenListView: View {
     }
 
     @ViewBuilder
-    func usbTokenList() -> some View {
+    func tokenList() -> some View {
         Text("ПОДКЛЮЧЕННЫЕ РУТОКЕНЫ")
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 32)
@@ -109,14 +109,22 @@ struct TokenListView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 66)
             } else {
-                getUsbTokenItems()
-                    .padding(.top, 20)
+                getTokenItems()
+                    .padding(.top, 10)
+                if !state.tokens.contains(where: { $0.currentInterface == .BT }) {
+                    Text("""
+                    Для работы с Bluetooth-токеном включите Bluetooth и дайте приложению разрешение на его использование.\n
+                    Также необходимо связать Рутокен с устройством через приложение Рутокен 3.0 BT
+                    """)
+                    .multilineTextAlignment(.center)
+                    .font(.system(size: 16))
+                }
             }
         }
     }
 
     @ViewBuilder
-    func getUsbTokenItems() -> some View {
+    func getTokenItems() -> some View {
         VStack(spacing: 0) {
             ForEach(state.tokens) { token in
                 TokenCard(modelName: token.modelName,
