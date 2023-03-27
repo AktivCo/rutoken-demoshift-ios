@@ -10,19 +10,68 @@ import SwiftUI
 
 
 struct UserCard: View {
+    @State private var offset = 0.0
+    let maxTranslation = -72.0
+
     let name: String
     let position: String
     let company: String
     let expired: String
 
-    init(user: User) {
+    let selectUser: (() -> Void)
+    let removeUser: (() -> Void)
+
+    init(user: User, selectUser: @escaping (() -> Void), removeUser: @escaping (() -> Void)) {
         self.name = user.name
         self.position = user.position
         self.company = user.company
         self.expired = user.expired
+
+        self.selectUser = selectUser
+        self.removeUser = removeUser
     }
 
-    func field(caption: String, text: String) -> some View {
+    var body: some View {
+        VStack(spacing: 0) {
+            userInfo()
+                .onTapGesture {
+                    if offset == 0.0 {
+                        selectUser()
+                    } else {
+                        offset = 0.0
+                    }
+                }
+                .offset(x: offset)
+                .gesture(
+                    DragGesture(minimumDistance: 8, coordinateSpace: .local)
+                        .onChanged {
+                            let translation = $0.translation.width
+                            withAnimation {
+                                if translation < 0 {
+                                    offset = max(translation, maxTranslation)
+                                } else {
+                                    offset = 0
+                                }
+                            }
+                        }
+                        .onEnded {
+                            let translation = $0.translation.width
+                            withAnimation {
+                                if translation < maxTranslation/2 {
+                                    offset = maxTranslation
+                                } else {
+                                    offset = 0
+                                }
+                            }
+                        }
+                )
+                .background(removeButton())
+        }
+        .cornerRadius(20)
+        .shadow(radius: 5)
+    }
+
+    private func field(caption: String, text: String) -> some View {
         VStack(alignment: .leading) {
             Text(caption)
                 .font(.caption)
@@ -34,21 +83,39 @@ struct UserCard: View {
         .padding(.top, 16)
     }
 
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(name)
-                .fontWeight(.semibold)
-                .font(.headline)
+    private func userInfo() -> some View {
+        HStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
+                Text(name)
+                    .fontWeight(.semibold)
+                    .font(.headline)
 
-            field(caption: "Должность", text: position)
-            field(caption: "Организация", text: company)
-            field(caption: "Сертификат истекает", text: expired)
+                field(caption: "Должность", text: position)
+                field(caption: "Организация", text: company)
+                field(caption: "Сертификат истекает", text: expired)
+            }
+            .padding(.vertical)
+            .padding(.horizontal, 24)
+            Spacer()
         }
-        .frame(maxWidth: .infinity, alignment: .topLeading)
-        .padding(.vertical)
-        .padding(.horizontal, 24)
         .background(Color("listitem-background"))
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func removeButton() -> some View {
+        HStack(alignment: .center, spacing: 0) {
+            Spacer()
+            VStack(alignment: .trailing, spacing: 0) {
+                Text("Удалить")
+                    .foregroundColor(.white)
+                    .font(.system(size: 15))
+                    .padding(6)
+            }
+            .frame(maxHeight: .infinity, alignment: .leading)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.red)
         .cornerRadius(20)
-        .shadow(radius: 5, x: 0, y: 0)
+        .onTapGesture { removeUser() }
     }
 }

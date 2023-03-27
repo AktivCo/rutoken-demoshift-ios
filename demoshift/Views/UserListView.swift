@@ -17,14 +17,6 @@ struct UserListView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: User.getAllUsers()) var users: FetchedResults<User>
 
-    init() {
-        if #unavailable(iOS 14.0) {
-            UITableView.appearance().separatorStyle = .none
-        }
-
-        UITableView.appearance().backgroundColor = UIColor(named: "view-background")
-    }
-
     var body: some View {
         NavigationView {
             ZStack {
@@ -60,17 +52,23 @@ struct UserListView: View {
                             .padding()
                         Spacer()
                     } else {
-                        List {
+                        ScrollView {
                             ForEach(users) { user in
-                                UserCard(user: user)
-                                    .padding(.top)
-                                    .onTapGesture {
-                                        self.selectedUser = user
-                                        self.routingState.showSignView.toggle()
+                                UserCard(user: user, selectUser: {
+                                    selectedUser = user
+                                    routingState.showSignView.toggle()
+                                }, removeUser: {
+                                    managedObjectContext.delete(user)
+                                    do {
+                                        try managedObjectContext.save()
+                                    } catch {
+                                        // Handle error here
                                     }
+                                })
+                                .padding(.top)
+                                .padding(.vertical)
+                                .padding(.horizontal, 24)
                             }
-                            .onDelete(perform: deleteUser)
-                            .listRowBackground(Color("view-background"))
                         }
                         .animation(.easeInOut)
                     }
@@ -112,17 +110,5 @@ struct UserListView: View {
             .background(Color("view-background").edgesIgnoringSafeArea(.all))
         }
         .navigationViewStyle(.stack)
-    }
-
-    func deleteUser(at offsets: IndexSet) {
-        for index in offsets {
-            let man = users[index]
-            managedObjectContext.delete(man)
-            do {
-                try self.managedObjectContext.save()
-            } catch {
-                // Handle error here 
-            }
-        }
     }
 }
