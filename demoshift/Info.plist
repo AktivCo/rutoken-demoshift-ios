@@ -25,7 +25,7 @@
 	<key>NFCReaderUsageDescription</key>
 	<string>NFC будет использован для работы с устройствами Рутокен</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Bluetooth будет использован для работы с устройствами Рутокен</string>
+	<string>Чтобы работать с Bluetooth-токеном необходимо разрешить приложению доступ к Bluetooth</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_ru-rutoken-vcr._udp</string>
