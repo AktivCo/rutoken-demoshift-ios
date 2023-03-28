@@ -94,7 +94,7 @@ struct TokenListView: View {
     func tokenList() -> some View {
         Text("ПОДКЛЮЧЕННЫЕ РУТОКЕНЫ")
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.top, 32)
+            .padding(.top, 24)
         VStack(alignment: .center, spacing: 0) {
             if #unavailable(iOS 16.0) {
                 Text("Для работы с устройствами Рутокен ЭЦП 2.0 и 3.0 требуется iOS 16 и новее")
@@ -103,11 +103,23 @@ struct TokenListView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 66)
             } else if state.tokens.isEmpty {
-                Text("Нет доступных устройств. Подключите Рутокен контактно и он отобразится в этом разделе")
-                    .multilineTextAlignment(.center)
-                    .font(.system(size: 16))
-                    .padding(.horizontal, 20)
-                    .padding(.top, 66)
+                Group {
+                    Text("Рутокены не обнаружены.")
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 34)
+                        .padding(.bottom, 40)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Если у вас USB-токен, то подключите его к мобильному устройству.")
+                            .padding(.bottom, 16)
+                        Text("Если у вас Bluetooth-токен, то:")
+                            .padding(.bottom, 8)
+                        BulletTextItem(bullet: "\u{2022}", text: "включите Bluetooth и дайте приложению разрешение на его использование;")
+                            .padding(.bottom, 8)
+                        BulletTextItem(bullet: "\u{2022}", text: "свяжите Рутокен с устройством через приложение Рутокен 3.0 BT.")
+                    }
+                }
+                .padding(.horizontal, 20.5)
+                .font(.system(size: 16))
             } else {
                 getTokenItems()
                     .padding(.top, 10)
