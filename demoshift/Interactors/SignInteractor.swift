@@ -61,15 +61,18 @@ class SignInteractor {
             } else if choosenUser.tokenSupportedInterfaces.contains(.NFC) {
                 isNFC = true
                 var nfcToken: Token?
+
                 let cancellable = TokenManager.shared.tokens().sink { [unowned self] in
                     if let card = $0.first(where: { $0.currentInterface == .NFC }) {
                         nfcToken = card
                         semaphore.signal()
                     }
                 }
-                let welcomeMessage = choosenUser.tokenSupportedInterfaces.contains(.USB) ?
-                "Поднесите Рутокен с NFC или отмените операцию и подключите Рутокен по USB" :
-                "Поднесите Рутокен с NFC"
+
+                let welcomeMessage = choosenUser.tokenSupportedInterfaces.contains(where: {
+                    [.USB, .SC].contains($0)
+                }) ? "Поднесите Рутокен с NFC или отмените операцию и подключите Рутокен по USB" : "Поднесите Рутокен с NFC"
+
                 try startNfc(withWaitMessage: welcomeMessage, workMessage: "Рутокен с NFC подключен, идет обмен данными...")
                 _ = semaphore.wait(timeout: .now() + 2)
                 guard let nfcToken else {

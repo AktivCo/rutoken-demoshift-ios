@@ -6,8 +6,9 @@
 //  Copyright © 2022 Aktiv Co. All rights reserved.
 //
 
-enum TokenInterface: Codable {
+enum TokenInterface: Codable, Equatable {
     case USB
+    case SC
     case BT
     case NFC
 }
@@ -21,6 +22,8 @@ extension TokenInterface {
             self = .NFC
         case CK_ULONG(INTERFACE_TYPE_USB):
             self = .USB
+        case CK_ULONG(INTERFACE_TYPE_ISO):
+            self = .SC
         default:
             return nil
         }
@@ -30,6 +33,7 @@ extension TokenInterface {
 extension Sequence where Iterator.Element == TokenInterface {
     init(bits: CK_ULONG) where Self == [TokenInterface] {
         self = [INTERFACE_TYPE_BT,
+                INTERFACE_TYPE_ISO,
                 INTERFACE_TYPE_NFC_TYPE_A,
                 INTERFACE_TYPE_NFC_TYPE_B,
                 INTERFACE_TYPE_USB]
