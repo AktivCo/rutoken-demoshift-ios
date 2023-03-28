@@ -17,7 +17,7 @@ extension TokenInterface {
         switch value {
         case CK_ULONG(INTERFACE_TYPE_BT):
             self = .BT
-        case CK_ULONG(INTERFACE_TYPE_NFC):
+        case CK_ULONG(INTERFACE_TYPE_NFC_TYPE_A), CK_ULONG(INTERFACE_TYPE_NFC_TYPE_B):
             self = .NFC
         case CK_ULONG(INTERFACE_TYPE_USB):
             self = .USB
@@ -30,7 +30,8 @@ extension TokenInterface {
 extension Sequence where Iterator.Element == TokenInterface {
     init(bits: CK_ULONG) where Self == [TokenInterface] {
         self = [INTERFACE_TYPE_BT,
-                INTERFACE_TYPE_NFC,
+                INTERFACE_TYPE_NFC_TYPE_A,
+                INTERFACE_TYPE_NFC_TYPE_B,
                 INTERFACE_TYPE_USB]
                    .compactMap({
                        let mask = CK_ULONG($0)
