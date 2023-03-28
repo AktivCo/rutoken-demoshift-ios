@@ -26,10 +26,11 @@ struct CertListView: View {
                     .padding()
                 Spacer()
             } else {
-                List {
+                ScrollView {
                     ForEach(self.state.selectedTokenCerts) { cert in
                         CertCard(cert: cert, isDisabled: self.isCertUsed(certBody: cert.body))
                             .padding(.top)
+                            .padding(.horizontal, 26)
                             .onTapGesture {
                                 if self.isCertUsed(certBody: cert.body) {
                                     return
@@ -47,10 +48,10 @@ struct CertListView: View {
                                 self.routingState.showTokenListView = false
                             }
                     }
-                    .listRowBackground(Color("view-background"))
                 }
             }
         }
+        .background(Color("sheet-background").edgesIgnoringSafeArea(.all))
         .onAppear(perform: {
             UITableView.appearance().separatorStyle = .none
         })
