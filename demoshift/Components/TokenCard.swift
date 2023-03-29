@@ -26,33 +26,38 @@ struct TokenCard: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            Image(iconName)
-                .resizable()
-                .frame(width: 90, height: 90)
-                .aspectRatio(contentMode: .fit)
-                .padding(.vertical, 8)
-                .padding(.leading, 8)
-            VStack(alignment: .leading, spacing: 0) {
-                Text(modelName.rawValue)
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(modelName == .unsupported ? Color("text-gray") : nil)
-                    .padding(.top, 10)
-                Spacer()
-                Text(modelName == .unsupported ? "Приложение работает только с Рутокен ЭЦП 2.0 и 3.0" : "Серийный номер")
-                    .font(.system(size: 16).weight(.light))
-                    .multilineTextAlignment(.leading)
-                    .foregroundColor(Color("text-gray"))
-                    .padding(.bottom, modelName == .unsupported ? 10 : 4)
-                if modelName != .unsupported {
-                    Text(serial)
+            if modelName == .unsupported {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(modelName.rawValue)
+                        .font(.system(size: 16, weight: .medium))
+                    Spacer()
+                    Text("Приложение работает только с Рутокен ЭЦП 2.0 и 3.0")
+                        .font(.system(size: 16).weight(.light))
+                }
+                .padding(.horizontal, 56)
+                .padding(.vertical, 20)
+                .foregroundColor(Color("text-gray"))
+            } else {
+                Image(iconName)
+                    .resizable()
+                    .frame(width: 90, height: 90)
+                    .aspectRatio(contentMode: .fit)
+                    .padding(.vertical, 8)
+                    .padding(.leading, 8)
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(modelName.rawValue)
+                        .font(.system(size: 16, weight: .medium))
+                    Spacer()
+                    Text("Серийный номер\n\(serial)")
                         .font(.system(size: 16).weight(.light))
                         .foregroundColor(Color("text-gray"))
-                        .padding(.bottom, 10)
                 }
+                .padding(.vertical, 10)
+                .padding(.leading, 18)
+                Spacer()
             }
-            .padding(.leading, 16)
-            Spacer()
         }
+        .frame(height: 106)
         .background(Color("listitem-background"))
         .cornerRadius(30)
     }
