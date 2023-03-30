@@ -1,23 +1,25 @@
 {
   "images" : [
     {
-      "filename" : "300.png",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename" : "light.svg",
+      "idiom" : "universal"
     },
     {
-      "filename" : "600.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "900.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "dark.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }

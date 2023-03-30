@@ -39,21 +39,18 @@ struct TokenListView: View {
                                 .padding(.bottom, 96)
                         }
                     } else {
-                        VStack(spacing: 0) {
-                            HStack(alignment: .top, spacing: 0) {
-                                Text("Подключить Рутокен с NFC")
-                                    .font(.headline)
-                                    .padding(.top, 4)
-                                Spacer()
-                                Image("nfc-icon-gray")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .frame(width: 138, height: 138, alignment: .center)
-                            }
-                            .padding(.vertical, 34)
-                            .padding(.leading, 23)
-                            .padding(.trailing, 20)
+                        HStack(alignment: .top, spacing: 0) {
+                            Text("Подключить Рутокен с NFC")
+                                .font(.system(size: 17, weight: .medium))
+                                .padding(.leading, 24)
+                                .padding(.top, 32)
                             Spacer()
+                            Image("nfc-icon-gray")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .padding(.top, 23)
+                                .padding(.bottom, 10)
+                                .padding(.trailing, 4)
                         }
                         .frame(maxHeight: 213)
                         .background(Color("listitem-background"))
