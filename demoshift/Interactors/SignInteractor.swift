@@ -28,11 +28,13 @@ class SignInteractor {
         self.state = state
         self.routingState = routingState
         self.pcscWrapper = pcscWrapper
-        self.pcscWrapper.readers()
+
+        self.pcscWrapper.readers
             .receive(on: DispatchQueue.main)
             .assign(to: \.readers, on: state)
             .store(in: &cancellable)
-        TokenManager.shared.tokens()
+
+        TokenManager.shared.tokens
             .receive(on: DispatchQueue.main)
             .assign(to: \.tokens, on: state)
             .store(in: &cancellable)
@@ -62,7 +64,7 @@ class SignInteractor {
                 isNFC = true
                 var nfcToken: Token?
 
-                let cancellable = TokenManager.shared.tokens().sink { [unowned self] in
+                let cancellable = TokenManager.shared.tokens.sink { [unowned self] in
                     if let card = $0.first(where: { $0.currentInterface == .NFC }) {
                         nfcToken = card
                         semaphore.signal()

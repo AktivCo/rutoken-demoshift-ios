@@ -19,19 +19,19 @@ enum TokenManagerError: Error {
 class TokenManager {
     static let shared = TokenManager()
 
-    let rtengine: OpaquePointer
+    private let rtengine: OpaquePointer
+
+    var tokens: AnyPublisher<[Token], Never> {
+        tokensPublisher.share().eraseToAnyPublisher()
+    }
 
     private var tokensPublisher = CurrentValueSubject<[Token], Never>([])
-
-    public func tokens() -> AnyPublisher<[Token], Never> {
-        return tokensPublisher.share().eraseToAnyPublisher()
-    }
 
     public func isConnected(token: Token) -> Bool {
         return isPresent(slotID: token.slot)
     }
 
-    private func isPresent(slotID: CK_SLOT_ID) -> Bool{
+    private func isPresent(slotID: CK_SLOT_ID) -> Bool {
         var slotInfo = CK_SLOT_INFO()
         let rv = C_GetSlotInfo(slotID, &slotInfo)
         guard rv == CKR_OK else {
@@ -77,17 +77,36 @@ class TokenManager {
 
         r = ENGINE_set_default(rtengine, ENGINE_METHOD_ALL - ENGINE_METHOD_RAND)
         assert(r == 1)
+    }
 
+    deinit {
+        stop()
+
+        ENGINE_unregister_pkey_asn1_meths(rtengine)
+        ENGINE_unregister_pkey_meths(rtengine)
+        ENGINE_unregister_digests(rtengine)
+        ENGINE_unregister_ciphers(rtengine)
+        ENGINE_finish(rt_eng_get0_engine())
+
+        rt_eng_unload_engine()
+    }
+
+    func start() {
         var initArgs = CK_C_INITIALIZE_ARGS()
         initArgs.flags = UInt(CKF_OS_LOCKING_OK)
 
         var rv = C_Initialize(&initArgs)
+        if rv == CKR_CRYPTOKI_ALREADY_INITIALIZED {
+            return
+        }
+
         assert(rv == CKR_OK)
 
         DispatchQueue.global().async { [unowned self] in
-            if let tokens = try? getTokens() {
-                tokensPublisher.send(tokens)
+            guard let tokens = try? getTokens() else {
+                return
             }
+            tokensPublisher.send(tokens)
 
             while true {
                 var slotId = CK_SLOT_ID()
@@ -109,15 +128,7 @@ class TokenManager {
         }
     }
 
-    deinit {
+    func stop() {
         C_Finalize(nil)
-
-        ENGINE_unregister_pkey_asn1_meths(rtengine)
-        ENGINE_unregister_pkey_meths(rtengine)
-        ENGINE_unregister_digests(rtengine)
-        ENGINE_unregister_ciphers(rtengine)
-        ENGINE_finish(rt_eng_get0_engine())
-
-        rt_eng_unload_engine()
     }
 }

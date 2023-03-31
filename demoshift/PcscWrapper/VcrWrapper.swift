@@ -25,7 +25,8 @@ class VcrWrapper {
 
     init(pcscWrapper: PcscWrapper) {
         self.pcscWrapper = pcscWrapper
-        self.pcscWrapper.readers()
+
+        self.pcscWrapper.readers
             .sink(receiveValue: { [unowned self] currentReaders in
                 vcrsPublisher.send(listVcrs().map { vcr in
                     return VcrInfo(id: vcr.id,

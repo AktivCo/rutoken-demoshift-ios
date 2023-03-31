@@ -12,6 +12,8 @@ import SwiftUI
 
 @main
 struct DemoshiftApp: App {
+    @Environment(\.scenePhase) var scenePhase
+
     let context: NSManagedObjectContext
 
     let pcscWrapper: PcscWrapper
@@ -32,10 +34,7 @@ struct DemoshiftApp: App {
         })
         self.context = container.viewContext
 
-        guard let wrapper = PcscWrapper() else {
-            fatalError("Unable to create SCardEstablishContext")
-        }
-        self.pcscWrapper = wrapper
+        self.pcscWrapper = PcscWrapper()
         self.vcrWrapper = VcrWrapper(pcscWrapper: pcscWrapper)
 
         self.vcrListState = VcrListState()
@@ -65,6 +64,17 @@ struct DemoshiftApp: App {
                                                                           signInteractor: SignInteractor(state: signState,
                                                                                                          routingState: routingState,
                                                                                                          pcscWrapper)))
+                .onChange(of: scenePhase) { newPhase in
+                    switch newPhase {
+                    case .active:
+                        pcscWrapper.start()
+                        TokenManager.shared.start()
+                    case .background:
+                        TokenManager.shared.stop()
+                        pcscWrapper.stop()
+                    default: break
+                    }
+                }
         }
     }
 }

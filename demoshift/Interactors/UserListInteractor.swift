@@ -17,7 +17,8 @@ class UserListInteractor {
 
     init(_ pcscWrapper: PcscWrapper) {
         self.pcscWrapper = pcscWrapper
-        self.pcscWrapper.readers()
+
+        self.pcscWrapper.readers
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [unowned self] newReaders in
                 readers
