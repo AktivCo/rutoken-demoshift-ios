@@ -113,10 +113,31 @@ struct TokenListView: View {
                         BulletTextItem(bullet: "\u{2022}", text: "включите Bluetooth и дайте приложению разрешение на его использование;")
                             .padding(.bottom, 8)
                         BulletTextItem(bullet: "\u{2022}", text: "свяжите Рутокен с устройством через приложение Рутокен 3.0 BT.")
+                            .padding(.bottom, 24)
+                    }
+                    Button {
+                        if let url = URL(string: "rutokencp://"),
+                           UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url)
+                        } else {
+                            guard let url = URL(string: "http://itunes.apple.com/app/id1552392180") else {
+                                return
+                            }
+                            UIApplication.shared.open(url)
+                        }
+                    } label: {
+                        Text("Подробнее")
+                            .padding(.horizontal, 22)
+                            .padding(.vertical, 5)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 2.5)
+                                    .stroke(Color("text-gray"), lineWidth: 1)
+                            )
                     }
                 }
                 .padding(.horizontal, 20.5)
                 .font(.system(size: 16))
+                .foregroundColor(Color("text-gray"))
             } else {
                 getTokenItems()
                     .padding(.top, 10)
