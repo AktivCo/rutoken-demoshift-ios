@@ -21,6 +21,7 @@
 		119310AD2767865200B64BE0 /* ProgressRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119310AC2767865200B64BE0 /* ProgressRectangle.swift */; };
 		119BF03D2749506A0002B8C6 /* Hint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF03C2749506A0002B8C6 /* Hint.swift */; };
 		119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF042274AB3050002B8C6 /* VcrListView.swift */; };
+		4408BB7129DAB8BC00932FF5 /* Demoshift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4408BB7029DAB8BC00932FF5 /* Demoshift.swift */; };
 		445761AD2930A2C6009694AE /* TokenCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445761AC2930A2C6009694AE /* TokenCard.swift */; };
 		445B3D842758B253004B224C /* VCRCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445B3D832758B253004B224C /* VCRCard.swift */; };
 		446EABE229CD88FA00C50643 /* BluetoothHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446EABE129CD88FA00C50643 /* BluetoothHelper.swift */; };
@@ -34,9 +35,7 @@
 		584300CB2490C72D00DBC98E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584300CA2490C72D00DBC98E /* User.swift */; };
 		588410D424862758003AD26A /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410C924862758003AD26A /* TokenManager.swift */; };
 		588410D524862758003AD26A /* PinInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CB24862758003AD26A /* PinInputView.swift */; };
-		588410D624862758003AD26A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CC24862758003AD26A /* AppDelegate.swift */; };
 		588410D824862758003AD26A /* UserCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CE24862758003AD26A /* UserCard.swift */; };
-		588410D924862758003AD26A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410CF24862758003AD26A /* SceneDelegate.swift */; };
 		588410DA24862758003AD26A /* UserListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D024862758003AD26A /* UserListView.swift */; };
 		588410DB24862758003AD26A /* RoundedFilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D224862758003AD26A /* RoundedFilledButton.swift */; };
 		588410DC24862758003AD26A /* TextFieldWithFloatingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */; };
@@ -103,6 +102,7 @@
 		119310AC2767865200B64BE0 /* ProgressRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressRectangle.swift; sourceTree = "<group>"; };
 		119BF03C2749506A0002B8C6 /* Hint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hint.swift; sourceTree = "<group>"; };
 		119BF042274AB3050002B8C6 /* VcrListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListView.swift; sourceTree = "<group>"; };
+		4408BB7029DAB8BC00932FF5 /* Demoshift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demoshift.swift; sourceTree = "<group>"; };
 		445761AC2930A2C6009694AE /* TokenCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCard.swift; sourceTree = "<group>"; };
 		445B3D832758B253004B224C /* VCRCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCRCard.swift; sourceTree = "<group>"; };
 		446EABE129CD88FA00C50643 /* BluetoothHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothHelper.swift; sourceTree = "<group>"; };
@@ -117,9 +117,7 @@
 		588410C824862758003AD26A /* Demoshift-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Demoshift-Bridging-Header.h"; sourceTree = "<group>"; };
 		588410C924862758003AD26A /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		588410CB24862758003AD26A /* PinInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinInputView.swift; sourceTree = "<group>"; };
-		588410CC24862758003AD26A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		588410CE24862758003AD26A /* UserCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCard.swift; sourceTree = "<group>"; };
-		588410CF24862758003AD26A /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		588410D024862758003AD26A /* UserListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListView.swift; sourceTree = "<group>"; };
 		588410D224862758003AD26A /* RoundedFilledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedFilledButton.swift; sourceTree = "<group>"; };
 		588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithFloatingLabel.swift; sourceTree = "<group>"; };
@@ -225,8 +223,7 @@
 		588410CA24862758003AD26A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				588410CC24862758003AD26A /* AppDelegate.swift */,
-				588410CF24862758003AD26A /* SceneDelegate.swift */,
+				4408BB7029DAB8BC00932FF5 /* Demoshift.swift */,
 				588410D024862758003AD26A /* UserListView.swift */,
 				588410CB24862758003AD26A /* PinInputView.swift */,
 				58167F6F248628D200C76262 /* SignView.swift */,
@@ -464,7 +461,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				588410D624862758003AD26A /* AppDelegate.swift in Sources */,
 				119310AD2767865200B64BE0 /* ProgressRectangle.swift in Sources */,
 				112E219429250636009897D6 /* TokenModelName.swift in Sources */,
 				116D39172760DC7100C40765 /* AddVcrState.swift in Sources */,
@@ -508,10 +504,10 @@
 				445761AD2930A2C6009694AE /* TokenCard.swift in Sources */,
 				C3CE1BAF24866DD400981E61 /* SignResultView.swift in Sources */,
 				116D390F275F7C9C00C40765 /* BulletTextItem.swift in Sources */,
+				4408BB7129DAB8BC00932FF5 /* Demoshift.swift in Sources */,
 				119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */,
 				5E33801727674BA400FE7A23 /* VcrInfo.swift in Sources */,
 				4483BA67278C245300D73A44 /* TokenListInteractor.swift in Sources */,
-				588410D924862758003AD26A /* SceneDelegate.swift in Sources */,
 				B15FBD26248E267600385F6E /* Sharables.swift in Sources */,
 				C310886C24939CEF00C6E8FE /* TokenListView.swift in Sources */,
 			);
@@ -585,7 +581,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -642,7 +638,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -669,7 +665,7 @@
 				);
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/rtpkcs11ecp.framework/Headers";
 				INFOPLIST_FILE = demoshift/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -701,7 +697,7 @@
 				);
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/rtpkcs11ecp.framework/Headers";
 				INFOPLIST_FILE = demoshift/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
