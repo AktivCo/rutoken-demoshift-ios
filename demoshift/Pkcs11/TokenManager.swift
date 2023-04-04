@@ -28,8 +28,12 @@ class TokenManager {
     }
 
     public func isConnected(token: Token) -> Bool {
+        return isPresent(slotID: token.slot)
+    }
+
+    private func isPresent(slotID: CK_SLOT_ID) -> Bool{
         var slotInfo = CK_SLOT_INFO()
-        let rv = C_GetSlotInfo(token.slot, &slotInfo)
+        let rv = C_GetSlotInfo(slotID, &slotInfo)
         guard rv == CKR_OK else {
             return false
         }
@@ -91,7 +95,14 @@ class TokenManager {
 
                 guard rv != CKR_CRYPTOKI_NOT_INITIALIZED else { return }
                 guard rv == CKR_OK else { continue }
-                guard let tokens = try? getTokens() else { continue }
+
+                var tokens = tokensPublisher.value
+                tokens.removeAll { $0.slot == slotId }
+
+                if isPresent(slotID: slotId),
+                   let token = Token(slot: slotId) {
+                    tokens.append(token)
+                }
 
                 tokensPublisher.send(tokens)
             }
