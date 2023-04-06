@@ -179,6 +179,26 @@ class PcscWrapper {
         }
     }
 
+    public func waitForExchangeIsOver(withReader readerName: String) throws {
+        var state = SCARD_READERSTATE()
+        state.szReader = (readerName as NSString).utf8String
+        state.dwCurrentState = DWORD(SCARD_STATE_EMPTY)
+
+        guard let ctx = self.context else {
+            throw ReaderError.invalidContext
+        }
+
+        repeat {
+            state.dwEventState = 0
+
+            guard SCARD_S_SUCCESS == SCardGetStatusChangeA(ctx, INFINITE, &state, 1) else {
+                throw ReaderError.readerUnavailable
+            }
+
+            state.dwCurrentState = state.dwEventState & ~DWORD(SCARD_STATE_CHANGED)
+        } while (state.dwEventState & DWORD(SCARD_STATE_MUTE)) != SCARD_STATE_MUTE
+    }
+
     public func startNfc(onReader readerName: String, waitMessage: String, workMessage: String) throws {
         guard let ctx = self.context else {
             throw ReaderError.invalidContext

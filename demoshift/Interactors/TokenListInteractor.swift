@@ -54,15 +54,28 @@ class TokenListInteractor {
             let token: Token
 
             if isNFC {
-                var nfcToken: Token?
-                let cancellable = TokenManager.shared.tokens.sink { [unowned self] in
-                    if let card = $0.first(where: { $0.currentInterface == .NFC }) {
-                        nfcToken = card
-                        semaphore.signal()
-                    }
-                }
                 try startNfc(withWaitMessage: "Поднесите Рутокен с NFC", workMessage: "Рутокен с NFC подключен, идет обмен данными...")
-                _ = semaphore.wait(timeout: .now() + 2)
+                let nfcStopped = Future<Token?, Never> { promise in
+                    Task { [weak self] in
+                        self?.waitForNfcStop()
+                        promise(.success((nil)))
+                    }
+                }.eraseToAnyPublisher()
+
+                let nfcTokenFind = TokenManager.shared.tokens
+                    .compactMap { $0.first(where: { $0.currentInterface == .NFC }) }
+                    .map { Optional($0) }
+                    .eraseToAnyPublisher()
+
+                var nfcToken: Token?
+
+                let waitNfcTokenAppearance = Publishers.Merge(nfcStopped, nfcTokenFind).sink { [unowned self] card in
+                    nfcToken = card
+                    semaphore.signal()
+                }
+
+                semaphore.wait()
+                waitNfcTokenAppearance.cancel()
                 guard let nfcToken else {
                     throw TokenManagerError.tokenNotFound
                 }
@@ -101,6 +114,13 @@ class TokenListInteractor {
         } catch {
             self.setErrorMessage(message: "Что-то пошло не так. Попробуйте повторить операцию")
         }
+    }
+
+    private func waitForNfcStop() {
+        guard let reader = state.readers.first(where: {$0.type == .vcr || $0.type == .nfc }) else {
+            return
+        }
+        try? pcscWrapper.waitForExchangeIsOver(withReader: reader.name)
     }
 
     private func startNfc(withWaitMessage waitMessage: String, workMessage: String) throws {

@@ -62,21 +62,35 @@ class SignInteractor {
                 token = connectedToken
             } else if choosenUser.tokenSupportedInterfaces.contains(.NFC) {
                 isNFC = true
-                var nfcToken: Token?
-
-                let cancellable = TokenManager.shared.tokens.sink { [unowned self] in
-                    if let card = $0.first(where: { $0.currentInterface == .NFC }) {
-                        nfcToken = card
-                        semaphore.signal()
-                    }
-                }
 
                 let welcomeMessage = choosenUser.tokenSupportedInterfaces.contains(where: {
                     [.USB, .SC].contains($0)
                 }) ? "Поднесите Рутокен с NFC или отмените операцию и подключите Рутокен по USB" : "Поднесите Рутокен с NFC"
 
                 try startNfc(withWaitMessage: welcomeMessage, workMessage: "Рутокен с NFC подключен, идет обмен данными...")
-                _ = semaphore.wait(timeout: .now() + 2)
+
+                let nfcStopped = Future<Token?, Never> { promise in
+                    Task { [weak self] in
+                        self?.waitForNfcStop()
+                        promise(.success((nil)))
+                    }
+                }.eraseToAnyPublisher()
+
+                let nfcTokenFind = TokenManager.shared.tokens
+                    .compactMap { $0.first(where: { $0.currentInterface == .NFC }) }
+                    .map { Optional($0) }
+                    .eraseToAnyPublisher()
+
+                var nfcToken: Token?
+
+                let waitNfcTokenAppearance = Publishers.Merge(nfcStopped, nfcTokenFind).sink { [unowned self] card in
+                    nfcToken = card
+                    semaphore.signal()
+                }
+
+                semaphore.wait()
+                waitNfcTokenAppearance.cancel()
+
                 guard let nfcToken else {
                     throw TokenManagerError.tokenNotFound
                 }
@@ -141,6 +155,13 @@ class SignInteractor {
         } catch {
             setErrorMessage(message: "Что-то пошло не так. Попробуйте повторить операцию")
         }
+    }
+
+    private func waitForNfcStop() {
+        guard let reader = state.readers.first(where: {$0.type == .vcr || $0.type == .nfc }) else {
+            return
+        }
+        try? pcscWrapper.waitForExchangeIsOver(withReader: reader.name)
     }
 
     private func startNfc(withWaitMessage waitMessage: String, workMessage: String) throws {
