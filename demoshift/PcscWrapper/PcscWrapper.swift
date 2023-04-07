@@ -202,10 +202,17 @@ class PcscWrapper {
         let message = "\(waitMessage)\0\(workMessage)\0\0"
 
         guard SCARD_S_SUCCESS == SCardControl(handle, DWORD(RUTOKEN_CONTROL_CODE_START_NFC), (message as NSString).utf8String,
-                                              DWORD(message.utf8.count), nil, 0, nil),
-              SCARD_S_SUCCESS == SCardGetStatusChangeA(ctx, INFINITE, &state, 1) else {
-                  throw ReaderError.readerUnavailable
-              }
+                                              DWORD(message.utf8.count), nil, 0, nil) else {
+            throw ReaderError.readerUnavailable
+        }
+
+        // Global SCardGetStatusChange loop can request reader types with SCardConnect call.
+        // In this case we can receive events for NFC/VCR reader and should continue waiting for changing of slot state.
+        repeat {
+            guard SCARD_S_SUCCESS == SCardGetStatusChangeA(ctx, INFINITE, &state, 1) else {
+                throw ReaderError.readerUnavailable
+            }
+        } while state.dwEventState == SCARD_STATE_EMPTY
 
         guard (SCARD_STATE_PRESENT | SCARD_STATE_CHANGED | SCARD_STATE_INUSE) == state.dwEventState else {
             switch getLastNfcStopReason(ofHandle: handle) {
