@@ -68,10 +68,10 @@ class TokenListInteractor {
                 }
                 token = nfcToken
             } else {
-                guard let usbToken = state.tokens.first(where: { $0.serial == state.selectedTokenSerial }) else {
+                guard let connectedToken = state.tokens.first(where: { $0.serial == state.selectedTokenSerial }) else {
                     throw TokenError.tokenDisconnected
                 }
-                token = usbToken
+                token = connectedToken
             }
 
             try token.login(pin: pin)
