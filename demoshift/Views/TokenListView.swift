@@ -27,7 +27,7 @@ struct TokenListView: View {
                 .font(.headline)
                 .padding(.top, 22)
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .center, spacing: 0) {
                     if !state.readers.contains(where: { $0.type == .nfc || $0.type == .vcr }) {
                         Button {
                             self.routingState.showStackedAddVCRView.toggle()
