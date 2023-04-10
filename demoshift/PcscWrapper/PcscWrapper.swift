@@ -15,6 +15,7 @@ enum ReaderError: Error {
     case timeout
     case cancelledByUser
     case invalidContext
+    case unsupportedDevice
 }
 
 enum NfcStopReason: UInt8 {
@@ -23,6 +24,7 @@ enum NfcStopReason: UInt8 {
     case timeout = 0x02
     case cancelledByUser = 0x03
     case noError = 0x04
+    case unsupportedDevice = 0x05
 }
 
 struct Reader {
@@ -32,6 +34,7 @@ struct Reader {
         case nfc
         case vcr
         case usb
+        case ble
     }
 
     let name: String
@@ -87,9 +90,9 @@ class PcscWrapper {
         return UnsafePointer(rawPointer.initializeMemory(as: Int8.self, from: toRawString, count: toRawString.utf8.count))
     }
 
-    private func getReaderList() throws -> [String] {
+    private func getReaderList() -> [String] {
         guard let ctx = self.context else {
-            throw ReaderError.invalidContext
+            return []
         }
 
         var readersLen = DWORD(0)
@@ -113,9 +116,9 @@ class PcscWrapper {
         return readerNames
     }
 
-    private func getReaderStates(for readerNames: [String]) throws -> StatesHolder {
+    private func getReaderStates(for readerNames: [String]) -> StatesHolder {
         guard let ctx = self.context else {
-            throw ReaderError.invalidContext
+            return StatesHolder(states: [])
         }
 
         guard !readerNames.isEmpty else {
@@ -136,9 +139,9 @@ class PcscWrapper {
         return StatesHolder(states: states)
     }
 
-    private func getReaderType(for reader: String) throws -> Reader.ReaderType {
+    private func getReaderType(for reader: String) -> Reader.ReaderType {
         guard let ctx = self.context else {
-            throw ReaderError.invalidContext
+            return .unknown
         }
 
         var cardHandle = SCARDHANDLE()
@@ -174,6 +177,8 @@ class PcscWrapper {
             return .vcr
         case RUTOKEN_USB_TYPE:
             return .usb
+        case RUTOKEN_BLE_TYPE:
+            return .ble
         default:
             return .unknown
         }
@@ -240,6 +245,8 @@ class PcscWrapper {
                 throw ReaderError.cancelledByUser
             case RUTOKEN_NFC_STOP_REASON_TIMEOUT:
                 throw ReaderError.timeout
+            case RUTOKEN_NFC_STOP_REASON_UNSUPPORTED_DEVICE:
+                throw ReaderError.unsupportedDevice
             default:
                 throw ReaderError.unknown
             }
@@ -312,33 +319,11 @@ class PcscWrapper {
         }
         context = ctx
 
-        guard let readerNames = try? getReaderList() else {
-            return
-        }
-        readersPublisher.send(readerNames.compactMap { name in
-            guard let type = try? getReaderType(for: name) else {
-                return nil
-            }
-            return Reader(name: name, type: type)
-        })
-
-        guard let states = try? getReaderStates(for: readerNames) else {
-            return
-        }
-        var readerStates = states
-
-        readerStates.states = readerStates.states.map { oldState in
-            let newState = SCARD_READERSTATE(szReader: oldState.szReader,
-                                             pvUserData: oldState.pvUserData,
-                                             dwCurrentState: oldState.dwEventState & ~UInt32(SCARD_STATE_CHANGED),
-                                             dwEventState: 0,
-                                             cbAtr: oldState.cbAtr,
-                                             rgbAtr: oldState.rgbAtr)
-            return newState
-        }
+        var readerStates = StatesHolder(states: [])
 
         var newReaderState = SCARD_READERSTATE()
         newReaderState.szReader = allocatePointerForString(newReaderNotification)
+        newReaderState.dwCurrentState = DWORD(readerStates.states.count << 16)
         readerStates.states.append(newReaderState)
 
         DispatchQueue.global().async { [unowned self] in
@@ -354,50 +339,39 @@ class PcscWrapper {
                 guard rv != PcscError.cancelled.int32Value else { return }
                 guard rv == PcscError.noError.int32Value else { continue }
 
-                var shouldRelistReaders = false
-                for s in readerStates.states {
-                    if String(cString: s.szReader) == newReaderNotification {
-                        if s.dwEventState & UInt32(SCARD_STATE_CHANGED) != 0 {
-                            shouldRelistReaders = true
-                        }
-                    } else {
-                        if s.dwEventState == SCARD_STATE_UNKNOWN | SCARD_STATE_CHANGED | SCARD_STATE_IGNORE {
-                            shouldRelistReaders = true
-                        }
-                    }
+                let isAddedNewReader: (SCARD_READERSTATE) -> Bool = { [newReaderNotification] state in
+                      String(cString: state.szReader) == newReaderNotification &&
+                      state.dwEventState & UInt32(SCARD_STATE_CHANGED) != 0
+                  }
+
+                let isIgnoredReader: (SCARD_READERSTATE) -> Bool = {
+                    $0.dwEventState == SCARD_STATE_UNKNOWN | SCARD_STATE_CHANGED | SCARD_STATE_IGNORE
                 }
 
-                if shouldRelistReaders {
-                    guard let readerNames = try? getReaderList() else {
-                        return
-                    }
-                    readersPublisher.send(readerNames.compactMap { name in
-                        guard let type = try? getReaderType(for: name) else {
-                            return nil
-                        }
-                        return Reader(name: name, type: type)
-                    })
-                    guard let states = try? getReaderStates(for: readerNames) else {
-                        return
-                    }
-                    readerStates = states
-                }
+                if readerStates.states.contains(where: { isAddedNewReader($0) || isIgnoredReader($0) }) {
+                    let readerNames = getReaderList()
+                    readersPublisher.send(readerNames.map { Reader(name: $0, type: getReaderType(for: $0))})
+                    readerStates = getReaderStates(for: readerNames)
 
-                readerStates.states = readerStates.states.map { oldState in
-                    let newState = SCARD_READERSTATE(szReader: oldState.szReader,
-                                                     pvUserData: oldState.pvUserData,
-                                                     dwCurrentState: oldState.dwEventState & ~UInt32(SCARD_STATE_CHANGED),
-                                                     dwEventState: 0,
-                                                     cbAtr: oldState.cbAtr,
-                                                     rgbAtr: oldState.rgbAtr)
-                    return newState
-                }
-
-                if shouldRelistReaders {
                     var newReaderState = SCARD_READERSTATE()
                     newReaderState.szReader = allocatePointerForString(newReaderNotification)
+                    newReaderState.dwCurrentState = DWORD(readerStates.states.count << 16)
                     readerStates.states.append(newReaderState)
                 }
+
+                readerStates.states = readerStates.states
+                    .map { oldState in
+                        guard String(cString: oldState.szReader) != newReaderNotification else {
+                            return oldState
+                        }
+
+                        return SCARD_READERSTATE(szReader: oldState.szReader,
+                                                 pvUserData: oldState.pvUserData,
+                                                 dwCurrentState: oldState.dwEventState & ~UInt32(SCARD_STATE_CHANGED),
+                                                 dwEventState: 0,
+                                                 cbAtr: oldState.cbAtr,
+                                                 rgbAtr: oldState.rgbAtr)
+                    }
             }
         }
     }
