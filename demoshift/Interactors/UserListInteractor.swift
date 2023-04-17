@@ -24,20 +24,20 @@ class UserListInteractor {
                 readers
                     .filter { $0.type != .nfc }
                     .forEach { reader in
-                    if !newReaders.contains(where: { $0.name == reader.name }) {
-                        notificationManager.pushNotification(withTitle: "Отключение",
-                                                             body: "\(reader.name) был отключен от устройства")
+                        if !newReaders.contains(where: { $0.name == reader.name }) {
+                            notificationManager.pushNotification(withTitle: "Отключение",
+                                                                 body: "\(reader.name) был отключен от устройства")
+                        }
                     }
-                }
 
                 newReaders
                     .filter { $0.type != .nfc }
                     .forEach { newReader in
-                    if !readers.contains(where: { $0.name == newReader.name }) {
-                        notificationManager.pushNotification(withTitle: "Подключение",
-                                                             body: "\(newReader.name) был подключен к устройству")
+                        if !readers.contains(where: { $0.name == newReader.name }) {
+                            notificationManager.pushNotification(withTitle: "Подключение",
+                                                                 body: "\(newReader.name) был подключен к устройству")
+                        }
                     }
-                }
 
                 readers = newReaders
             })

@@ -9,7 +9,24 @@
 import UserNotifications
 
 
-class NotificationManager {
+class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
+    override init() {
+        super.init()
+        UNUserNotificationCenter.current()
+            .requestAuthorization(options: [.badge, .sound, .alert]) { granted, error in
+                if granted == true && error == nil {
+                    UNUserNotificationCenter.current().delegate = self
+                }
+            }
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions)
+                                -> Void) {
+        completionHandler([.badge, .sound, .banner, .list])
+    }
+
     func pushNotification(withTitle title: String, body: String = "") {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             switch settings.authorizationStatus {

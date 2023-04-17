@@ -25,6 +25,8 @@ struct DemoshiftApp: App {
     let tokenListState: TokenListState
     let signState: SignState
 
+    let interactorsContainer: InteractorsContainer
+
     init() {
         let container = NSPersistentContainer(name: "CoreDataUser")
         container.loadPersistentStores(completionHandler: { (_, error) in
@@ -42,6 +44,17 @@ struct DemoshiftApp: App {
         self.routingState = RoutingState()
         self.tokenListState = TokenListState()
         self.signState = SignState()
+        self.interactorsContainer = InteractorsContainer(addVcrInteractor: AddVcrInteractor(routingState: routingState,
+                                                                                            state: addVcrState,
+                                                                                            vcrWrapper: vcrWrapper),
+                                                         vcrListInteractor: VcrListInteractor(state: vcrListState,
+                                                                                              vcrWrapper: vcrWrapper),
+                                                         userListInteractor: UserListInteractor(pcscWrapper),
+                                                         tokenListInteractor: TokenListInteractor(state: tokenListState,
+                                                                                                  pcscWrapper),
+                                                         signInteractor: SignInteractor(state: signState,
+                                                                                        routingState: routingState,
+                                                                                        pcscWrapper))
     }
 
     var body: some Scene {
@@ -53,17 +66,7 @@ struct DemoshiftApp: App {
                 .environmentObject(routingState)
                 .environmentObject(tokenListState)
                 .environmentObject(signState)
-                .environment(\.interactorsContainer, InteractorsContainer(addVcrInteractor: AddVcrInteractor(routingState: routingState,
-                                                                                                             state: addVcrState,
-                                                                                                             vcrWrapper: vcrWrapper),
-                                                                          vcrListInteractor: VcrListInteractor(state: vcrListState,
-                                                                                                               vcrWrapper: vcrWrapper),
-                                                                          userListInteractor: UserListInteractor(pcscWrapper),
-                                                                          tokenListInteractor: TokenListInteractor(state: tokenListState,
-                                                                                                                   pcscWrapper),
-                                                                          signInteractor: SignInteractor(state: signState,
-                                                                                                         routingState: routingState,
-                                                                                                         pcscWrapper)))
+                .environment(\.interactorsContainer, interactorsContainer)
                 .onChange(of: scenePhase) { newPhase in
                     switch newPhase {
                     case .active:
