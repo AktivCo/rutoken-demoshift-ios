@@ -21,6 +21,7 @@
 		119310AD2767865200B64BE0 /* ProgressRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119310AC2767865200B64BE0 /* ProgressRectangle.swift */; };
 		119BF03D2749506A0002B8C6 /* Hint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF03C2749506A0002B8C6 /* Hint.swift */; };
 		119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BF042274AB3050002B8C6 /* VcrListView.swift */; };
+		11FB4C9229F2B3D6000E1696 /* SheetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11FB4C9129F2B3D6000E1696 /* SheetType.swift */; };
 		4408BB7129DAB8BC00932FF5 /* Demoshift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4408BB7029DAB8BC00932FF5 /* Demoshift.swift */; };
 		445761AD2930A2C6009694AE /* TokenCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445761AC2930A2C6009694AE /* TokenCard.swift */; };
 		445B3D842758B253004B224C /* VCRCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445B3D832758B253004B224C /* VCRCard.swift */; };
@@ -102,6 +103,7 @@
 		119310AC2767865200B64BE0 /* ProgressRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressRectangle.swift; sourceTree = "<group>"; };
 		119BF03C2749506A0002B8C6 /* Hint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hint.swift; sourceTree = "<group>"; };
 		119BF042274AB3050002B8C6 /* VcrListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListView.swift; sourceTree = "<group>"; };
+		11FB4C9129F2B3D6000E1696 /* SheetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetType.swift; sourceTree = "<group>"; };
 		4408BB7029DAB8BC00932FF5 /* Demoshift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demoshift.swift; sourceTree = "<group>"; };
 		445761AC2930A2C6009694AE /* TokenCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCard.swift; sourceTree = "<group>"; };
 		445B3D832758B253004B224C /* VCRCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCRCard.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 				5E33801627674BA400FE7A23 /* VcrInfo.swift */,
 				112E218F291E8788009897D6 /* TokenInterface.swift */,
 				112E219329250636009897D6 /* TokenModelName.swift */,
+				11FB4C9129F2B3D6000E1696 /* SheetType.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 				119BF03D2749506A0002B8C6 /* Hint.swift in Sources */,
 				B15FBD28248E6B9500385F6E /* DocumentPickerView.swift in Sources */,
 				1168AB3C278F18AF00DD63A0 /* VcrWrapper.swift in Sources */,
+				11FB4C9229F2B3D6000E1696 /* SheetType.swift in Sources */,
 				116D3903275A34B400C40765 /* AddVcrView.swift in Sources */,
 				448067E6275FD1C700EBF5BB /* NotificationManager.swift in Sources */,
 				588410D424862758003AD26A /* TokenManager.swift in Sources */,

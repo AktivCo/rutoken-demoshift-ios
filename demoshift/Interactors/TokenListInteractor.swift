@@ -35,9 +35,14 @@ class TokenListInteractor {
             .store(in: &cancellable)
     }
 
+    func dismissSheet() {
+        state.sheetType = nil
+        state.taskStatus.errorMessage = ""
+    }
+
     func didSelectToken(_ serial: String = "", type: TokenInterface) {
         state.selectedTokenType = type
-        state.showPinInputView = true
+        state.sheetType = .pinInput
         state.selectedTokenSerial = serial
     }
 
@@ -97,8 +102,7 @@ class TokenListInteractor {
                 state.selectedTokenType = token.currentInterface
                 state.selectedTokenInterfaces = token.supportedInterfaces
                 state.selectedTokenCerts = certs
-                state.showPinInputView = false
-                state.showCertListView = true
+                state.sheetType = state.sheetType != nil ? .certList : nil
             }
         } catch TokenError.incorrectPin {
             self.setErrorMessage(message: "Неверный PIN-код")

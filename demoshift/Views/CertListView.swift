@@ -44,7 +44,7 @@ struct CertListView: View {
                                 guard (try? self.managedObjectContext.save()) != nil else {
                                     return
                                 }
-                                self.state.showCertListView = false
+                                self.state.sheetType = nil
                                 self.routingState.showTokenListView = false
                             }
                     }

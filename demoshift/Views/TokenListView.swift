@@ -64,24 +64,22 @@ struct TokenListView: View {
                 }
             }
             .padding(.top, 22)
-            .background(EmptyView().sheet(isPresented: self.$state.showPinInputView, onDismiss: {
-                self.state.showPinInputView = false
-                self.state.taskStatus.errorMessage = ""
-            }, content: {
-                PinInputView(idleTitle: "Введите PIN-код",
-                             progressTitle: "Выполняется регистрация пользователя",
-                             placeHolder: "PIN-код",
-                             buttonText: "Продолжить",
-                             taskStatus: self.state.taskStatus,
-                             onTapped: { pin in
-                    interactorsContainer.tokenListInteractor?.readCerts(withPin: pin)
-                })
-            }))
-            .background(EmptyView().sheet(isPresented: self.$state.showCertListView, onDismiss: {
-                self.state.showCertListView = false
-            }, content: {
-                CertListView()
-            }))
+            .sheet(isPresented: Binding<Bool>(get: { state.sheetType != nil },
+                                              set: { if !$0 { interactorsContainer.tokenListInteractor?.dismissSheet() }}),
+                   content: {
+                switch state.sheetType {
+                case .certList:
+                    CertListView()
+                default:
+                    PinInputView(idleTitle: "Введите PIN-код",
+                                 progressTitle: "Выполняется регистрация пользователя",
+                                 placeHolder: "PIN-код",
+                                 buttonText: "Продолжить",
+                                 taskStatus: self.state.taskStatus,
+                                 onTapped: { pin in
+                        interactorsContainer.tokenListInteractor?.readCerts(withPin: pin)
+                    })
+                }})
         }
         .padding(.horizontal, 20)
         .background(Color("view-background").edgesIgnoringSafeArea(.all))
