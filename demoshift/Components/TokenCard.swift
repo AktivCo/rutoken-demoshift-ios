@@ -21,7 +21,7 @@ struct TokenCard: View {
         self.serial = serial
         self.currentInterface = currentInterface
         self.interfaces = interfaces
-        self.iconName = interfaces.contains(.BT) ? "ble" : interfaces.contains(.SC) ? "smartcard" : "usb"
+        self.iconName = interfaces.contains(.SC) ? "smartcard" : "usb"
     }
 
     var body: some View {

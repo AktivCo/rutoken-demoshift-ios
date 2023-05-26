@@ -106,31 +106,6 @@ struct TokenListView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         Text("Если у вас USB-токен, то подключите его к мобильному устройству.")
                             .padding(.bottom, 16)
-                        Text("Если у вас Bluetooth-токен, то:")
-                            .padding(.bottom, 8)
-                        BulletTextItem(bullet: "\u{2022}", text: "включите Bluetooth и дайте приложению разрешение на его использование;")
-                            .padding(.bottom, 8)
-                        BulletTextItem(bullet: "\u{2022}", text: "свяжите Рутокен с устройством через приложение Рутокен 3.0 BT.")
-                            .padding(.bottom, 24)
-                    }
-                    Button {
-                        if let url = URL(string: "rutokencp://"),
-                           UIApplication.shared.canOpenURL(url) {
-                            UIApplication.shared.open(url)
-                        } else {
-                            guard let url = URL(string: "http://itunes.apple.com/app/id1552392180") else {
-                                return
-                            }
-                            UIApplication.shared.open(url)
-                        }
-                    } label: {
-                        Text("Подробнее")
-                            .padding(.horizontal, 22)
-                            .padding(.vertical, 5)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 2.5)
-                                    .stroke(Color("text-gray"), lineWidth: 1)
-                            )
                     }
                 }
                 .padding(.horizontal, 20.5)
@@ -139,14 +114,6 @@ struct TokenListView: View {
             } else {
                 getTokenItems()
                     .padding(.top, 10)
-                if !state.tokens.contains(where: { $0.currentInterface == .BT }) {
-                    Text("""
-                    Для работы с Bluetooth-токеном включите Bluetooth и дайте приложению разрешение на его использование.\n
-                    Также необходимо связать Рутокен с устройством через приложение Рутокен 3.0 BT
-                    """)
-                    .multilineTextAlignment(.center)
-                    .font(.system(size: 16))
-                }
             }
         }
     }

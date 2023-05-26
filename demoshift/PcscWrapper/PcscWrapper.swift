@@ -30,11 +30,9 @@ enum NfcStopReason: UInt8 {
 struct Reader {
     enum ReaderType {
         case unknown
-        case bt
         case nfc
         case vcr
         case usb
-        case ble
     }
 
     let name: String
@@ -169,16 +167,12 @@ class PcscWrapper {
         }
 
         switch type {
-        case RUTOKEN_BT_TYPE:
-            return .bt
         case RUTOKEN_NFC_TYPE:
             return .nfc
         case RUTOKEN_VCR_TYPE:
             return .vcr
         case RUTOKEN_USB_TYPE:
             return .usb
-        case RUTOKEN_BLE_TYPE:
-            return .ble
         default:
             return .unknown
         }

@@ -28,8 +28,6 @@
 	<true/>
 	<key>NFCReaderUsageDescription</key>
 	<string>NFC будет использован для работы с устройствами Рутокен</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Чтобы работать с Bluetooth-токеном необходимо разрешить приложению доступ к Bluetooth</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_ru-rutoken-vcr._udp</string>
@@ -54,10 +52,6 @@
 	<true/>
 	<key>UIStatusBarHidden</key>
 	<true/>
-	<key>UISupportedExternalAccessoryProtocols</key>
-	<array>
-		<string>com.aktivco.rutokenecp</string>
-	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

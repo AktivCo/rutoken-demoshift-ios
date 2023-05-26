@@ -27,11 +27,7 @@ class TokenListInteractor {
 
         TokenManager.shared.tokens
             .receive(on: DispatchQueue.main)
-            .sink { tokens in
-                state.tokens = tokens.sorted(by: { a, b in
-                    return !a.supportedInterfaces.contains(.BT) && b.supportedInterfaces.contains(.BT)
-                })
-            }
+            .sink { state.tokens = $0 }
             .store(in: &cancellable)
     }
 

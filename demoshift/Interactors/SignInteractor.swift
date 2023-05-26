@@ -10,16 +10,10 @@ import Combine
 import SwiftUI
 
 
-enum CommonError: Error {
-    case bluetoothIsOff
-}
-
 class SignInteractor {
     private let pcscWrapper: PcscWrapper
     private var routingState: RoutingState
     private var state: SignState
-
-    private let btHelper: BluetoothHelper
 
     private let semaphore = DispatchSemaphore.init(value: 0)
     private var cancellable = Set<AnyCancellable>()
@@ -38,8 +32,6 @@ class SignInteractor {
             .receive(on: DispatchQueue.main)
             .assign(to: \.tokens, on: state)
             .store(in: &cancellable)
-
-        self.btHelper = BluetoothHelper()
     }
 
     func sign(withPin pin: String, forUser choosenUser: User?, wrappedUrl: AccessedUrl?) {
@@ -95,9 +87,6 @@ class SignInteractor {
                     throw TokenManagerError.tokenNotFound
                 }
                 token = nfcToken
-            } else if choosenUser.tokenSupportedInterfaces.contains(.BT),
-                      btHelper.state.value != .poweredOn {
-                throw CommonError.bluetoothIsOff
             } else {
                 throw TokenManagerError.tokenNotFound
             }
@@ -135,8 +124,6 @@ class SignInteractor {
                 state.showPinInputView = false
                 routingState.showSignResultView = true
             }
-        } catch CommonError.bluetoothIsOff {
-            setErrorMessage(message: "Рутокен не обнаружен, т.к Bluetooth выключен. Включите его или подключите токен по USB")
         } catch TokenError.incorrectPin {
             setErrorMessage(message: "Неверный PIN-код")
         } catch TokenError.lockedPin {

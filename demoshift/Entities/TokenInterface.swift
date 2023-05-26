@@ -9,15 +9,12 @@
 enum TokenInterface: Codable, Equatable {
     case USB
     case SC
-    case BT
     case NFC
 }
 
 extension TokenInterface {
     init?(_ value: CK_ULONG) {
         switch value {
-        case CK_ULONG(INTERFACE_TYPE_BT):
-            self = .BT
         case CK_ULONG(INTERFACE_TYPE_NFC_TYPE_A), CK_ULONG(INTERFACE_TYPE_NFC_TYPE_B):
             self = .NFC
         case CK_ULONG(INTERFACE_TYPE_USB):
@@ -32,8 +29,7 @@ extension TokenInterface {
 
 extension Sequence where Iterator.Element == TokenInterface {
     init(bits: CK_ULONG) where Self == [TokenInterface] {
-        self = [INTERFACE_TYPE_BT,
-                INTERFACE_TYPE_ISO,
+        self = [INTERFACE_TYPE_ISO,
                 INTERFACE_TYPE_NFC_TYPE_A,
                 INTERFACE_TYPE_NFC_TYPE_B,
                 INTERFACE_TYPE_USB]

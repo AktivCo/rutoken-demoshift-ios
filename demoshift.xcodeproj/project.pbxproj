@@ -25,7 +25,6 @@
 		4408BB7129DAB8BC00932FF5 /* Demoshift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4408BB7029DAB8BC00932FF5 /* Demoshift.swift */; };
 		445761AD2930A2C6009694AE /* TokenCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445761AC2930A2C6009694AE /* TokenCard.swift */; };
 		445B3D842758B253004B224C /* VCRCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445B3D832758B253004B224C /* VCRCard.swift */; };
-		446EABE229CD88FA00C50643 /* BluetoothHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446EABE129CD88FA00C50643 /* BluetoothHelper.swift */; };
 		448067E6275FD1C700EBF5BB /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448067E5275FD1C700EBF5BB /* NotificationManager.swift */; };
 		4483BA67278C245300D73A44 /* TokenListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4483BA66278C245300D73A44 /* TokenListInteractor.swift */; };
 		4492D1D827900F1300ED0394 /* SignInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4492D1D727900F1300ED0394 /* SignInteractor.swift */; };
@@ -55,6 +54,8 @@
 		B15FBD26248E267600385F6E /* Sharables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15FBD25248E267600385F6E /* Sharables.swift */; };
 		B15FBD28248E6B9500385F6E /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15FBD27248E6B9500385F6E /* DocumentPickerView.swift */; };
 		B15FBD2E24925FE000385F6E /* AccessedUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15FBD2D24925FE000385F6E /* AccessedUrl.swift */; };
+		B16855E02A25F44E00EF5FD0 /* rtpkcs11ecp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */; };
+		B16855E12A25F44E00EF5FD0 /* rtpkcs11ecp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C310886C24939CEF00C6E8FE /* TokenListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C310886B24939CEF00C6E8FE /* TokenListView.swift */; };
 		C399859224864A1D004C5889 /* Cert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C399859124864A1D004C5889 /* Cert.swift */; };
 		C399859424864A3F004C5889 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C399859324864A3F004C5889 /* Token.swift */; };
@@ -67,8 +68,6 @@
 		C3FF05FA2497F5AF00C8F4B1 /* CertListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FF05F92497F5AF00C8F4B1 /* CertListView.swift */; };
 		C3FF4DC02477A5B6002AA664 /* RtPcsc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */; };
 		C3FF4DC12477A5B6002AA664 /* RtPcsc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C3FF4DC22477A5B6002AA664 /* rtpkcs11ecp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */; };
-		C3FF4DC32477A5B6002AA664 /* rtpkcs11ecp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -80,7 +79,7 @@
 			files = (
 				588BB09A248408A400C3AE5C /* rtengine.framework in Embed Frameworks */,
 				588BB09C248408A600C3AE5C /* openssl.framework in Embed Frameworks */,
-				C3FF4DC32477A5B6002AA664 /* rtpkcs11ecp.framework in Embed Frameworks */,
+				B16855E12A25F44E00EF5FD0 /* rtpkcs11ecp.framework in Embed Frameworks */,
 				C3FF4DC12477A5B6002AA664 /* RtPcsc.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -107,7 +106,6 @@
 		4408BB7029DAB8BC00932FF5 /* Demoshift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demoshift.swift; sourceTree = "<group>"; };
 		445761AC2930A2C6009694AE /* TokenCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCard.swift; sourceTree = "<group>"; };
 		445B3D832758B253004B224C /* VCRCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCRCard.swift; sourceTree = "<group>"; };
-		446EABE129CD88FA00C50643 /* BluetoothHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothHelper.swift; sourceTree = "<group>"; };
 		448067E5275FD1C700EBF5BB /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4483BA66278C245300D73A44 /* TokenListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenListInteractor.swift; sourceTree = "<group>"; };
 		4492D1D727900F1300ED0394 /* SignInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInteractor.swift; sourceTree = "<group>"; };
@@ -159,9 +157,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3FF4DC22477A5B6002AA664 /* rtpkcs11ecp.framework in Frameworks */,
 				588BB09B248408A600C3AE5C /* openssl.framework in Frameworks */,
 				588BB099248408A400C3AE5C /* rtengine.framework in Frameworks */,
+				B16855E02A25F44E00EF5FD0 /* rtpkcs11ecp.framework in Frameworks */,
 				C3FF4DC02477A5B6002AA664 /* RtPcsc.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,7 +183,6 @@
 				5EFD388D2769E97000A77C40 /* UserListInteractor.swift */,
 				4483BA66278C245300D73A44 /* TokenListInteractor.swift */,
 				4492D1D727900F1300ED0394 /* SignInteractor.swift */,
-				446EABE129CD88FA00C50643 /* BluetoothHelper.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -488,7 +485,6 @@
 				588410DA24862758003AD26A /* UserListView.swift in Sources */,
 				C3FF05FA2497F5AF00C8F4B1 /* CertListView.swift in Sources */,
 				5ED0A7382762614400D67034 /* VcrListState.swift in Sources */,
-				446EABE229CD88FA00C50643 /* BluetoothHelper.swift in Sources */,
 				4492D1DC279012B800ED0394 /* TokenListState.swift in Sources */,
 				588410D824862758003AD26A /* UserCard.swift in Sources */,
 				C399859224864A1D004C5889 /* Cert.swift in Sources */,
