@@ -214,6 +214,118 @@ class Token: Identifiable {
         }
     }
 
+    func verifyCms(_ signedCms: String, document: Data, cert: Data) -> Bool {
+        // get raw cms content "-----BEGIN CMS-----\n" + rawBase64Cms + "\n-----END CMS-----"
+        var rawBase64Cms = signedCms
+            .replacingOccurrences(of: "-----BEGIN CMS-----", with: "")
+            .replacingOccurrences(of: "-----END CMS-----", with: "")
+
+        // remove newlines
+        rawBase64Cms.removeAll { $0 == "\n" }
+
+        guard let data = rawBase64Cms.data(using: .utf8),
+              let cmsData = Data(base64Encoded: data),
+              let cmsContentInfo = getCmsContentInfo(cmsData),
+              let inDatBio = getDataBio(document),
+              let certsStack = generateX509Stack(certs: [cert]) else {
+            return false
+        }
+
+        // if CMS_Sign was called with flag CMS_NOCERTS, then we need to add stack with signers certs to CMS_verify
+        // otherwise we can nil it: CMS_verify(cmsContentInfo, nil, ...)
+        let r = CMS_verify(OpaquePointer(cmsContentInfo),
+                           OpaquePointer(certsStack),
+                           nil,
+                           OpaquePointer(inDatBio),
+                           nil,
+                           UInt32(CMS_BINARY | CMS_NO_SIGNER_CERT_VERIFY))
+
+        guard r == 1 else {
+            let err = ERR_get_error()
+            print(String(cString: ERR_error_string(err, nil)))
+            return false
+        }
+
+        return true
+    }
+
+    private func getX509Cert(_ cert: Data) -> UniquePointer? {
+        let x509 = UniquePointer { X509_free($0) }
+
+        let r = cert.withUnsafeBytes {
+            var pointer: UnsafePointer<UInt8>? = $0.baseAddress?.assumingMemoryBound(to: UInt8.self)
+            guard let pointer = d2i_X509(nil, &pointer, cert.count) else {
+                return false
+            }
+
+            x509.reset(pointer)
+
+            return true
+        }
+
+        guard r else { return nil }
+
+        return x509
+    }
+
+    private func getCmsContentInfo(_ data: Data) -> UniquePointer? {
+        let contentInfo = UniquePointer { CMS_ContentInfo_free($0) }
+
+        let r = data.withUnsafeBytes {
+            var pointer: UnsafePointer<UInt8>? = $0.baseAddress?.assumingMemoryBound(to: UInt8.self)
+            guard let cms_content = d2i_CMS_ContentInfo(nil, &pointer, data.count) else {
+                return false
+            }
+            contentInfo.reset(cms_content)
+
+            return true
+        }
+
+        guard r else { return nil }
+
+        return contentInfo
+    }
+
+    private func getDataBio(_ data: Data) -> UniquePointer? {
+        guard let bio = BIO_new(BIO_s_mem()) else {
+            return nil
+        }
+        let bioData = UniquePointer(bio) { BIO_free($0) }
+
+        let r = data.withUnsafeBytes {
+            let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self)
+            let res = BIO_write(OpaquePointer(bioData), pointer, Int32(data.count))
+            return res == data.count
+        }
+
+        guard r else { return nil }
+
+        return bioData
+    }
+
+    private func generateX509Stack(certs: [Data]) -> UniquePointer? {
+        guard let stack = exposed_sk_X509_new_null() else {
+            return nil
+        }
+        let wrappedStack = UniquePointer(stack) { _ in
+            exposed_sk_X509_pop_free(stack)
+        }
+
+        for cert in certs {
+            guard let x509 = getX509Cert(cert) else {
+                return nil
+            }
+            guard 0 < exposed_sk_X509_push(OpaquePointer(wrappedStack), OpaquePointer(x509)) else {
+                return nil
+            }
+
+            // After x509 was added to stack we need to increment its reference counter to avoid unexpected resource free
+            X509_up_ref(OpaquePointer(x509))
+        }
+
+        return wrappedStack
+    }
+
     private func findObjects(_ attributes: (CK_ULONG, UInt)...) throws -> [CK_OBJECT_HANDLE] {
         var values = [CK_ULONG]()
         var template = attributes.map { value, type in

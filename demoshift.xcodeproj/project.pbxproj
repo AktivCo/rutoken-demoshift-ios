@@ -49,6 +49,8 @@
 		5ED0A736276260F700D67034 /* VcrListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A735276260F700D67034 /* VcrListInteractor.swift */; };
 		5ED0A7382762614400D67034 /* VcrListState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED0A7372762614400D67034 /* VcrListState.swift */; };
 		5EFD388E2769E97000A77C40 /* UserListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFD388D2769E97000A77C40 /* UserListInteractor.swift */; };
+		B11DB4832A2E20720044037F /* UniquePointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11DB4822A2E20720044037F /* UniquePointer.swift */; };
+		B11DB4852A2F410D0044037F /* Demoshift-Bridging.m in Sources */ = {isa = PBXBuildFile; fileRef = B11DB4842A2F410D0044037F /* Demoshift-Bridging.m */; };
 		B158944124863EE000C8485E /* DocumentViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B158944024863EDF00C8485E /* DocumentViewer.swift */; };
 		B15894462486BA8900C8485E /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15894452486BA8900C8485E /* ShareView.swift */; };
 		B15FBD26248E267600385F6E /* Sharables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15FBD25248E267600385F6E /* Sharables.swift */; };
@@ -130,6 +132,8 @@
 		5ED0A735276260F700D67034 /* VcrListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListInteractor.swift; sourceTree = "<group>"; };
 		5ED0A7372762614400D67034 /* VcrListState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrListState.swift; sourceTree = "<group>"; };
 		5EFD388D2769E97000A77C40 /* UserListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListInteractor.swift; sourceTree = "<group>"; };
+		B11DB4822A2E20720044037F /* UniquePointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniquePointer.swift; sourceTree = "<group>"; };
+		B11DB4842A2F410D0044037F /* Demoshift-Bridging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Demoshift-Bridging.m"; sourceTree = "<group>"; };
 		B158944024863EDF00C8485E /* DocumentViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewer.swift; sourceTree = "<group>"; };
 		B15894452486BA8900C8485E /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		B15FBD25248E267600385F6E /* Sharables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharables.swift; sourceTree = "<group>"; };
@@ -212,6 +216,8 @@
 			isa = PBXGroup;
 			children = (
 				588410C824862758003AD26A /* Demoshift-Bridging-Header.h */,
+				B11DB4842A2F410D0044037F /* Demoshift-Bridging.m */,
+				B11DB4822A2E20720044037F /* UniquePointer.swift */,
 				588410C924862758003AD26A /* TokenManager.swift */,
 				C399859324864A3F004C5889 /* Token.swift */,
 				C399859124864A1D004C5889 /* Cert.swift */,
@@ -476,6 +482,7 @@
 				B15FBD28248E6B9500385F6E /* DocumentPickerView.swift in Sources */,
 				1168AB3C278F18AF00DD63A0 /* VcrWrapper.swift in Sources */,
 				116D3903275A34B400C40765 /* AddVcrView.swift in Sources */,
+				B11DB4832A2E20720044037F /* UniquePointer.swift in Sources */,
 				448067E6275FD1C700EBF5BB /* NotificationManager.swift in Sources */,
 				588410D424862758003AD26A /* TokenManager.swift in Sources */,
 				B15FBD2E24925FE000385F6E /* AccessedUrl.swift in Sources */,
@@ -503,6 +510,7 @@
 				116D39152760DC3D00C40765 /* AddVcrInteractor.swift in Sources */,
 				445761AD2930A2C6009694AE /* TokenCard.swift in Sources */,
 				C3CE1BAF24866DD400981E61 /* SignResultView.swift in Sources */,
+				B11DB4852A2F410D0044037F /* Demoshift-Bridging.m in Sources */,
 				116D390F275F7C9C00C40765 /* BulletTextItem.swift in Sources */,
 				119BF043274AB3050002B8C6 /* VcrListView.swift in Sources */,
 				5E33801727674BA400FE7A23 /* VcrInfo.swift in Sources */,

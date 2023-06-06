@@ -99,6 +99,8 @@ class SignInteractor {
             let sign = SharableSignature(rawSignature: signature, cmsFile: cmsFile)
             let doc = SharableDocument(signedFile: signedFile)
 
+            print(token.verifyCms(signature, document: document, cert: cert.body))
+
             DispatchQueue.main.async { [unowned self] in
                 state.signatureToShare = sign
                 state.documentToShare = doc
