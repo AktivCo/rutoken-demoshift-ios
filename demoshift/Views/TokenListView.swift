@@ -90,30 +90,21 @@ struct TokenListView: View {
         Text("ПОДКЛЮЧЕННЫЕ РУТОКЕНЫ")
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 24)
+            .padding(.bottom, 10)
         VStack(alignment: .center, spacing: 0) {
-            if #unavailable(iOS 16.0) {
-                Text("Для работы с устройствами Рутокен ЭЦП 2.0 и 3.0 требуется iOS 16 и новее")
-                    .multilineTextAlignment(.center)
+            if state.tokens.isEmpty {
+                Text("Рутокены не обнаружены.")
                     .font(.system(size: 16))
+                    .foregroundColor(Color("text-gray"))
+                    .frame(height: 106)
+                    .padding(.bottom, 20)
+                Text("Для работы с устройствами Рутокен ЭЦП 2.0 и 3.0 по USB требуется iOS 16.2 и новее")
+                    .multilineTextAlignment(.leading)
+                    .font(.system(size: 16))
+                    .foregroundColor(Color("text-gray"))
                     .padding(.horizontal, 20)
-                    .padding(.top, 66)
-            } else if state.tokens.isEmpty {
-                Group {
-                    Text("Рутокены не обнаружены.")
-                        .multilineTextAlignment(.center)
-                        .padding(.top, 34)
-                        .padding(.bottom, 40)
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("Если у вас USB-токен, то подключите его к мобильному устройству.")
-                            .padding(.bottom, 16)
-                    }
-                }
-                .padding(.horizontal, 20.5)
-                .font(.system(size: 16))
-                .foregroundColor(Color("text-gray"))
             } else {
                 getTokenItems()
-                    .padding(.top, 10)
             }
         }
     }
