@@ -39,7 +39,7 @@ extension TokenModelName {
         case (54, _, 23, 0),
              (54, _, ..<20, _):
             self = .pki
-        case (_, _, 30, _),
+        case (_, _, 30...31, _),
              (60, _, 28, _):
             self = .rutoken3
         default:
