@@ -71,6 +71,10 @@ class PcscWrapper {
         readersPublisher.share().eraseToAnyPublisher()
     }
 
+    init() {
+        start()
+    }
+
     private func getLastNfcStopReason(ofHandle handle: SCARDHANDLE) -> UInt8 {
         var result = UInt8(0)
         var resultLen: DWORD = 0

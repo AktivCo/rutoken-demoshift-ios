@@ -77,6 +77,8 @@ class TokenManager {
 
         r = ENGINE_set_default(rtengine, ENGINE_METHOD_ALL - ENGINE_METHOD_RAND)
         assert(r == 1)
+
+        start()
     }
 
     deinit {

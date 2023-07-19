@@ -12,8 +12,6 @@ import SwiftUI
 
 @main
 struct DemoshiftApp: App {
-    @Environment(\.scenePhase) var scenePhase
-
     let context: NSManagedObjectContext
 
     let pcscWrapper: PcscWrapper
@@ -67,17 +65,6 @@ struct DemoshiftApp: App {
                 .environmentObject(tokenListState)
                 .environmentObject(signState)
                 .environment(\.interactorsContainer, interactorsContainer)
-                .onChange(of: scenePhase) { newPhase in
-                    switch newPhase {
-                    case .active:
-                        pcscWrapper.start()
-                        TokenManager.shared.start()
-                    case .background:
-                        TokenManager.shared.stop()
-                        pcscWrapper.stop()
-                    default: break
-                    }
-                }
         }
     }
 }
