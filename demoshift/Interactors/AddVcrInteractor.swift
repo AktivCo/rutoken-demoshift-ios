@@ -18,6 +18,7 @@ class AddVcrInteractor {
     private var maxTime: CGFloat = 0
     private let timerInterval: CGFloat = 0.01
     private var startTime: UInt64 = 0
+    private var currentBrightness = UIScreen.main.brightness
 
     private var readers = [VcrInfo]()
     private var cancellable = Set<AnyCancellable>()
@@ -89,9 +90,12 @@ class AddVcrInteractor {
     public func willAppear(maxTime: CGFloat) {
         self.maxTime = maxTime
         loadQrCode()
+        currentBrightness = UIScreen.main.brightness
+        UIScreen.main.brightness = 1.0
     }
 
     public func willDisappear() {
         stopQrTimer()
+        UIScreen.main.brightness = currentBrightness
     }
 }
