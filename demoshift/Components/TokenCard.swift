@@ -58,6 +58,7 @@ struct TokenCard: View {
             }
         }
         .frame(height: 106)
+        .frame(maxWidth: .infinity)
         .background(Color("listitem-background"))
         .cornerRadius(30)
     }
