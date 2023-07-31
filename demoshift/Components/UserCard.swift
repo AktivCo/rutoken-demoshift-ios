@@ -116,6 +116,7 @@ struct UserCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.red)
         .cornerRadius(20)
+        .padding(0.5)
         .onTapGesture { removeUser() }
     }
 }
