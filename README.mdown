@@ -13,16 +13,16 @@ Rutoken DemoShift should be built using iOS SDK 13 or newer and support iOS 13 a
 External dependencies are located in [Rutoken SDK](http://www.rutoken.ru/developers/sdk/).
 
 Required frameworks:
-* mobile/ios/pcsc/lib/RtPcsc.framework (Rutoken SDK);
-* mobile/ios/pkcs11/lib/rtpkcs11ecp.framework (Rutoken SDK);
-* openssl/bin/3.0/rtengine-3.0/ios-arm64/rtengine.framework (Rutoken SDK);
-* openssl/bin/3.0/openssl-3.0/ios-arm64/openssl.framework (Rutoken SDK).
+* mobile/ios/pcsc/lib/RtPcsc.xcframework (Rutoken SDK);
+* pkcs11/lib/ios+iossim+macos-x86_64+arm64-xcframework/rtpkcs11ecp.xcframework (Rutoken SDK);
+* openssl/bin/3.0/rtengine-3.0/ios+iossim+macos-x86_64+arm64-xcframework/rtengine.xcframework (Rutoken SDK);
+* openssl/bin/3.0/openssl-3.0/ios+iossim-x86_64+arm64-xcframework/openssl.xcframework (Rutoken SDK).
 
 ##### ==Attention, this is an instruction for setting up the Rutoken Demoshift application. Read more about possibilities and embedding of tokens in your applications in [__integration details of NFC security tokens Rutoken ECP Series to your own applications__](https://dev.rutoken.ru/pages/viewpage.action?pageId=81527019).==
 
 ## How to build
 
-* copy frameworks to Frameworks in root directory of project;
+* copy xcframeworks to Frameworks in root directory of project;
 * open demoshift.xcodeproj;
 * in General/Identity set your Signing Identity.
 

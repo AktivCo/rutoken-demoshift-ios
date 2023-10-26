@@ -13,16 +13,16 @@ NFC-устройств [семейства Рутокен ЭЦП](https://www.ru
 Внешние зависимости находятся в [Рутокен SDK](http://www.rutoken.ru/developers/sdk/)
 
 Необходимые фреймворки:
-* mobile/ios/pcsc/lib/RtPcsc.framework (Rutoken SDK);
-* mobile/ios/pkcs11/lib/rtpkcs11ecp.framework (Rutoken SDK);
-* openssl/bin/3.0/rtengine-3.0/ios-arm64/rtengine.framework (Rutoken SDK);
-* openssl/bin/3.0/openssl-3.0/ios-arm64/openssl.framework (Rutoken SDK).
+* mobile/ios/pcsc/lib/RtPcsc.xcframework (Rutoken SDK);
+* pkcs11/lib/ios+iossim+macos-x86_64+arm64-xcframework/rtpkcs11ecp.xcframework (Rutoken SDK);
+* openssl/bin/3.0/rtengine-3.0/ios+iossim+macos-x86_64+arm64-xcframework/rtengine.xcframework (Rutoken SDK);
+* openssl/bin/3.0/openssl-3.0/ios+iossim-x86_64+arm64-xcframework/openssl.xcframework (Rutoken SDK).
 
 ##### ==Внимание, это инструкция по настройке приложения Рутокен Демосмена. Подробнее о возможностях и встраивании токенов в ваши приложения читайте в [__особенностях встраивания NFC-устройств семейства Рутокен ЭЦП в собственные приложения__](https://dev.rutoken.ru/pages/viewpage.action?pageId=81527019).==
 
 ## Как собрать
 
-* положить фреймворки в директорию Frameworks в корне проекта;
+* положить фреймворки(.xcframework) в директорию Frameworks в корне проекта;
 * открыть demoshift.xcodeproj;
 * в разделе General/Identity установить ваш Signing Identity.
 

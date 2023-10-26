@@ -96,6 +96,7 @@ build:
     - ip=$(dig scm.aktivco.ru +short)
     - ssh-keyscan scm.aktivco.ru,$ip >> ~/.ssh/known_hosts
   script:
+    - ${CI_PROJECT_DIR}/scripts/setup.sh
     - mkdir ${FOLDER_ARTIFACTS}
     - PATH_TO_ARCHIVE="${FOLDER_ARTIFACTS}/ios-arm64-clang/demoshift.xcarchive"
     - echo "BuildNumber = ${CI_JOB_ID}" > demoshift/Config.xcconfig

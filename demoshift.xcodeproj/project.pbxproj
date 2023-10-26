@@ -39,10 +39,6 @@
 		588410DA24862758003AD26A /* UserListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D024862758003AD26A /* UserListView.swift */; };
 		588410DB24862758003AD26A /* RoundedFilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D224862758003AD26A /* RoundedFilledButton.swift */; };
 		588410DC24862758003AD26A /* TextFieldWithFloatingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */; };
-		588BB099248408A400C3AE5C /* rtengine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0962484032700C3AE5C /* rtengine.framework */; };
-		588BB09A248408A400C3AE5C /* rtengine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0962484032700C3AE5C /* rtengine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		588BB09B248408A600C3AE5C /* openssl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0952484032700C3AE5C /* openssl.framework */; };
-		588BB09C248408A600C3AE5C /* openssl.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 588BB0952484032700C3AE5C /* openssl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		58FFC9EC24881E8B00AEE56D /* test.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 58FFC9EB24881E8B00AEE56D /* test.pdf */; };
 		5E33801727674BA400FE7A23 /* VcrInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E33801627674BA400FE7A23 /* VcrInfo.swift */; };
 		5EB182EB276340890078FA5E /* PcscWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB182EA276340890078FA5E /* PcscWrapper.swift */; };
@@ -54,8 +50,6 @@
 		B15FBD26248E267600385F6E /* Sharables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15FBD25248E267600385F6E /* Sharables.swift */; };
 		B15FBD28248E6B9500385F6E /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15FBD27248E6B9500385F6E /* DocumentPickerView.swift */; };
 		B15FBD2E24925FE000385F6E /* AccessedUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15FBD2D24925FE000385F6E /* AccessedUrl.swift */; };
-		B16855E02A25F44E00EF5FD0 /* rtpkcs11ecp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */; };
-		B16855E12A25F44E00EF5FD0 /* rtpkcs11ecp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C310886C24939CEF00C6E8FE /* TokenListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C310886B24939CEF00C6E8FE /* TokenListView.swift */; };
 		C399859224864A1D004C5889 /* Cert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C399859124864A1D004C5889 /* Cert.swift */; };
 		C399859424864A3F004C5889 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C399859324864A3F004C5889 /* Token.swift */; };
@@ -66,8 +60,14 @@
 		C3FA84B1246C11680005B294 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3FA84AF246C11680005B294 /* LaunchScreen.storyboard */; };
 		C3FF05F82497F4FF00C8F4B1 /* CertCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FF05F72497F4FF00C8F4B1 /* CertCard.swift */; };
 		C3FF05FA2497F5AF00C8F4B1 /* CertListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FF05F92497F5AF00C8F4B1 /* CertListView.swift */; };
-		C3FF4DC02477A5B6002AA664 /* RtPcsc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */; };
-		C3FF4DC12477A5B6002AA664 /* RtPcsc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D483A59C2AEBDD100015240F /* rtpkcs11ecp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D483A5982AEBDD100015240F /* rtpkcs11ecp.xcframework */; };
+		D483A59D2AEBDD100015240F /* rtengine.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D483A5992AEBDD100015240F /* rtengine.xcframework */; };
+		D483A59E2AEBDD100015240F /* RtPcsc.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D483A59A2AEBDD100015240F /* RtPcsc.xcframework */; };
+		D483A59F2AEBDD100015240F /* openssl.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D483A59B2AEBDD100015240F /* openssl.xcframework */; };
+		D483A5A02AEBDD170015240F /* openssl.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D483A59B2AEBDD100015240F /* openssl.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D483A5A12AEBDD170015240F /* rtengine.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D483A5992AEBDD100015240F /* rtengine.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D483A5A22AEBDD170015240F /* RtPcsc.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D483A59A2AEBDD100015240F /* RtPcsc.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D483A5A32AEBDD170015240F /* rtpkcs11ecp.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D483A5982AEBDD100015240F /* rtpkcs11ecp.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,10 +77,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				588BB09A248408A400C3AE5C /* rtengine.framework in Embed Frameworks */,
-				588BB09C248408A600C3AE5C /* openssl.framework in Embed Frameworks */,
-				B16855E12A25F44E00EF5FD0 /* rtpkcs11ecp.framework in Embed Frameworks */,
-				C3FF4DC12477A5B6002AA664 /* RtPcsc.framework in Embed Frameworks */,
+				D483A5A02AEBDD170015240F /* openssl.xcframework in Embed Frameworks */,
+				D483A5A12AEBDD170015240F /* rtengine.xcframework in Embed Frameworks */,
+				D483A5A22AEBDD170015240F /* RtPcsc.xcframework in Embed Frameworks */,
+				D483A5A32AEBDD170015240F /* rtpkcs11ecp.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,8 +121,6 @@
 		588410D024862758003AD26A /* UserListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListView.swift; sourceTree = "<group>"; };
 		588410D224862758003AD26A /* RoundedFilledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedFilledButton.swift; sourceTree = "<group>"; };
 		588410D324862758003AD26A /* TextFieldWithFloatingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithFloatingLabel.swift; sourceTree = "<group>"; };
-		588BB0952484032700C3AE5C /* openssl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = openssl.framework; path = Frameworks/openssl.framework; sourceTree = "<group>"; };
-		588BB0962484032700C3AE5C /* rtengine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rtengine.framework; path = Frameworks/rtengine.framework; sourceTree = "<group>"; };
 		58FFC9EB24881E8B00AEE56D /* test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = test.pdf; sourceTree = "<group>"; };
 		5E33801627674BA400FE7A23 /* VcrInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcrInfo.swift; sourceTree = "<group>"; };
 		5E33801827678A7300FE7A23 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -148,8 +146,10 @@
 		C3FA84B2246C11680005B294 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3FF05F72497F4FF00C8F4B1 /* CertCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertCard.swift; sourceTree = "<group>"; };
 		C3FF05F92497F5AF00C8F4B1 /* CertListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertListView.swift; sourceTree = "<group>"; };
-		C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RtPcsc.framework; path = Frameworks/RtPcsc.framework; sourceTree = "<group>"; };
-		C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rtpkcs11ecp.framework; path = Frameworks/rtpkcs11ecp.framework; sourceTree = "<group>"; };
+		D483A5982AEBDD100015240F /* rtpkcs11ecp.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = rtpkcs11ecp.xcframework; path = Frameworks/rtpkcs11ecp.xcframework; sourceTree = "<group>"; };
+		D483A5992AEBDD100015240F /* rtengine.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = rtengine.xcframework; path = Frameworks/rtengine.xcframework; sourceTree = "<group>"; };
+		D483A59A2AEBDD100015240F /* RtPcsc.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RtPcsc.xcframework; path = Frameworks/RtPcsc.xcframework; sourceTree = "<group>"; };
+		D483A59B2AEBDD100015240F /* openssl.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = openssl.xcframework; path = Frameworks/openssl.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,10 +157,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				588BB09B248408A600C3AE5C /* openssl.framework in Frameworks */,
-				588BB099248408A400C3AE5C /* rtengine.framework in Frameworks */,
-				B16855E02A25F44E00EF5FD0 /* rtpkcs11ecp.framework in Frameworks */,
-				C3FF4DC02477A5B6002AA664 /* RtPcsc.framework in Frameworks */,
+				D483A59C2AEBDD100015240F /* rtpkcs11ecp.xcframework in Frameworks */,
+				D483A59D2AEBDD100015240F /* rtengine.xcframework in Frameworks */,
+				D483A59E2AEBDD100015240F /* RtPcsc.xcframework in Frameworks */,
+				D483A59F2AEBDD100015240F /* openssl.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,10 +338,10 @@
 		C3FF4DBD2477A5B6002AA664 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				588BB0952484032700C3AE5C /* openssl.framework */,
-				588BB0962484032700C3AE5C /* rtengine.framework */,
-				C3FF4DBE2477A5B6002AA664 /* RtPcsc.framework */,
-				C3FF4DBF2477A5B6002AA664 /* rtpkcs11ecp.framework */,
+				D483A59B2AEBDD100015240F /* openssl.xcframework */,
+				D483A5992AEBDD100015240F /* rtengine.xcframework */,
+				D483A59A2AEBDD100015240F /* RtPcsc.xcframework */,
+				D483A5982AEBDD100015240F /* rtpkcs11ecp.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -353,7 +353,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C3FA84B5246C11680005B294 /* Build configuration list for PBXNativeTarget "demoshift" */;
 			buildPhases = (
-				C37D605D246D63ED003E0761 /* Copy External Frameworks */,
 				C37D605C246D5A89003E0761 /* Run SwiftLint */,
 				C3FA849D246C11670005B294 /* Sources */,
 				C3FA849E246C11670005B294 /* Frameworks */,
@@ -436,25 +435,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nif which swiftlint >/dev/null; then\n  swiftlint --fix && swiftlint lint --strict\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-		C37D605D246D63ED003E0761 /* Copy External Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Copy External Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script only for inner development\nif [[ -d Frameworks ]]\nthen\n    exit 0   \nfi\n\nmkdir Frameworks\npython3 scripts/download_deps.py -p ios\n\nfind external -type d -name \"*.framework\" | xargs -I {} cp -R {} Frameworks/\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -665,7 +645,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/rtpkcs11ecp.framework/Headers";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/rtpkcs11ecp.xcframework/ios-arm64/rtpkcs11ecp.framework/Headers";
 				INFOPLIST_FILE = demoshift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -697,7 +677,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/rtpkcs11ecp.framework/Headers";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/rtpkcs11ecp.xcframework/ios-arm64/rtpkcs11ecp.framework/Headers";
 				INFOPLIST_FILE = demoshift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
